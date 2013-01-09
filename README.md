@@ -12,6 +12,11 @@ There are currently some restrictions in usage:
 - You'll need to check if the editor puts your assets the same way as an NMML file would do into the ".tmx" or ".tsx" file
 - You're not able to have multiple Tilesets with the same name
 
+Licence
+----------------
+
+nme-tiled is licenced under the terms of GNU LGPL v3.
+
 Questions?
 -----------------
 

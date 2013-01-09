@@ -1,0 +1,15 @@
+<project name="nme-tiled" license="LGPL">
+	<user name="kasoki" />
+	<tag v="game" />
+	<tag v="tile" />
+	<tag v="map" />
+	<tag v="tilemap" />
+	<tag v="tiled" />
+	<depends name="nme" />
+	<description>
+		nme-tiled is a library gives NME developers the possibility to use the TILED Map Editor.
+	</description>
+	<version name="0.1.0">
+		Created library to access TILEDs ".tmx" format. Still not drawable
+	</version>
+</project>
