@@ -16,15 +16,6 @@ class Tileset {
 		this.tileHeight = tileHeight;
 		this.properties = properties;
 		this.image = image;
-		
-		#if debug
-		trace(name);
-		trace(tileWidth);
-		for (property in properties) {
-			trace(property);
-		}
-		trace(image);
-		#end
 	}
 	
 	public function setFirstGID(gid:Int) {

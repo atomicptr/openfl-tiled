@@ -40,30 +40,17 @@ class TiledMap {
 				} else {
 					tileset = Tileset.fromGenericXml(child.toString());
 				}
+
+				tileset.setFirstGID(cast child.get("firstgid"));
 				
-				// TODO: remove this if statement
-				if (tileset != null) {
-					tileset.setFirstGID(cast child.get("firstgid"));
-				
-				
-					// Tilesets with the same name are not allowed!
-					this.tilesets.set(tileset.name, tileset);
-				}
+				// Tilesets with the same name are not allowed!
+				this.tilesets.set(tileset.name, tileset);
 			}
 			
 			if (child.nodeName == "layer") {
 				
 			}
 		}
-		
-		#if debug
-		trace(width);
-		trace(height);
-		trace(orientation);
-		trace(tileWidth);
-		trace(tileHeight);
-		#end
-		
 	}
 	
 	private function readFile(path:String):String {
