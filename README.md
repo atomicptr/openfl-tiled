@@ -3,6 +3,14 @@ nme-tiled
 
 nme-tiled is a library, which gives NME developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
 
+How to install nme-tiled?
+--------------------------
+
+To install nme-tiled you just need to run this in your terminal:
+	
+	haxelib install nme-tiled
+	
+
 Restrictions
 -----------------
 
