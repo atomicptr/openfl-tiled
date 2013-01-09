@@ -1,4 +1,4 @@
-package de.kasoki.nme.tiled;
+package de.kasoki.nmetiled;
 
 class Layer {
 
