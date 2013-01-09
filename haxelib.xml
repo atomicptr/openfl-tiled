@@ -1,4 +1,4 @@
-<project name="nme-tiled" license="LGPL">
+<project name="nme-tiled" url="http://kasoki.de" license="LGPL">
 	<user name="kasoki" />
 	<tag v="game" />
 	<tag v="tile" />
