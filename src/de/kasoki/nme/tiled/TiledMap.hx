@@ -1,4 +1,5 @@
 package de.kasoki.nme.tiled;
+
 import nme.Assets;
 
 class TiledMap {
@@ -8,7 +9,7 @@ class TiledMap {
 	public var orientation(default, null):TiledMapOrientation;
 	public var tileWidth(default, null):Int;
 	public var tileHeight(default, null):Int;
-	public var tilesets(default, null):Hash<TiledMapTileset>;
+	public var tilesets(default, null):Hash<Tileset>;
 	
 	
 	public function new(path:String) {
@@ -24,8 +25,29 @@ class TiledMap {
 			TiledMapOrientation.Orthogonal : TiledMapOrientation.Isometric;
 		this.tileWidth = cast xml.get("tilewidth");
 		this.tileHeight = cast xml.get("tileheight");
+		this.tilesets = new Hash<Tileset>();
 		
-		
+		for (child in xml) {
+			if (cast(child.nodeType, String) != "element") {
+				continue;
+			}
+			
+			if (child.nodeName == "tileset") {
+				var tileset:Tileset = null;
+				
+				if (child.get("source") != null) {
+					tileset = Tileset.fromGenericXmlAsset(xml.get("source"));
+				} else {
+					tileset = Tileset.fromGenericXml(child.toString());
+				}
+				
+				tileset.setFirstGID(cast child.get("firstgid"));
+			}
+			
+			if (child.nodeName == "layer") {
+				
+			}
+		}
 		
 		#if debug
 		trace(width);
