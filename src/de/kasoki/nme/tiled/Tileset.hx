@@ -26,19 +26,19 @@ class Tileset {
 		var xml = Xml.parse(content).firstElement();
 		
 		var name:String = xml.get("name");
-		var tileWidth:Int = cast xml.get("tilewidth");
-		var tileHeight:Int = cast xml.get("tileheight");
+		var tileWidth:Int = Std.parseInt(xml.get("tilewidth"));
+		var tileHeight:Int = Std.parseInt(xml.get("tileheight"));
 		var properties:Hash<String> = new Hash<String>();
 		var image:TilesetImage = null;
 		
 		for (child in xml.elements()) {
-			if (cast(child.nodeType, String) != "element") {
+			if (Std.string(child.nodeType) != "element") {
 				continue;
 			}
 			
 			if (child.nodeName == "properties") {
 				for (property in child) {
-					if (cast(property.nodeType, String) != "element") {
+					if (Std.string(property.nodeType) != "element") {
 						continue;
 					}
 			
@@ -47,7 +47,10 @@ class Tileset {
 			}
 			
 			if (child.nodeName == "image") {
-				image = new TilesetImage(child.get("source"), cast child.get("width"), cast child.get("height"));
+				var width = Std.parseInt(child.get("width"));
+				var height = Std.parseInt(child.get("height"));
+				
+				image = new TilesetImage(child.get("source"), width, height);
 			}
 		}
 		

@@ -19,16 +19,16 @@ class TiledMap {
 	private function parseXML(xml:String) {
 		var xml = Xml.parse(xml).firstElement();
 		
-		this.width = cast xml.get("width");
-		this.height = cast xml.get("height");
+		this.width = Std.parseInt(xml.get("width"));
+		this.height = Std.parseInt(xml.get("height"));
 		this.orientation = xml.get("orientation") == "orthogonal" ?
 			TiledMapOrientation.Orthogonal : TiledMapOrientation.Isometric;
-		this.tileWidth = cast xml.get("tilewidth");
-		this.tileHeight = cast xml.get("tileheight");
+		this.tileWidth = Std.parseInt(xml.get("tilewidth"));
+		this.tileHeight = Std.parseInt(xml.get("tileheight"));
 		this.tilesets = new Hash<Tileset>();
 		
 		for (child in xml) {
-			if (cast(child.nodeType, String) != "element") {
+			if (Std.string(child.nodeType) != "element") {
 				continue;
 			}
 			
@@ -41,7 +41,7 @@ class TiledMap {
 					tileset = Tileset.fromGenericXml(child.toString());
 				}
 
-				tileset.setFirstGID(cast child.get("firstgid"));
+				tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
 				
 				// Tilesets with the same name are not allowed!
 				this.tilesets.set(tileset.name, tileset);
