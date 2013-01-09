@@ -11,6 +11,7 @@ class TiledMap {
 	public var tileHeight(default, null):Int;
 	public var tilesets(default, null):Hash<Tileset>;
 	public var layers(default, null):Hash<Layer>;
+	public var objectGroups(default, null):Hash<ObjectGroup>;
 	
 	
 	public function new(path:String) {
@@ -28,31 +29,36 @@ class TiledMap {
 		this.tileHeight = Std.parseInt(xml.get("tileheight"));
 		this.tilesets = new Hash<Tileset>();
 		this.layers = new Hash<Layer>();
+		this.objectGroups = new Hash<ObjectGroup>();
 		
 		for (child in xml) {
-			if (Std.string(child.nodeType) != "element") {
-				continue;
-			}
-			
-			if (child.nodeName == "tileset") {
-				var tileset:Tileset = null;
-				
-				if (child.get("source") != null) {
-					tileset = Tileset.fromGenericXml(Assets.getText(child.get("source")));
-				} else {
-					tileset = Tileset.fromGenericXml(child.toString());
-				}
+			if(Helper.isValidElement(child)) {
+				if (child.nodeName == "tileset") {
+					var tileset:Tileset = null;
+					
+					if (child.get("source") != null) {
+						tileset = Tileset.fromGenericXml(Assets.getText(child.get("source")));
+					} else {
+						tileset = Tileset.fromGenericXml(child.toString());
+					}
 
-				tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
+					tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
+					
+					// Tilesets with the same name are not allowed!
+					this.tilesets.set(tileset.name, tileset);
+				}
 				
-				// Tilesets with the same name are not allowed!
-				this.tilesets.set(tileset.name, tileset);
-			}
-			
-			if (child.nodeName == "layer") {
-				var layer:Layer = Layer.fromXml(child);
+				if (child.nodeName == "layer") {
+					var layer:Layer = Layer.fromXml(child);
+					
+					this.layers.set(layer.name, layer);
+				}
 				
-				this.layers.set(layer.name, layer);
+				if (child.nodeName == "objectgroup") {
+					var objectGroup = ObjectGroup.fromXml(child);
+					
+					this.objectGroups.set(objectGroup.name, objectGroup);
+				}
 			}
 		}
 	}

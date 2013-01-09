@@ -22,19 +22,15 @@ class Layer {
 		var tiles:Array<Int> = new Array<Int>();
 		
 		for (child in xml) {
-			if (Std.string(child.nodeType) != "element") {
-				continue;
-			}
-			
-			if (child.nodeName == "data") {
-				for (tile in child) {
-					if (Std.string(tile.nodeType) != "element") {
-						continue;
+			if(Helper.isValidElement(child)) {
+				if (child.nodeName == "data") {
+					for (tile in child) {
+						if (Helper.isValidElement(tile)) {
+							var gid = Std.parseInt(tile.get("gid"));
+							
+							tiles.push(gid);
+						}
 					}
-					
-					var gid = Std.parseInt(tile.get("gid"));
-					
-					tiles.push(gid);
 				}
 			}
 		}

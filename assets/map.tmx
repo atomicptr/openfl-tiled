@@ -7,13 +7,10 @@
   </properties>
   <image source="img/simplegrass.png" width="256" height="96"/>
  </tileset>
- <tileset firstgid="25" name="simplegrass2" tilewidth="32" tileheight="32">
-  <image source="img/simplegrass.png" width="256" height="96"/>
- </tileset>
- <tileset firstgid="49" source="tilesets/simplegrasstsx.tsx"/>
+ <tileset firstgid="25" source="tilesets/simplegrasstsx.tsx"/>
  <layer name="layer1" width="20" height="10">
   <data>
-   <tile gid="49"/>
+   <tile gid="0"/>
    <tile gid="25"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -265,7 +262,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="60"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -290,7 +286,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="61"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -419,4 +416,20 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup color="#a40101" name="objectLayer" width="20" height="10">
+  <properties>
+   <property name="asdf" value="1337"/>
+  </properties>
+  <object name="asdf" type="fdsa" x="376" y="123" width="45" height="201">
+   <properties>
+    <property name="xdf" value="fdx"/>
+   </properties>
+  </object>
+  <object name="meinName" type="type" x="451" y="28" width="123" height="154">
+   <properties>
+    <property name="DAFUQ" value="true"/>
+   </properties>
+  </object>
+  <object x="497" y="226"/>
+ </objectgroup>
 </map>

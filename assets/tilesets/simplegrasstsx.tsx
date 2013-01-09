@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="simplegrassTsx" tilewidth="32" tileheight="32">
- <properties>
-  <property name="test" value="1337"/>
-  <property name="test2" value="0815"/>
- </properties>
+<tileset name="simplegrass2" tilewidth="32" tileheight="32">
  <image source="../img/simplegrass.png" width="256" height="96"/>
+ <tile id="0">
+  <properties>
+   <property name="collision" value="true"/>
+  </properties>
+ </tile>
+ <tile id="12">
+  <properties>
+   <property name="test" value="asdf"/>
+  </properties>
+ </tile>
 </tileset>
