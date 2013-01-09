@@ -10,6 +10,7 @@ class TiledMap {
 	public var tileWidth(default, null):Int;
 	public var tileHeight(default, null):Int;
 	public var tilesets(default, null):Hash<Tileset>;
+	public var layers(default, null):Hash<Layer>;
 	
 	
 	public function new(path:String) {
@@ -26,6 +27,7 @@ class TiledMap {
 		this.tileWidth = Std.parseInt(xml.get("tilewidth"));
 		this.tileHeight = Std.parseInt(xml.get("tileheight"));
 		this.tilesets = new Hash<Tileset>();
+		this.layers = new Hash<Layer>();
 		
 		for (child in xml) {
 			if (Std.string(child.nodeType) != "element") {
@@ -48,7 +50,9 @@ class TiledMap {
 			}
 			
 			if (child.nodeName == "layer") {
+				var layer:Layer = Layer.fromXml(child);
 				
+				this.layers.set(layer.name, layer);
 			}
 		}
 	}

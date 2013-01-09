@@ -3,14 +3,13 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="nme-tiled" package="de.kasoki.nme.tiled.nmetiled" version="1.0.0" company="Christopher Kaster" />
+	<meta title="nme-tiled" package="de.kasoki.nme_tiled" version="1.0.0" company="Christopher Kaster" />
 	
 	<!-- output -->
 	<app main="Main" file="Main" path="bin" />
 	
 	<window background="#FFFFFF" fps="60" />
 	<window width="640" height="320" unless="mobile" />
-	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
@@ -27,9 +26,4 @@
 	<ndll name="regexp" />
 	<ndll name="zlib" />
 	<ndll name="nme" haxelib="nme" />
-
-	<!-- optimize JS output -->
-	<haxeflag name="--dead-code-elimination" if="html5" />
-	<haxeflag name="--js-modern" if="html5" />
-	
 </project>

@@ -16,11 +16,7 @@ class Main extends Sprite {
 	
 	public function new() {
 		super();
-		#if iphone
-		Lib.current.stage.addEventListener(Event.RESIZE, init);
-		#else
 		addEventListener(Event.ADDED_TO_STAGE, init);
-		#end
 	}
 
 	private function init(e) {
