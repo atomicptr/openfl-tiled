@@ -36,12 +36,19 @@ class TiledMap {
 				var tileset:Tileset = null;
 				
 				if (child.get("source") != null) {
-					tileset = Tileset.fromGenericXmlAsset(xml.get("source"));
+					//tileset = Tileset.fromGenericXmlAsset(xml.get("source"));
 				} else {
 					tileset = Tileset.fromGenericXml(child.toString());
 				}
 				
-				tileset.setFirstGID(cast child.get("firstgid"));
+				// TODO: remove this if statement
+				if (tileset != null) {
+					tileset.setFirstGID(cast child.get("firstgid"));
+				
+				
+					// Tilesets with the same name are not allowed!
+					this.tilesets.set(tileset.name, tileset);
+				}
 			}
 			
 			if (child.nodeName == "layer") {

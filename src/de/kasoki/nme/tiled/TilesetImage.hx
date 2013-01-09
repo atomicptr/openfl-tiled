@@ -10,7 +10,7 @@ class TilesetImage {
 	public function new(source:String, width:Int, height:Int) {
 		this.source = source;
 		// get fileName from path
-		this.fileName = source.substring(source.lastIndexOf("/", 0) + 1, source.length);
+		this.fileName = source.substr(source.lastIndexOf("/", 0) + 1, source.length);
 		this.width = width;
 		this.height = height;
 	}

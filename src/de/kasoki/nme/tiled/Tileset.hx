@@ -46,6 +46,10 @@ class Tileset {
 			
 			if (child.nodeName == "properties") {
 				for (property in child) {
+					if (cast(property.nodeType, String) != "element") {
+						continue;
+					}
+			
 					properties.set(property.get("name"), property.get("value"));
 				}
 			}
