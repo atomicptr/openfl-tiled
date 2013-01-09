@@ -36,7 +36,7 @@ class TiledMap {
 				var tileset:Tileset = null;
 				
 				if (child.get("source") != null) {
-					//tileset = Tileset.fromGenericXmlAsset(xml.get("source"));
+					tileset = Tileset.fromGenericXml(Assets.getText(child.get("source")));
 				} else {
 					tileset = Tileset.fromGenericXml(child.toString());
 				}

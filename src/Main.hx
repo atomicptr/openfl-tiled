@@ -12,11 +12,9 @@ import de.kasoki.nme.tiled.TiledMap;
  * @author Christopher Kaster
  */
 
-class Main extends Sprite 
-{
+class Main extends Sprite {
 	
-	public function new() 
-	{
+	public function new() {
 		super();
 		#if iphone
 		Lib.current.stage.addEventListener(Event.RESIZE, init);
@@ -25,8 +23,7 @@ class Main extends Sprite
 		#end
 	}
 
-	private function init(e) 
-	{
+	private function init(e) {
 		var map:TiledMap = new TiledMap("assets/map.tmx");
 	}
 	

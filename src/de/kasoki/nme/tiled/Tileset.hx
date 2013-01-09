@@ -1,4 +1,5 @@
 package de.kasoki.nme.tiled;
+import nme.Assets;
 
 class Tileset {
 
@@ -61,9 +62,4 @@ class Tileset {
 		
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
 	}
-	
-	public static function fromGenericXmlAsset(path:String):Tileset {
-		return null;
-	}
-	
 }

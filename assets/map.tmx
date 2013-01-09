@@ -10,7 +10,7 @@
  <tileset firstgid="25" name="simplegrass2" tilewidth="32" tileheight="32">
   <image source="img/simplegrass.png" width="256" height="96"/>
  </tileset>
- <tileset firstgid="49" source="tilesets/simplegrass.tsx"/>
+ <tileset firstgid="49" source="tilesets/simplegrasstsx.tsx"/>
  <layer name="layer1" width="20" height="10">
   <data>
    <tile gid="1"/>

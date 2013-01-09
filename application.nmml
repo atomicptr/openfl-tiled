@@ -20,6 +20,7 @@
 	<icon path="assets/nme.svg" />
 	<assets path="assets" include="*" exclude="nme.svg" />
 	<assets path="assets/img" rename="img" />
+	<assets path="assets/tilesets" rename="tilesets" />
 	
 	<!-- DLLs -->
 	<ndll name="std" />
