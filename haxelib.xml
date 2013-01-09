@@ -7,7 +7,7 @@
 	<tag v="tiled" />
 	<depends name="nme" />
 	<description>
-		nme-tiled is a library gives NME developers the possibility to use the TILED Map Editor.
+		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
 	<version name="0.1.0">
 		Created library to access TILEDs ".tmx" format. Still not drawable

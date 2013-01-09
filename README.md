@@ -1,7 +1,7 @@
 nme-tiled
 =========
 
-nme-tiled is a library gives NME developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
+nme-tiled is a library, which gives NME developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
 
 Restrictions
 -----------------
