@@ -10,7 +10,7 @@
 	<description>
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
-	<version name="0.1.1">
-	    Added "createBitmapData()" method to TiledMap, some minor changes.
+	<version name="0.1.2">
+	    Fixed missing files
 	</version>
 </project>
