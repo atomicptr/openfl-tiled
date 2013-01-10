@@ -17,6 +17,9 @@
 package de.kasoki.nmetiled;
 
 import nme.Assets;
+import nme.geom.Rectangle;
+import nme.geom.Point;
+import nme.display.BitmapData;
 
 class TiledMap {
 
@@ -81,6 +84,58 @@ class TiledMap {
 	
 	private function readFile(path:String):String {
 		return Assets.getText(path);
+	}
+	
+	public function createBitmapData():BitmapData {
+		var tilesetsByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
+		
+		for(t in this.tilesets) {
+			tilesetsByFirstGID.set(t.firstGID, Assets.getBitmapData(t.image.source));
+		}
+		
+		var bitmapData = new BitmapData(this.width * this.tileWidth,
+			this.height * this.tileHeight);
+		
+		for(i in 0...this.layers.length) {
+			var layer = this.layers[i];
+			
+			var gidCounter:Int = 0;
+
+			for(y in 0...this.height) {
+				for(x in 0...this.width) {
+					var nextGID = layer.tiles[gidCounter];
+					
+					if(nextGID != 0) {
+						
+						var tilesetFirstGID:Int = -1;
+						var width:Int = 0;
+						var height:Int = 0;
+						
+						for(t in this.tilesets) {
+							if(nextGID >= t.firstGID) {
+								tilesetFirstGID = t.firstGID;
+								width = t.image.width;
+								height = t.image.height;
+							}
+						}
+						
+						var textureX:Int = ((nextGID - 1) % Std.int(width / this.tileWidth));
+						var textureY:Int = Std.int((nextGID - 1) / Std.int(width / this.tileWidth));
+						
+						var texture:BitmapData = tilesetsByFirstGID.get(tilesetFirstGID);
+						var rect:Rectangle = new Rectangle(textureX * this.tileWidth,
+							textureY * this.tileHeight, this.tileWidth, this.tileHeight);
+						var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
+						
+						bitmapData.copyPixels(texture, rect, point, null, null, true);
+					}
+					
+					gidCounter++;
+				}
+			}
+		}
+		
+		return bitmapData;
 	}
 	
 }
