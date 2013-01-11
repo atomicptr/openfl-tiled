@@ -108,23 +108,21 @@ class TiledMap {
 					if(nextGID != 0) {
 						
 						var tilesetFirstGID:Int = -1;
-						var width:Int = 0;
-						var height:Int = 0;
+						var tilesetWidth:Int = 0;
 						
 						for(t in this.tilesets) {
 							if(nextGID >= t.firstGID) {
 								tilesetFirstGID = t.firstGID;
-								width = t.image.width;
-								height = t.image.height;
+								tilesetWidth = t.image.width;
 							}
 						}
 						
-						var textureX:Int = ((nextGID - 1) % Std.int(width / this.tileWidth));
-						var textureY:Int = Std.int((nextGID - 1) / Std.int(width / this.tileWidth));
+						var innerTexturePositionX:Int = ((nextGID - 1) % Std.int(tilesetWidth / this.tileWidth));
+						var innerTexturePositionY:Int = Std.int((nextGID - 1) / Std.int(tilesetWidth / this.tileWidth));
 						
 						var texture:BitmapData = tilesetsByFirstGID.get(tilesetFirstGID);
-						var rect:Rectangle = new Rectangle(textureX * this.tileWidth,
-							textureY * this.tileHeight, this.tileWidth, this.tileHeight);
+						var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
+							innerTexturePositionY * this.tileHeight, this.tileWidth, this.tileHeight);
 						var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
 						
 						bitmapData.copyPixels(texture, rect, point, null, null, true);
