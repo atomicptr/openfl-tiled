@@ -112,7 +112,7 @@ class TiledMap {
 						for(t in this.tilesets) {
 							if(nextGID >= t.firstGID) {
 								tilesetFirstGID = t.firstGID;
-								tilesetWidth = t.image.width;
+								tilesetWidth = t.width;
 							}
 						}
 						

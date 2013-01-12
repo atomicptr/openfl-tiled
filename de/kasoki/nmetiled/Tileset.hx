@@ -21,6 +21,8 @@ class Tileset {
 
 	public var firstGID(default, null):Int;
 	public var name(default, null):String;
+	public var width(getTilesetWidth, null):Int;
+	public var height(getTilesetHeight, null):Int;
 	public var tileWidth(default, null):Int;
 	public var tileHeight(default, null):Int;
 	public var properties(default, null):Hash<String>;
@@ -90,5 +92,13 @@ class Tileset {
 		}
 		
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
+	}
+	
+	private function getTilesetWidth():Int {
+		return this.image.width;
+	}
+	
+	private function getTilesetHeight():Int {
+		return this.image.height;
 	}
 }
