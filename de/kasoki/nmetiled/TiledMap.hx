@@ -28,7 +28,7 @@ class TiledMap {
 	public var orientation(default, null):TiledMapOrientation;
 	public var tileWidth(default, null):Int;
 	public var tileHeight(default, null):Int;
-	public var tilesets(default, null):Hash<Tileset>;
+	public var tilesets(default, null):Array<Tileset>;
 	public var layers(default, null):Array<Layer>;
 	public var objectGroups(default, null):Hash<ObjectGroup>;
 	
@@ -46,7 +46,7 @@ class TiledMap {
 			TiledMapOrientation.Orthogonal : TiledMapOrientation.Isometric;
 		this.tileWidth = Std.parseInt(xml.get("tilewidth"));
 		this.tileHeight = Std.parseInt(xml.get("tileheight"));
-		this.tilesets = new Hash<Tileset>();
+		this.tilesets = new Array<Tileset>();
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Hash<ObjectGroup>();
 		
@@ -63,8 +63,7 @@ class TiledMap {
 
 					tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
 					
-					// Tilesets with the same name are not allowed!
-					this.tilesets.set(tileset.name, tileset);
+					this.tilesets.push(tileset);
 				}
 				
 				if (child.nodeName == "layer") {
@@ -117,8 +116,8 @@ class TiledMap {
 							}
 						}
 						
-						var innerTexturePositionX:Int = ((nextGID - 1) % Std.int(tilesetWidth / this.tileWidth));
-						var innerTexturePositionY:Int = Std.int((nextGID - 1) / Std.int(tilesetWidth / this.tileWidth));
+						var innerTexturePositionX:Int = ((nextGID - tilesetFirstGID) % Std.int(tilesetWidth / this.tileWidth));
+						var innerTexturePositionY:Int = Std.int((nextGID - tilesetFirstGID) / Std.int(tilesetWidth / this.tileWidth));
 						
 						var texture:BitmapData = tilesetsByFirstGID.get(tilesetFirstGID);
 						var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
