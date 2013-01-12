@@ -94,6 +94,14 @@ class Tileset {
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
 	}
 	
+	public function getInnerTexturePositionX(tileNumber):Int {
+		return (tileNumber % Std.int(this.width / this.tileWidth));
+	}
+	
+	public function getInnerTexturePositionY(tileNumber):Int {
+		return Std.int(tileNumber / Std.int(this.width / this.tileWidth));
+	}
+	
 	private function getTilesetWidth():Int {
 		return this.image.width;
 	}

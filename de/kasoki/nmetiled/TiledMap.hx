@@ -86,10 +86,10 @@ class TiledMap {
 	}
 	
 	public function createBitmapData():BitmapData {
-		var tilesetsByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
+		var tilesetBitmapDataByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
 		
 		for(t in this.tilesets) {
-			tilesetsByFirstGID.set(t.firstGID, Assets.getBitmapData(t.image.source));
+			tilesetBitmapDataByFirstGID.set(t.firstGID, Assets.getBitmapData(t.image.source));
 		}
 		
 		var bitmapData = new BitmapData(this.width * this.tileWidth,
@@ -106,20 +106,20 @@ class TiledMap {
 					
 					if(nextGID != 0) {
 						
-						var tilesetFirstGID:Int = -1;
-						var tilesetWidth:Int = 0;
+						var tileset:Tileset = null;
 						
 						for(t in this.tilesets) {
 							if(nextGID >= t.firstGID) {
-								tilesetFirstGID = t.firstGID;
-								tilesetWidth = t.width;
+								tileset = t;
 							}
 						}
 						
-						var innerTexturePositionX:Int = ((nextGID - tilesetFirstGID) % Std.int(tilesetWidth / this.tileWidth));
-						var innerTexturePositionY:Int = Std.int((nextGID - tilesetFirstGID) / Std.int(tilesetWidth / this.tileWidth));
+						var textureNumber:Int = nextGID - tileset.firstGID;
 						
-						var texture:BitmapData = tilesetsByFirstGID.get(tilesetFirstGID);
+						var innerTexturePositionX:Int = tileset.getInnerTexturePositionX(textureNumber);
+						var innerTexturePositionY:Int = tileset.getInnerTexturePositionY(textureNumber);
+						
+						var texture:BitmapData = tilesetBitmapDataByFirstGID.get(tileset.firstGID);
 						var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
 							innerTexturePositionY * this.tileHeight, this.tileWidth, this.tileHeight);
 						var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
