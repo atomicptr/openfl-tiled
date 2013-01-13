@@ -23,9 +23,9 @@ class ObjectGroup {
 	public var width(default, null):Int;
 	public var height(default, null):Int;
 	public var properties(default, null):Hash<String>;
-	public var objects(default, null):Array<Object>;
+	public var objects(default, null):Array<TiledObject>;
 	
-	public function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>, objects:Array<Object>) {
+	public function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>, objects:Array<TiledObject>) {
 		this.name = name;
 		this.color = color;
 		this.width = width;
@@ -40,7 +40,7 @@ class ObjectGroup {
 		var width = Std.parseInt(xml.get("width"));
 		var height = Std.parseInt(xml.get("height"));
 		var properties:Hash<String> = new Hash<String>();
-		var objects:Array<Object> = new Array<Object>();
+		var objects:Array<TiledObject> = new Array<TiledObject>();
 		
 		for (child in xml) {
 			if (Helper.isValidElement(child)) {
@@ -53,7 +53,7 @@ class ObjectGroup {
 				}
 				
 				if (child.nodeName == "object") {
-					objects.push(Object.fromXml(child));
+					objects.push(TiledObject.fromXml(child));
 				}
 			}
 		}

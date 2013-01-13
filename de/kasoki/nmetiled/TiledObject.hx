@@ -16,8 +16,9 @@
 // along with nme-tiled. If not, see: <http://www.gnu.org/licenses/>.
 package de.kasoki.nmetiled;
 
-class Object {
+class TiledObject {
 
+	public var gid(default, null):Int;
 	public var name(default, null):String;
 	public var type(default, null):String;
 	public var x(default, null):Int;
@@ -26,7 +27,8 @@ class Object {
 	public var height(default, null):Int;
 	public var properties(default, null):Hash<String>;
 	
-	public function new(name:String, type:String, x:Int, y:Int, width:Int, height:Int, properties:Hash<String>) {
+	public function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int, properties:Hash<String>) {
+		this.gid = gid;
 		this.name = name;
 		this.type = type;
 		this.x = x;
@@ -36,7 +38,8 @@ class Object {
 		this.properties = properties;
 	}
 	
-	public static function fromXml(xml:Xml):Object {
+	public static function fromXml(xml:Xml):TiledObject {
+		var gid:Int = xml.get("gid") != null ? Std.parseInt(xml.get("gid")) : 0;
 		var name:String = xml.get("name");
 		var type:String = xml.get("type");
 		var x:Int = Std.parseInt(xml.get("x"));
@@ -57,7 +60,7 @@ class Object {
 			}
 		}
 		
-		return new Object(name, type, x, y, width, height, properties);
+		return new TiledObject(gid, name, type, x, y, width, height, properties);
 	}
 	
 }
