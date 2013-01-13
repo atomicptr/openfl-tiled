@@ -27,6 +27,8 @@ class TiledObject {
 	public var y(default, null):Int;
 	public var width(default, null):Int;
 	public var height(default, null):Int;
+	public var hasPolygon(checkHasPolygon, null):Bool;
+	public var hasPolyline(checkHasPolyline, null):Bool;
 	public var polygon(default, null):TiledPolygon;
 	public var polyline(default, null):TiledPolyline;
 	public var properties(default, null):Hash<String>;
@@ -89,6 +91,14 @@ class TiledObject {
 		}
 		
 		return new TiledObject(gid, name, type, x, y, width, height, polygon, polyline, properties);
+	}
+	
+	private function checkHasPolygon():Bool {
+		return this.polygon != null;
+	}
+	
+	private function checkHasPolyline():Bool {
+		return this.polyline != null;
 	}
 	
 }
