@@ -16,7 +16,7 @@
 // along with nme-tiled. If not, see: <http://www.gnu.org/licenses/>.
 package de.kasoki.nmetiled;
 
-class ObjectGroup {
+class TiledObjectGroup {
 
 	public var name(default, null):String;
 	public var color(default, null):String;
@@ -34,7 +34,7 @@ class ObjectGroup {
 		this.objects = objects;
 	}
 	
-	public static function fromXml(xml:Xml):ObjectGroup {
+	public static function fromXml(xml:Xml):TiledObjectGroup {
 		var name = xml.get("name");
 		var color = xml.get("color");
 		var width = Std.parseInt(xml.get("width"));
@@ -58,7 +58,7 @@ class ObjectGroup {
 			}
 		}
 		
-		return new ObjectGroup(name, color, width, height, properties, objects);
+		return new TiledObjectGroup(name, color, width, height, properties, objects);
 	}
 	
 }

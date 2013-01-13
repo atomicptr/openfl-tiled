@@ -30,7 +30,7 @@ class TiledMap {
 	public var tileHeight(default, null):Int;
 	public var tilesets(default, null):Array<Tileset>;
 	public var layers(default, null):Array<Layer>;
-	public var objectGroups(default, null):Array<ObjectGroup>;
+	public var objectGroups(default, null):Array<TiledObjectGroup>;
 	
 	
 	public function new(path:String) {
@@ -48,7 +48,7 @@ class TiledMap {
 		this.tileHeight = Std.parseInt(xml.get("tileheight"));
 		this.tilesets = new Array<Tileset>();
 		this.layers = new Array<Layer>();
-		this.objectGroups = new Array<ObjectGroup>();
+		this.objectGroups = new Array<TiledObjectGroup>();
 		
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
@@ -73,7 +73,7 @@ class TiledMap {
 				}
 				
 				if (child.nodeName == "objectgroup") {
-					var objectGroup = ObjectGroup.fromXml(child);
+					var objectGroup = TiledObjectGroup.fromXml(child);
 					
 					this.objectGroups.push(objectGroup);
 				}
