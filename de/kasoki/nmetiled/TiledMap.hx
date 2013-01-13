@@ -25,6 +25,8 @@ class TiledMap {
 
 	public var width(default, null):Int;
 	public var height(default, null):Int;
+	public var totalWidth(getTotalWidth, null):Int;
+	public var totalHeight(getTotalHeight, null):Int;
 	public var orientation(default, null):TiledMapOrientation;
 	public var tileWidth(default, null):Int;
 	public var tileHeight(default, null):Int;
@@ -133,6 +135,14 @@ class TiledMap {
 		}
 		
 		return bitmapData;
+	}
+	
+	private function getTotalWidth():Int {
+		return this.width * this.tileWidth;	
+	}
+	
+	private function getTotalHeight():Int {
+		return this.height * this.tileHeight;
 	}
 	
 }
