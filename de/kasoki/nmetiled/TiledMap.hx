@@ -35,8 +35,16 @@ class TiledMap {
 	public var objectGroups(default, null):Array<TiledObjectGroup>;
 	
 	
-	public function new(path:String) {
-		parseXML(readFile(path));
+	private function new(xml:String) {
+		parseXML(xml);
+	}
+
+	public static function fromAssets(path:String):TiledMap {
+		return new TiledMap(Assets.getText(path));
+	}
+
+	public static function fromGenericXml(xml:String):TiledMap {
+		return new TiledMap(xml);
 	}
 	
 	private function parseXML(xml:String) {
@@ -81,10 +89,6 @@ class TiledMap {
 				}
 			}
 		}
-	}
-	
-	private function readFile(path:String):String {
-		return Assets.getText(path);
 	}
 	
 	public function createBitmapData():BitmapData {
