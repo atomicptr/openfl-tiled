@@ -10,7 +10,7 @@
 	<description>
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
-	<version name="0.1.5">
-	    Added hasPolygon and hasPolyline to TiledObject, added totalWidth and totalHeight attributes to TiledMap
+	<version name="0.1.6">
+	    Added new static factory methods to TiledMap and removed the standard constructor (So please use the new TiledMap.fromAssets and TiledMap.fromGenericXml methods! Thanks!), Added a toCSV method to Layer for the upcomming HaxeFlixel support and made ObjectGroup iterable.
 	</version>
 </project>
