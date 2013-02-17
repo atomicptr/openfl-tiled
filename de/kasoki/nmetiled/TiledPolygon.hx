@@ -25,8 +25,8 @@ import nme.geom.Point;
 
 class TiledPolygon {
 	
-	public var origin(default, null):Point;
-	public var points(default, null):Array<Point>;
+	public var origin:Point;
+	public var points:Array<Point>;
 	
 	public function new(origin:Point, points:Array<Point>) {
 		this.origin = origin;

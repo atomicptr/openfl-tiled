@@ -23,12 +23,12 @@ package de.kasoki.nmetiled;
 
 class TiledObjectGroup {
 
-	public var name(default, null):String;
-	public var color(default, null):String;
-	public var width(default, null):Int;
-	public var height(default, null):Int;
-	public var properties(default, null):Hash<String>;
-	public var objects(default, null):Array<TiledObject>;
+	public var name:String;
+	public var color:String;
+	public var width:Int;
+	public var height:Int;
+	public var properties:Hash<String>;
+	public var objects:Array<TiledObject>;
 
 	private var objectCounter:Int;
 	

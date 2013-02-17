@@ -11,6 +11,6 @@
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
 	<version name="0.1.7">
-	    ...
+	    All attributes are now editable, 
 	</version>
 </project>

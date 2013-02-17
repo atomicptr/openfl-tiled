@@ -23,11 +23,11 @@ package de.kasoki.nmetiled;
 
 class Layer {
 
-	public var name(default, null):String;
-	public var width(default, null):Int;
-	public var height(default, null):Int;
+	public var name:String;
+	public var width:Int;
+	public var height:Int;
 	
-	public var tiles(default, null):Array<Int>;
+	public var tiles:Array<Int>;
 	
 	public function new(name:String, width:Int, height:Int, tiles:Array<Int>) {
 		this.name = name;

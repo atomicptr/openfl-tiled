@@ -28,16 +28,16 @@ import nme.display.BitmapData;
 
 class TiledMap {
 
-	public var width(default, null):Int;
-	public var height(default, null):Int;
+	public var width:Int;
+	public var height:Int;
 	public var totalWidth(getTotalWidth, null):Int;
 	public var totalHeight(getTotalHeight, null):Int;
-	public var orientation(default, null):TiledMapOrientation;
-	public var tileWidth(default, null):Int;
-	public var tileHeight(default, null):Int;
-	public var tilesets(default, null):Array<Tileset>;
-	public var layers(default, null):Array<Layer>;
-	public var objectGroups(default, null):Array<TiledObjectGroup>;
+	public var orientation:TiledMapOrientation;
+	public var tileWidth:Int;
+	public var tileHeight:Int;
+	public var tilesets:Array<Tileset>;
+	public var layers:Array<Layer>;
+	public var objectGroups:Array<TiledObjectGroup>;
 	
 	
 	private function new(xml:String) {

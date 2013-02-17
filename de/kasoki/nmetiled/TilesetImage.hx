@@ -23,10 +23,10 @@ package de.kasoki.nmetiled;
 
 class TilesetImage {
 
-	public var source(default, null):String;
-	public var fileName(default, null):String;
-	public var width(default, null):Int;
-	public var height(default, null):Int;
+	public var source:String;
+	public var fileName:String;
+	public var width:Int;
+	public var height:Int;
 	
 	public function new(source:String, width:Int, height:Int) {
 		this.source = source;

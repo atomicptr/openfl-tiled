@@ -25,18 +25,18 @@ import nme.geom.Point;
 
 class TiledObject {
 
-	public var gid(default, null):Int;
-	public var name(default, null):String;
-	public var type(default, null):String;
-	public var x(default, null):Int;
-	public var y(default, null):Int;
-	public var width(default, null):Int;
-	public var height(default, null):Int;
+	public var gid:Int;
+	public var name:String;
+	public var type:String;
+	public var x:Int;
+	public var y:Int;
+	public var width:Int;
+	public var height:Int;
 	public var hasPolygon(checkHasPolygon, null):Bool;
 	public var hasPolyline(checkHasPolyline, null):Bool;
-	public var polygon(default, null):TiledPolygon;
-	public var polyline(default, null):TiledPolyline;
-	public var properties(default, null):Hash<String>;
+	public var polygon:TiledPolygon;
+	public var polyline:TiledPolyline;
+	public var properties:Hash<String>;
 	
 	public function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int, polygon:TiledPolygon, polyline:TiledPolyline, properties:Hash<String>) {
 		this.gid = gid;

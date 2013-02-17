@@ -24,15 +24,15 @@ import nme.Assets;
 
 class Tileset {
 
-	public var firstGID(default, null):Int;
-	public var name(default, null):String;
+	public var firstGID:Int;
+	public var name:String;
 	public var width(getTilesetWidth, null):Int;
 	public var height(getTilesetHeight, null):Int;
-	public var tileWidth(default, null):Int;
-	public var tileHeight(default, null):Int;
-	public var properties(default, null):Hash<String>;
-	public var propertyTiles(default, null):IntHash<PropertyTile>;
-	public var image(default, null):TilesetImage;
+	public var tileWidth:Int;
+	public var tileHeight:Int;
+	public var properties:Hash<String>;
+	public var propertyTiles:IntHash<PropertyTile>;
+	public var image:TilesetImage;
 	
 	public function new(name:String, tileWidth:Int, tileHeight:Int, properties:Hash<String>, image:TilesetImage) {
 		this.name = name;
