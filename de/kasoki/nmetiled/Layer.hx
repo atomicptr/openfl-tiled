@@ -54,6 +54,34 @@ class Layer {
 		return new Layer(name, width, height, tiles);
 	}
 
-	
+	public function toCSV(?width:Int):String {
+		if(width <= 0) {
+			width = this.width;
+		}
+
+		var counter:Int = 0;
+		var csv:String = "";
+
+		for(tileGID in this.tiles) {
+			if(counter >= width) {
+				// remove the last ","
+				csv = csv.substr(0, csv.length - 1);
+
+				// add a new line and reset counter
+				csv += "\n";
+				counter = 0;
+			}
+
+			csv += tileGID;
+			csv += ",";
+
+			counter++;
+		}
+
+		// remove the last ","
+		csv = csv.substr(0, csv.length - 1);
+
+		return csv;
+	}
 	
 }
