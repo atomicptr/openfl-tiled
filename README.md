@@ -23,7 +23,7 @@ There are currently some restrictions in usage:
 Licence
 ----------------
 
-nme-tiled is licenced under the terms of GNU LGPL v3.
+nme-tiled is licenced under the terms of the MIT license, which means you have without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software. [For more information please read this](http://opensource.org/licenses/MIT)
 
 Questions?
 -----------------

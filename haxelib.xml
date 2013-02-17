@@ -1,4 +1,4 @@
-<project name="nme-tiled" url="http://kasoki.de" license="LGPL">
+<project name="nme-tiled" url="http://kasoki.de" license="MIT">
 	<user name="kasoki" />
 	<tag v="nme" />
 	<tag v="game" />
@@ -10,7 +10,7 @@
 	<description>
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
-	<version name="0.1.6">
-	    Added new static factory methods to TiledMap and removed the standard constructor (So please use the new TiledMap.fromAssets and TiledMap.fromGenericXml methods! Thanks!), Added a toCSV method to Layer for the upcomming HaxeFlixel support and made ObjectGroup iterable.
+	<version name="0.1.7">
+	    ...
 	</version>
 </project>
