@@ -96,7 +96,7 @@ class TiledMap {
 		}
 	}
 	
-	public function createBitmapData():BitmapData {
+	public function createBitmapDataFromLayer(layer:Layer):BitmapData {
 		var tilesetBitmapDataByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
 		
 		for(t in this.tilesets) {
@@ -104,48 +104,86 @@ class TiledMap {
 		}
 		
 		var bitmapData = new BitmapData(this.width * this.tileWidth,
-			this.height * this.tileHeight);
-		
-		for(i in 0...this.layers.length) {
-			var layer = this.layers[i];
-			
-			var gidCounter:Int = 0;
+			this.height * this.tileHeight, true, 0x000000);
 
-			for(y in 0...this.height) {
-				for(x in 0...this.width) {
-					var nextGID = layer.tiles[gidCounter];
+		var gidCounter:Int = 0;
+
+		for(y in 0...this.height) {
+			for(x in 0...this.width) {
+				var nextGID = layer.tiles[gidCounter];
+
+				if(nextGID != 0) {	
+					var tileset:Tileset = null;
 					
-					if(nextGID != 0) {
-						
-						var tileset:Tileset = null;
-						
-						for(t in this.tilesets) {
-							if(nextGID >= t.firstGID) {
-								tileset = t;
-							}
+					for(t in this.tilesets) {
+						if(nextGID >= t.firstGID) {
+							tileset = t;
 						}
-						
-						var textureNumber:Int = nextGID - tileset.firstGID;
-						
-						var innerTexturePositionX:Int = tileset.getInnerTexturePositionX(textureNumber);
-						var innerTexturePositionY:Int = tileset.getInnerTexturePositionY(textureNumber);
-						
-						var texture:BitmapData = tilesetBitmapDataByFirstGID.get(tileset.firstGID);
-						var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
-							innerTexturePositionY * this.tileHeight, this.tileWidth, this.tileHeight);
-						var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
-						
-						bitmapData.copyPixels(texture, rect, point, null, null, true);
 					}
 					
-					gidCounter++;
+					var textureNumber:Int = nextGID - tileset.firstGID;
+					
+					var innerTexturePositionX:Int = tileset.getInnerTexturePositionX(textureNumber);
+					var innerTexturePositionY:Int = tileset.getInnerTexturePositionY(textureNumber);
+					
+					var texture:BitmapData = tilesetBitmapDataByFirstGID.get(tileset.firstGID);
+					var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
+						innerTexturePositionY * this.tileHeight, this.tileWidth, this.tileHeight);
+					var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
+					
+					bitmapData.copyPixels(texture, rect, point, null, null, true);
 				}
+
+				gidCounter++;
 			}
 		}
-		
+
 		return bitmapData;
 	}
-	
+
+	public function createBitmapDataFromLayerID(layerID:Int):BitmapData {
+		return this.createBitmapDataFromLayer(this.layers[layerID]);
+	}
+
+	public function createBitmapDataFromArray(layers:Array<Layer>):BitmapData {
+		var bitmapData = new BitmapData(this.width * this.tileWidth,
+			this.height * this.tileHeight, true, 0x000000);
+
+		for(layer in layers) {
+			var layerBitmapData:BitmapData = this.createBitmapDataFromLayer(layer);
+
+			bitmapData.copyPixels(layerBitmapData, new Rectangle(0, 0, layerBitmapData.width, layerBitmapData.height),
+				new Point(0, 0), null, null, true);
+		}
+
+		return bitmapData;
+	}
+
+	public function createBitmapDataFromIntArray(layerIDs:Array<Int>):BitmapData {
+		var layers = new Array<Layer>();
+
+		for(layerID in layerIDs) {
+			layers.push(this.layers[layerID]);
+		}
+
+		return this.createBitmapDataFromArray(layers);
+	}
+
+	public function createBitmapDataFromRange(fromLayerID:Int, toLayerID:Int) {
+		var range:Array<Int> = new Array<Int>();
+
+		// toLayerID + 1 because layerID should also take the value of toLayerID
+		for(layerID in fromLayerID...(toLayerID + 1)) {
+			range.push(layerID);
+		}
+
+		return this.createBitmapDataFromIntArray(range);
+	}
+
+	public function createBitmapData():BitmapData {
+		return this.createBitmapDataFromRange(0, this.layers.length - 1);
+	}
+
 	private function getTotalWidth():Int {
 		return this.width * this.tileWidth;	
 	}
