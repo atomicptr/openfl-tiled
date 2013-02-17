@@ -24,6 +24,8 @@ class TiledObjectGroup {
 	public var height(default, null):Int;
 	public var properties(default, null):Hash<String>;
 	public var objects(default, null):Array<TiledObject>;
+
+	private var objectCounter:Int;
 	
 	public function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>, objects:Array<TiledObject>) {
 		this.name = name;
@@ -32,6 +34,8 @@ class TiledObjectGroup {
 		this.height = height;
 		this.properties = properties;
 		this.objects = objects;
+
+		this.objectCounter = 0;
 	}
 	
 	public static function fromGenericXml(xml:Xml):TiledObjectGroup {
@@ -59,6 +63,19 @@ class TiledObjectGroup {
 		}
 		
 		return new TiledObjectGroup(name, color, width, height, properties, objects);
+	}
+
+	public function hasNext():Bool {
+		if(objectCounter < objects.length) {
+			return true;
+		} else {
+			objectCounter = 0;
+			return false;
+		}
+	}
+
+	public function next():TiledObject {
+		return objects[objectCounter++];
 	}
 	
 }
