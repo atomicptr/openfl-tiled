@@ -77,13 +77,13 @@ class TiledMap {
 				}
 				
 				if (child.nodeName == "layer") {
-					var layer:Layer = Layer.fromXml(child);
+					var layer:Layer = Layer.fromGenericXml(child);
 					
 					this.layers.push(layer);
 				}
 				
 				if (child.nodeName == "objectgroup") {
-					var objectGroup = TiledObjectGroup.fromXml(child);
+					var objectGroup = TiledObjectGroup.fromGenericXml(child);
 					
 					this.objectGroups.push(objectGroup);
 				}

@@ -34,7 +34,7 @@ class TiledObjectGroup {
 		this.objects = objects;
 	}
 	
-	public static function fromXml(xml:Xml):TiledObjectGroup {
+	public static function fromGenericXml(xml:Xml):TiledObjectGroup {
 		var name = xml.get("name");
 		var color = xml.get("color");
 		var width = Std.parseInt(xml.get("width"));

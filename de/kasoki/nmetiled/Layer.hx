@@ -31,7 +31,7 @@ class Layer {
 		this.tiles = tiles;
 	}
 	
-	public static function fromXml(xml:Xml):Layer {
+	public static function fromGenericXml(xml:Xml):Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
 		var height:Int = Std.parseInt(xml.get("height"));
@@ -53,5 +53,7 @@ class Layer {
 		
 		return new Layer(name, width, height, tiles);
 	}
+
+	
 	
 }
