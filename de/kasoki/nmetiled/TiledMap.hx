@@ -62,7 +62,6 @@ class TiledMap {
 	/** All objectgroups */
 	public var objectGroups:Array<TiledObjectGroup>;
 	
-	
 	private function new(xml:String) {
 		parseXML(xml);
 	}
