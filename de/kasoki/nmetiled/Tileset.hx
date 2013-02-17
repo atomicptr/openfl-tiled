@@ -20,21 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
-import nme.Assets;
 
 class Tileset {
 
+	/** The first GID this tileset has */
 	public var firstGID:Int;
+
+	/** The name of this tileset */
 	public var name:String;
+
+	/** The width of the tileset image */
 	public var width(getTilesetWidth, null):Int;
+
+	/** The height of the tileset image */
 	public var height(getTilesetHeight, null):Int;
+
+	/** The width of one tile */
 	public var tileWidth:Int;
+
+	/** The height of one tile */
 	public var tileHeight:Int;
+
+	/** All properties this Tileset contains */
 	public var properties:Hash<String>;
+
+	/** All tiles with special properties */
 	public var propertyTiles:IntHash<PropertyTile>;
+
+	/** The image of this tileset */
 	public var image:TilesetImage;
 	
-	public function new(name:String, tileWidth:Int, tileHeight:Int, properties:Hash<String>, image:TilesetImage) {
+	private function new(name:String, tileWidth:Int, tileHeight:Int, properties:Hash<String>, image:TilesetImage) {
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
@@ -42,10 +58,12 @@ class Tileset {
 		this.image = image;
 	}
 	
+	/** Sets the first GID. */
 	public function setFirstGID(gid:Int) {
 		this.firstGID = gid;
 	}
 	
+	/** Generates a new Tileset from the given Xml code */
 	public static function fromGenericXml(content:String):Tileset {
 		var xml = Xml.parse(content).firstElement();
 		
@@ -99,10 +117,12 @@ class Tileset {
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
 	}
 	
+	/** Returns the inner x-position of a texture with given tileNumber */
 	public function getInnerTexturePositionX(tileNumber):Int {
 		return (tileNumber % Std.int(this.width / this.tileWidth));
 	}
 	
+	/** Returns the inner y-position of a texture with given tileNumber */
 	public function getInnerTexturePositionY(tileNumber):Int {
 		return Std.int(tileNumber / Std.int(this.width / this.tileWidth));
 	}

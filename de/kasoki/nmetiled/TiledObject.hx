@@ -25,20 +25,45 @@ import nme.geom.Point;
 
 class TiledObject {
 
+	/** A identification number, which represents a part of the tileset. */
 	public var gid:Int;
+
+	/** The name of this object */
 	public var name:String;
+
+	/** The type of this object */
 	public var type:String;
+
+	/** The x coordinate of this object (in pixels!) */
 	public var x:Int;
+
+	/** The y coordinate of this object (in pixels!) */
 	public var y:Int;
+
+	/** The width of this object in pixels */
 	public var width:Int;
+
+	/** The width of this object in pixels */
 	public var height:Int;
+
+	/** Checks if this object has a polygons */
 	public var hasPolygon(checkHasPolygon, null):Bool;
+
+	/** Check if this object has a polylines */
 	public var hasPolyline(checkHasPolyline, null):Bool;
+
+	/** The polygon of this object. Default: null */
 	public var polygon:TiledPolygon;
+
+	/** The polyline of this object. Default:null */
 	public var polyline:TiledPolyline;
+
+	/** Contains all properties from this object */
 	public var properties:Hash<String>;
 	
-	public function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int, polygon:TiledPolygon, polyline:TiledPolyline, properties:Hash<String>) {
+	private function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int,
+			polygon:TiledPolygon, polyline:TiledPolyline, properties:Hash<String>) {
+
 		this.gid = gid;
 		this.name = name;
 		this.type = type;
@@ -51,7 +76,8 @@ class TiledObject {
 		this.properties = properties;
 	}
 	
-	public static function fromXml(xml:Xml):TiledObject {
+	/** Creates a new TiledObject-instance from the given Xml code. */
+	public static function fromGenericXml(xml:Xml):TiledObject {
 		var gid:Int = xml.get("gid") != null ? Std.parseInt(xml.get("gid")) : 0;
 		var name:String = xml.get("name");
 		var type:String = xml.get("type");

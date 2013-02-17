@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
 
+/** The orientation of a map. Orthogonal or Isometric. */
 enum TiledMapOrientation {
 		Orthogonal;
 		Isometric;

@@ -23,19 +23,30 @@ package de.kasoki.nmetiled;
 
 class Layer {
 
+	/** The name of this layer */
 	public var name:String;
+
+	/** The width of this layer in tiles */
 	public var width:Int;
+
+	/** The height of this layer in tiles */
 	public var height:Int;
 	
+	/** All tiles which this Layer contains */
 	public var tiles:Array<Int>;
 	
-	public function new(name:String, width:Int, height:Int, tiles:Array<Int>) {
+	private function new(name:String, width:Int, height:Int, tiles:Array<Int>) {
 		this.name = name;
 		this.width = width;
 		this.height = height;
 		this.tiles = tiles;
 	}
 	
+	/**
+	 * This method generates a new Layer from the given Xml code
+	 * @param xml The given xml code
+	 * @return A new layer
+	 */
 	public static function fromGenericXml(xml:Xml):Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
@@ -59,6 +70,11 @@ class Layer {
 		return new Layer(name, width, height, tiles);
 	}
 
+	/**
+	 * This method generates a version of this layer in CSV
+	 * @param ?width [OPTIONAL] The number of tiles in width. Default: The layer width.trace
+	 * @return A string which contains CSV
+	 */
 	public function toCSV(?width:Int):String {
 		if(width <= 0) {
 			width = this.width;

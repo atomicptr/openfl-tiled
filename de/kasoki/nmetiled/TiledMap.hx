@@ -26,17 +26,40 @@ import nme.geom.Rectangle;
 import nme.geom.Point;
 import nme.display.BitmapData;
 
+/**
+ * This class represents a TILED map
+ * @author Christopher Kaster
+ */
 class TiledMap {
 
+	/** The map width in tiles */
 	public var width:Int;
+
+	/** The map height in tiles */
 	public var height:Int;
+
+	/** The map width in pixels */
 	public var totalWidth(getTotalWidth, null):Int;
+
+	/** The map height in pixels */
 	public var totalHeight(getTotalHeight, null):Int;
+
+	/** TILED orientation: Orthogonal or Isometric */
 	public var orientation:TiledMapOrientation;
+
+	/** The tile width */
 	public var tileWidth:Int;
+
+	/** The tile height */
 	public var tileHeight:Int;
+
+	/** All tilesets the map is using */
 	public var tilesets:Array<Tileset>;
+
+	/** Contains all layers from this map */
 	public var layers:Array<Layer>;
+
+	/** All objectgroups */
 	public var objectGroups:Array<TiledObjectGroup>;
 	
 	
@@ -44,10 +67,20 @@ class TiledMap {
 		parseXML(xml);
 	}
 
+	/** 
+	 * Creates a new TiledMap from an Assets (using nme.Assets)
+	 * @param path The path to your asset
+	 * @return A TiledMap object
+	 */
 	public static function fromAssets(path:String):TiledMap {
 		return new TiledMap(Assets.getText(path));
 	}
 
+	/**
+	 * Creates a new TiledMap from a Xml String
+	 * @param xml
+	 * @return A TiledMap object
+	 */
 	public static function fromGenericXml(xml:String):TiledMap {
 		return new TiledMap(xml);
 	}
@@ -71,6 +104,7 @@ class TiledMap {
 					var tileset:Tileset = null;
 					
 					if (child.get("source") != null) {
+						// TODO: I need to remove the "Assets" statement somehow...
 						tileset = Tileset.fromGenericXml(Assets.getText(child.get("source")));
 					} else {
 						tileset = Tileset.fromGenericXml(child.toString());
@@ -96,10 +130,16 @@ class TiledMap {
 		}
 	}
 	
+	/**
+	 * Creates a BitmapData from a specific Layer
+	 * @param layer The layer which the BitmapData will contain
+	 * @return A BitmapData object
+	 */
 	public function createBitmapDataFromLayer(layer:Layer):BitmapData {
 		var tilesetBitmapDataByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
 		
 		for(t in this.tilesets) {
+			// TODO: I should remove this Assets statement somehow...
 			tilesetBitmapDataByFirstGID.set(t.firstGID, Assets.getBitmapData(t.image.source));
 		}
 		
@@ -141,10 +181,20 @@ class TiledMap {
 		return bitmapData;
 	}
 
+	/**
+	 * Creates a BitmapData from a specific Layer ID
+	 * @param layerID
+	 * @return A BitmapData object
+	 */
 	public function createBitmapDataFromLayerID(layerID:Int):BitmapData {
 		return this.createBitmapDataFromLayer(this.layers[layerID]);
 	}
 
+	/**
+	 * Creates a BitmapData from a specific set of Layers
+	 * @param layers An array filled with layers
+	 * @return A BitmapData object
+	 */
 	public function createBitmapDataFromArray(layers:Array<Layer>):BitmapData {
 		var bitmapData = new BitmapData(this.width * this.tileWidth,
 			this.height * this.tileHeight, true, 0x000000);
@@ -159,6 +209,11 @@ class TiledMap {
 		return bitmapData;
 	}
 
+	/**
+	 * Creates a BitmapData from a specific set of Layer IDs
+	 * @param layerIDs An array filled with IDs
+	 * @return A BitmapData object
+	 */
 	public function createBitmapDataFromIntArray(layerIDs:Array<Int>):BitmapData {
 		var layers = new Array<Layer>();
 
@@ -169,6 +224,12 @@ class TiledMap {
 		return this.createBitmapDataFromArray(layers);
 	}
 
+	/**
+	 * Creates a BitmapData from a range of Layers (example: from layer 2 to layer 5)
+	 * @param fromLayerID the first layer
+	 * @param toLayerID the last layer
+	 * @return A BitmapData object
+	 */
 	public function createBitmapDataFromRange(fromLayerID:Int, toLayerID:Int) {
 		var range:Array<Int> = new Array<Int>();
 
@@ -180,14 +241,26 @@ class TiledMap {
 		return this.createBitmapDataFromIntArray(range);
 	}
 
+	/**
+	 * Creates a BitmapData from all layers
+	 * @return A BitmapData object
+	 */
 	public function createBitmapData():BitmapData {
 		return this.createBitmapDataFromRange(0, this.layers.length - 1);
 	}
 
+	/**
+	 * Returns the total Width of the map
+	 * @return Map width in pixels
+	 */
 	private function getTotalWidth():Int {
 		return this.width * this.tileWidth;	
 	}
 	
+	/**
+	 * Returns the total Height of the map
+	 * @return Map height in pixels
+	 */
 	private function getTotalHeight():Int {
 		return this.height * this.tileHeight;
 	}

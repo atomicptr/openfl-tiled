@@ -23,16 +23,29 @@ package de.kasoki.nmetiled;
 
 class TiledObjectGroup {
 
+	/** The name of this ObjectGroup */
 	public var name:String;
+
+	/** The color of this ObjectGroup */
 	public var color:String;
+
+	/** The width of this ObjectGroup */
 	public var width:Int;
+
+	/** The height of this ObjectGroup */
 	public var height:Int;
+
+	/** All properties this ObjectGroup contains */
 	public var properties:Hash<String>;
+
+	/** All objects which are in this ObjectGroup */
 	public var objects:Array<TiledObject>;
 
 	private var objectCounter:Int;
 	
-	public function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>, objects:Array<TiledObject>) {
+	private function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>,
+			objects:Array<TiledObject>) {
+
 		this.name = name;
 		this.color = color;
 		this.width = width;
@@ -43,6 +56,7 @@ class TiledObjectGroup {
 		this.objectCounter = 0;
 	}
 	
+	/** Generates a new ObjectGroup from the given Xml code */
 	public static function fromGenericXml(xml:Xml):TiledObjectGroup {
 		var name = xml.get("name");
 		var color = xml.get("color");
@@ -62,7 +76,7 @@ class TiledObjectGroup {
 				}
 				
 				if (child.nodeName == "object") {
-					objects.push(TiledObject.fromXml(child));
+					objects.push(TiledObject.fromGenericXml(child));
 				}
 			}
 		}

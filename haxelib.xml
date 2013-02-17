@@ -11,6 +11,6 @@
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
 	<version name="0.1.7">
-	    All attributes are now editable, 
+	    Changed License to MIT license, all attributes are now editable, added new Methods to TiledMap: createBitmapDataFromLayerID(int), createBitmapDataFromLayer(layer), createBitmapDataFromArray([layer1, layer2, ...]), createBitmapDataFromIntArray([0, 2, 1]) and createBitmapDataFromRange(1, 2), added haxedoc documentation to most public members
 	</version>
 </project>

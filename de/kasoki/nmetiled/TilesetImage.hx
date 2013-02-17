@@ -23,9 +23,16 @@ package de.kasoki.nmetiled;
 
 class TilesetImage {
 
+	/** The filepath where this image is */
 	public var source:String;
+
+	/** The filename */
 	public var fileName:String;
+
+	/** The width of this image */
 	public var width:Int;
+
+	/** The height of this image */
 	public var height:Int;
 	
 	public function new(source:String, width:Int, height:Int) {
