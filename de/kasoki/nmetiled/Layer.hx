@@ -78,7 +78,7 @@ class Layer {
 	 * @return A string which contains CSV
 	 */
 	public function toCSV(?width:Int):String {
-		if(width <= 0) {
+		if(width <= 0 || width == null) {
 			width = this.width;
 		}
 
