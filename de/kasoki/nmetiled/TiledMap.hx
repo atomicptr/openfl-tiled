@@ -263,5 +263,54 @@ class TiledMap {
 	private function getTotalHeight():Int {
 		return this.height * this.tileHeight;
 	}
+
+	/**
+	 * Returns the layer with the given name.
+	 * @param name The name of the layer
+	 * @return The searched layer, null if there is no such layer.
+	 */
+	public function getLayerByName(name:String):Layer {
+		for(layer in this.layers) {
+			if(layer.name == name) {
+				return layer;
+			}
+		}
+
+		throw "nme-tiled: There is no layer with the name: " + name;
+		return null;
+	}
+
+	/**
+	 * Returns the object group with the given name.
+	 * @param name The name of the object group
+	 * @return The searched object group, null if there is no such object group.
+	 */
+	public function getObjectGroupByName(name:String):TiledObjectGroup {
+		for(objectGroup in this.objectGroups) {
+			if(objectGroup.name == name) {
+				return objectGroup;
+			}
+		}
+
+		throw "nme-tiled: There is no object group with the name: " + name;
+		return null;
+	}
+
+	 /**
+	  * Returns an object in a given object group
+	  * @param name The name of the object
+	  * @param inObjectGroup The object group which contains this object.
+	  * @return An TiledObject, null if there is no such object.
+	  */
+	public function getObjectByName(name:String, inObjectGroup:TiledObjectGroup):TiledObject {
+		for(object in inObjectGroup) {
+			if(object.name == name) {
+				return object;
+			}
+		}
+
+		throw "nme-tiled: There is no object with the name: " + name + " in the object group: " + inObjectGroup.name;
+		return null;
+	}
 	
 }
