@@ -276,7 +276,6 @@ class TiledMap {
 			}
 		}
 
-		throw "nme-tiled: There is no layer with the name: " + name;
 		return null;
 	}
 
@@ -292,7 +291,6 @@ class TiledMap {
 			}
 		}
 
-		throw "nme-tiled: There is no object group with the name: " + name;
 		return null;
 	}
 
@@ -309,7 +307,6 @@ class TiledMap {
 			}
 		}
 
-		throw "nme-tiled: There is no object with the name: " + name + " in the object group: " + inObjectGroup.name;
 		return null;
 	}
 	

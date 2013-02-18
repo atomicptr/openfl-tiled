@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
 
+import nme.geom.Rectangle;
+
 class Layer {
 
 	/** The name of this layer */
@@ -72,7 +74,7 @@ class Layer {
 
 	/**
 	 * This method generates a version of this layer in CSV
-	 * @param ?width [OPTIONAL] The number of tiles in width. Default: The layer width.trace
+	 * @param ?width [OPTIONAL] The number of tiles in width. Default: The layer width.
 	 * @return A string which contains CSV
 	 */
 	public function toCSV(?width:Int):String {
@@ -89,12 +91,12 @@ class Layer {
 				csv = csv.substr(0, csv.length - 1);
 
 				// add a new line and reset counter
-				csv += "\n";
+				csv += '\n';
 				counter = 0;
 			}
 
 			csv += tileGID;
-			csv += ",";
+			csv += ',';
 
 			counter++;
 		}
@@ -104,5 +106,4 @@ class Layer {
 
 		return csv;
 	}
-	
 }
