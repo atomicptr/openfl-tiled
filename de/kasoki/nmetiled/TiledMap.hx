@@ -160,14 +160,11 @@ class TiledMap {
 						}
 					}
 					
-					var textureNumber:Int = nextGID - tileset.firstGID;
-					
-					var innerTexturePositionX:Int = tileset.getInnerTexturePositionX(textureNumber);
-					var innerTexturePositionY:Int = tileset.getInnerTexturePositionY(textureNumber);
+					var innerTexturePosition = tileset.getTexturePositionByGID(nextGID);
 					
 					var texture:BitmapData = tilesetBitmapDataByFirstGID.get(tileset.firstGID);
-					var rect:Rectangle = new Rectangle(innerTexturePositionX * this.tileWidth,
-						innerTexturePositionY * this.tileHeight, this.tileWidth, this.tileHeight);
+					var rect:Rectangle = new Rectangle(innerTexturePosition.x * this.tileWidth,
+						innerTexturePosition.y * this.tileHeight, this.tileWidth, this.tileHeight);
 					var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
 					
 					bitmapData.copyPixels(texture, rect, point, null, null, true);

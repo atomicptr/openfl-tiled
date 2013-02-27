@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
 
+import nme.geom.Point;
+
 class Tileset {
 
 	/** The first GID this tileset has */
@@ -117,13 +119,19 @@ class Tileset {
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
 	}
 	
+	public function getTexturePositionByGID(gid):Point {
+		var number = gid - this.firstGID;
+
+		return new Point(getInnerTexturePositionX(number), getInnerTexturePositionY(number));
+	}
+
 	/** Returns the inner x-position of a texture with given tileNumber */
-	public function getInnerTexturePositionX(tileNumber):Int {
+	private function getInnerTexturePositionX(tileNumber):Int {
 		return (tileNumber % Std.int(this.width / this.tileWidth));
 	}
 	
 	/** Returns the inner y-position of a texture with given tileNumber */
-	public function getInnerTexturePositionY(tileNumber):Int {
+	private function getInnerTexturePositionY(tileNumber):Int {
 		return Std.int(tileNumber / Std.int(this.width / this.tileWidth));
 	}
 	
