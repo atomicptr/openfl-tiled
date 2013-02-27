@@ -35,7 +35,7 @@ class Layer {
 	public var height:Int;
 	
 	/** All tiles which this Layer contains */
-	public var tiles:Array<Int>;
+	public var tiles:Array<Tile>;
 
 	/** The parent TiledMap */
 	public var parent(default, null):TiledMap;
@@ -45,19 +45,25 @@ class Layer {
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		this.tiles = tiles;
+		
+		this.tiles = new Array<Tile>();
+
+		for(gid in tiles) {
+			this.tiles.push(Tile.fromGID(gid, this));
+		}
 	}
 	
 	/**
 	 * This method generates a new Layer from the given Xml code
 	 * @param xml The given xml code
+	 * @param 
 	 * @return A new layer
 	 */
 	public static function fromGenericXml(xml:Xml, parent:TiledMap):Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
 		var height:Int = Std.parseInt(xml.get("height"));
-		var tiles:Array<Int> = new Array<Int>();
+		var tileGIDs:Array<Int> = new Array<Int>();
 		
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
@@ -66,14 +72,14 @@ class Layer {
 						if (Helper.isValidElement(tile)) {
 							var gid = Std.parseInt(tile.get("gid"));
 							
-							tiles.push(gid);
+							tileGIDs.push(gid);
 						}
 					}
 				}
 			}
 		}
 		
-		return new Layer(parent, name, width, height, tiles);
+		return new Layer(parent, name, width, height, tileGIDs);
 	}
 
 	/**
@@ -89,7 +95,9 @@ class Layer {
 		var counter:Int = 0;
 		var csv:String = "";
 
-		for(tileGID in this.tiles) {
+		for(tile in this.tiles) {
+			var tileGID = tile.gid;
+
 			if(counter >= width) {
 				// remove the last ","
 				csv = csv.substr(0, csv.length - 1);

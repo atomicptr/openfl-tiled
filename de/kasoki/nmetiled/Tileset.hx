@@ -22,6 +22,9 @@
 package de.kasoki.nmetiled;
 
 import nme.geom.Point;
+import nme.display.BitmapData;
+import nme.Assets;
+import nme.geom.Rectangle;
 
 class Tileset {
 
@@ -101,7 +104,7 @@ class Tileset {
 						if(Helper.isValidElement(element)) {
 							if (element.nodeName == "properties") {
 								for (property in element) {
-									if (Std.string(property.nodeType) != "element") {
+									if (!Helper.isValidElement(property)) {
 										continue;
 									}
 									
@@ -119,7 +122,22 @@ class Tileset {
 		return new Tileset(name, tileWidth, tileHeight, properties, image);
 	}
 	
-	public function getTexturePositionByGID(gid):Point {
+	/** Returns the BitmapData of the given GID */
+	public function getTileBitmapDataByGID(gid:Int):BitmapData {
+		var bitmapData = new BitmapData(this.tileWidth, this.tileHeight, true, 0x000000);
+
+		var texture:BitmapData = Assets.getBitmapData(this.image.source);
+		var rect:Rectangle = new Rectangle(getTexturePositionByGID(gid).x * this.tileWidth,
+			getTexturePositionByGID(gid).y * this.tileHeight, this.tileWidth, this.tileHeight);
+		var point:Point = new Point(0, 0);
+
+		bitmapData.copyPixels(texture, rect, point, null, null, true);
+
+		return bitmapData;
+	}
+
+	/** Returns a Point which specifies the position of the gid in this tileset (Not in pixels!) */
+	public function getTexturePositionByGID(gid:Int):Point {
 		var number = gid - this.firstGID;
 
 		return new Point(getInnerTexturePositionX(number), getInnerTexturePositionY(number));
