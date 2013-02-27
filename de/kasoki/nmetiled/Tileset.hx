@@ -23,7 +23,6 @@ package de.kasoki.nmetiled;
 
 import nme.geom.Point;
 import nme.display.BitmapData;
-import nme.Assets;
 import nme.geom.Rectangle;
 
 class Tileset {
@@ -126,7 +125,7 @@ class Tileset {
 	public function getTileBitmapDataByGID(gid:Int):BitmapData {
 		var bitmapData = new BitmapData(this.tileWidth, this.tileHeight, true, 0x000000);
 
-		var texture:BitmapData = Assets.getBitmapData(this.image.source);
+		var texture:BitmapData = Helper.getBitmapData(this.image.source);
 		var rect:Rectangle = new Rectangle(getTexturePositionByGID(gid).x * this.tileWidth,
 			getTexturePositionByGID(gid).y * this.tileHeight, this.tileWidth, this.tileHeight);
 		var point:Point = new Point(0, 0);

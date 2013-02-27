@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
 
+import nme.Assets;
+
 class Helper {
 
 	private function new() {
@@ -29,6 +31,18 @@ class Helper {
 	/** This method checks if the given Xml element is really a Xml element! */
 	public static function isValidElement(element:Xml):Bool {
 		return Std.string(element.nodeType) == "element";
+	}
+
+	/** This methods is wrapper for Assets.getText(string), if 
+		you're using another Asset managment system simply override this method */
+	public static function getText(assetPath:String):String {
+		return Assets.getText(assetPath);
+	}
+
+	/** This methods is wrapper for Assets.getBitmapData(string), if 
+		you're using another Asset managment system simply override this method */
+	public static function getBitmapData(assetPath:String):BitmapData {
+		return Assets.getBitmapData(assetPath);
 	}
 	
 }

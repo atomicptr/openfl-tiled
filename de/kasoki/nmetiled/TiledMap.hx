@@ -21,7 +21,6 @@
 // THE SOFTWARE.
 package de.kasoki.nmetiled;
 
-import nme.Assets;
 import nme.geom.Rectangle;
 import nme.geom.Point;
 import nme.display.BitmapData;
@@ -67,12 +66,12 @@ class TiledMap {
 	}
 
 	/** 
-	 * Creates a new TiledMap from an Assets (using nme.Assets)
+	 * Creates a new TiledMap from an Assets
 	 * @param path The path to your asset
 	 * @return A TiledMap object
 	 */
 	public static function fromAssets(path:String):TiledMap {
-		return new TiledMap(Assets.getText(path));
+		return new TiledMap(Helper.getText(path));
 	}
 
 	/**
@@ -103,8 +102,7 @@ class TiledMap {
 					var tileset:Tileset = null;
 					
 					if (child.get("source") != null) {
-						// TODO: I need to remove the "Assets" statement somehow...
-						tileset = Tileset.fromGenericXml(Assets.getText(child.get("source")));
+						tileset = Tileset.fromGenericXml(Helper.getText(child.get("source")));
 					} else {
 						tileset = Tileset.fromGenericXml(child.toString());
 					}
@@ -138,8 +136,7 @@ class TiledMap {
 		var tilesetBitmapDataByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
 		
 		for(t in this.tilesets) {
-			// TODO: I should remove this Assets statement somehow...
-			tilesetBitmapDataByFirstGID.set(t.firstGID, Assets.getBitmapData(t.image.source));
+			tilesetBitmapDataByFirstGID.set(t.firstGID, Helper.getBitmapData(t.image.source));
 		}
 		
 		var bitmapData = new BitmapData(this.width * this.tileWidth,
