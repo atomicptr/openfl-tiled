@@ -11,6 +11,6 @@
 		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
 	</description>
 	<version name="0.2.0">
-		Made getInnerTexturePositionX/Y private and added getInnerTexturePositionByGID
+		Made getInnerTexturePositionX/Y private and added getInnerTexturePositionByGID, added getTilesetByGID to TiledMap, Added Tile, made Layer.tiles to a Tile-Array (instead of an Int-Array), added Helper.getText(string) and Helper.getBitmapData(string), should be possible to override them to use another asset manager instead of "nme.Assets"
 	</version>
 </project>
