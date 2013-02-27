@@ -22,6 +22,7 @@
 package de.kasoki.nmetiled;
 
 import nme.Assets;
+import nme.display.BitmapData;
 
 class Helper {
 
