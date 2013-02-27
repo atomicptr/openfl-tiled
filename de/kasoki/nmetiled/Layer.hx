@@ -36,8 +36,12 @@ class Layer {
 	
 	/** All tiles which this Layer contains */
 	public var tiles:Array<Int>;
+
+	/** The parent TiledMap */
+	public var parent(default, null):TiledMap;
 	
-	private function new(name:String, width:Int, height:Int, tiles:Array<Int>) {
+	private function new(parent:TiledMap, name:String, width:Int, height:Int, tiles:Array<Int>) {
+		this.parent = parent;
 		this.name = name;
 		this.width = width;
 		this.height = height;
@@ -49,7 +53,7 @@ class Layer {
 	 * @param xml The given xml code
 	 * @return A new layer
 	 */
-	public static function fromGenericXml(xml:Xml):Layer {
+	public static function fromGenericXml(xml:Xml, parent:TiledMap):Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
 		var height:Int = Std.parseInt(xml.get("height"));
@@ -69,7 +73,7 @@ class Layer {
 			}
 		}
 		
-		return new Layer(name, width, height, tiles);
+		return new Layer(parent, name, width, height, tiles);
 	}
 
 	/**

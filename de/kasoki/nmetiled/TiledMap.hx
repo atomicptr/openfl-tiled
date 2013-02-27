@@ -115,7 +115,7 @@ class TiledMap {
 				}
 				
 				if (child.nodeName == "layer") {
-					var layer:Layer = Layer.fromGenericXml(child);
+					var layer:Layer = Layer.fromGenericXml(child, this);
 					
 					this.layers.push(layer);
 				}
@@ -152,13 +152,7 @@ class TiledMap {
 				var nextGID = layer.tiles[gidCounter];
 
 				if(nextGID != 0) {	
-					var tileset:Tileset = null;
-					
-					for(t in this.tilesets) {
-						if(nextGID >= t.firstGID) {
-							tileset = t;
-						}
-					}
+					var tileset:Tileset = this.getTilesetByGID(nextGID);
 					
 					var innerTexturePosition = tileset.getTexturePositionByGID(nextGID);
 					
@@ -243,6 +237,22 @@ class TiledMap {
 	 */
 	public function createBitmapData():BitmapData {
 		return this.createBitmapDataFromRange(0, this.layers.length - 1);
+	}
+
+	/**
+	 * Returns the Tileset which contains the given GID.
+	 * @return The tileset which contains the given GID, or if it doesn't exist "null"
+	 */
+	public function getTilesetByGID(gid:Int):Tileset {
+		var tileset:Tileset = null;
+
+		for(t in this.tilesets) {
+			if(gid >= t.firstGID) {
+				tileset = t;
+			}
+		}
+
+		return tileset;
 	}
 
 	/**
