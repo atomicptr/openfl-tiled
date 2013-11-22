@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,11 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.geom.Rectangle;
-import nme.geom.Point;
-import nme.display.BitmapData;
+import flash.geom.Rectangle;
+import flash.geom.Point;
+import flash.display.BitmapData;
 
 /**
  * This class represents a TILED map
@@ -38,10 +38,10 @@ class TiledMap {
 	public var height:Int;
 
 	/** The map width in pixels */
-	public var totalWidth(getTotalWidth, null):Int;
+	public var totalWidth(get_totalWidth, null):Int;
 
 	/** The map height in pixels */
-	public var totalHeight(getTotalHeight, null):Int;
+	public var totalHeight(get_totalHeight, null):Int;
 
 	/** TILED orientation: Orthogonal or Isometric */
 	public var orientation:TiledMapOrientation;
@@ -133,7 +133,7 @@ class TiledMap {
 	 * @return A BitmapData object
 	 */
 	public function createBitmapDataFromLayer(layer:Layer):BitmapData {
-		var tilesetBitmapDataByFirstGID:IntHash<BitmapData> = new IntHash<BitmapData>();
+		var tilesetBitmapDataByFirstGID:Map<Int, BitmapData> = new Map<Int, BitmapData>();
 		
 		for(t in this.tilesets) {
 			tilesetBitmapDataByFirstGID.set(t.firstGID, Helper.getBitmapData(t.image.source));
@@ -251,7 +251,7 @@ class TiledMap {
 	 * Returns the total Width of the map
 	 * @return Map width in pixels
 	 */
-	private function getTotalWidth():Int {
+	private function get_totalWidth():Int {
 		return this.width * this.tileWidth;	
 	}
 	
@@ -259,7 +259,7 @@ class TiledMap {
 	 * Returns the total Height of the map
 	 * @return Map height in pixels
 	 */
-	private function getTotalHeight():Int {
+	private function get_totalHeight():Int {
 		return this.height * this.tileHeight;
 	}
 

@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,31 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.Assets;
-import nme.display.BitmapData;
+import flash.display.BitmapData;
 
-class Helper {
+class Tile {
 
-	private function new() {
-	}
-	
-	/** This method checks if the given Xml element is really a Xml element! */
-	public static function isValidElement(element:Xml):Bool {
-		return Std.string(element.nodeType) == "element";
-	}
+	public var gid(default, null):Int;
+	public var parent(default, null):Layer;
+	public var bitmapData(get_bitmapData, null):BitmapData;
+	public var width(get_width, null):Int;
+	public var height(get_height, null):Int;
 
-	/** This methods is wrapper for Assets.getText(string), if 
-		you're using another Asset managment system simply override this method */
-	public static function getText(assetPath:String):String {
-		return Assets.getText(assetPath);
+	private function new(gid:Int, parent:Layer) {
+		this.gid = gid;
+		this.parent = parent;
 	}
 
-	/** This methods is wrapper for Assets.getBitmapData(string), if 
-		you're using another Asset managment system simply override this method */
-	public static function getBitmapData(assetPath:String):BitmapData {
-		return Assets.getBitmapData(assetPath);
+	public static function fromGID(gid:Int, parent:Layer):Tile {
+		return new Tile(gid, parent);
+	}
+
+	public function get_bitmapData():BitmapData {
+		return parent.parent.getTilesetByGID(this.gid).getTileBitmapDataByGID(this.gid);
+	}
+
+	private function get_width():Int {
+		return parent.parent.tileWidth;
+	}
+
+	private function get_height():Int {
+		return parent.parent.tileHeight;
 	}
 	
 }

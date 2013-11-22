@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,9 +19,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.geom.Point;
+import flash.geom.Point;
 
 class TiledObject {
 
@@ -47,10 +47,10 @@ class TiledObject {
 	public var height:Int;
 
 	/** Checks if this object has a polygons */
-	public var hasPolygon(checkHasPolygon, null):Bool;
+	public var hasPolygon(get_hasPolygon, null):Bool;
 
 	/** Check if this object has a polylines */
-	public var hasPolyline(checkHasPolyline, null):Bool;
+	public var hasPolyline(get_hasPolyline, null):Bool;
 
 	/** The polygon of this object. Default: null */
 	public var polygon:TiledPolygon;
@@ -59,10 +59,10 @@ class TiledObject {
 	public var polyline:TiledPolyline;
 
 	/** Contains all properties from this object */
-	public var properties:Hash<String>;
+	public var properties:Map<String, String>;
 	
 	private function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int,
-			polygon:TiledPolygon, polyline:TiledPolyline, properties:Hash<String>) {
+			polygon:TiledPolygon, polyline:TiledPolyline, properties:Map<String, String>) {
 
 		this.gid = gid;
 		this.name = name;
@@ -87,7 +87,7 @@ class TiledObject {
 		var height:Int = Std.parseInt(xml.get("height"));
 		var polygon:TiledPolygon = null;
 		var polyline:TiledPolyline = null;
-		var properties:Hash<String> = new Hash<String>();
+		var properties:Map<String, String> = new Map<String, String>();
 		
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
@@ -124,11 +124,11 @@ class TiledObject {
 		return new TiledObject(gid, name, type, x, y, width, height, polygon, polyline, properties);
 	}
 	
-	private function checkHasPolygon():Bool {
+	private function get_hasPolygon():Bool {
 		return this.polygon != null;
 	}
 	
-	private function checkHasPolyline():Bool {
+	private function get_hasPolyline():Bool {
 		return this.polyline != null;
 	}
 	

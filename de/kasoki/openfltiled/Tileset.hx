@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,11 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.geom.Point;
-import nme.display.BitmapData;
-import nme.geom.Rectangle;
+import flash.geom.Point;
+import flash.display.BitmapData;
+import flash.geom.Rectangle;
 
 class Tileset {
 
@@ -34,10 +34,10 @@ class Tileset {
 	public var name:String;
 
 	/** The width of the tileset image */
-	public var width(getTilesetWidth, null):Int;
+	public var width(get_width, null):Int;
 
 	/** The height of the tileset image */
-	public var height(getTilesetHeight, null):Int;
+	public var height(get_height, null):Int;
 
 	/** The width of one tile */
 	public var tileWidth:Int;
@@ -46,15 +46,15 @@ class Tileset {
 	public var tileHeight:Int;
 
 	/** All properties this Tileset contains */
-	public var properties:Hash<String>;
+	public var properties:Map<String, String>;
 
 	/** All tiles with special properties */
-	public var propertyTiles:IntHash<PropertyTile>;
+	public var propertyTiles:Map<Int, PropertyTile>;
 
 	/** The image of this tileset */
 	public var image:TilesetImage;
 	
-	private function new(name:String, tileWidth:Int, tileHeight:Int, properties:Hash<String>, image:TilesetImage) {
+	private function new(name:String, tileWidth:Int, tileHeight:Int, properties:Map<String, String>, image:TilesetImage) {
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
@@ -74,8 +74,8 @@ class Tileset {
 		var name:String = xml.get("name");
 		var tileWidth:Int = Std.parseInt(xml.get("tilewidth"));
 		var tileHeight:Int = Std.parseInt(xml.get("tileheight"));
-		var properties:Hash<String> = new Hash<String>();
-		var propertyTiles:IntHash<PropertyTile> = new IntHash<PropertyTile>();
+		var properties:Map<String, String> = new Map<String, String>();
+		var propertyTiles:Map<Int, PropertyTile> = new Map<Int, PropertyTile>();
 		var image:TilesetImage = null;
 		
 		for (child in xml.elements()) {
@@ -97,7 +97,7 @@ class Tileset {
 				
 				if (child.nodeName == "tile") {
 					var id:Int = Std.parseInt(child.get("id"));
-					var properties:Hash<String> = new Hash<String>();
+					var properties:Map<String, String> = new Map<String, String>();
 					
 					for (element in child) {
 						if(Helper.isValidElement(element)) {
@@ -152,11 +152,11 @@ class Tileset {
 		return Std.int(tileNumber / Std.int(this.width / this.tileWidth));
 	}
 	
-	private function getTilesetWidth():Int {
+	private function get_width():Int {
 		return this.image.width;
 	}
 	
-	private function getTilesetHeight():Int {
+	private function get_height():Int {
 		return this.image.height;
 	}
 }

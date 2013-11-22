@@ -1,14 +1,14 @@
-nme-tiled
+openfl-tiled
 =========
 
-nme-tiled is a library, which gives NME developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
+openfl-tiled is a library, which gives openfl developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
 
-How to install nme-tiled?
+How to install openfl-tiled?
 --------------------------
 
-To install nme-tiled you just need to run this in your terminal:
+To install openfl-tiled you just need to run this in your terminal:
 	
-	haxelib install nme-tiled
+	haxelib install openfl-tiled
 	
 
 Restrictions

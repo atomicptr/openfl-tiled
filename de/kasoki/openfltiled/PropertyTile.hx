@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,18 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.geom.Point;
+class PropertyTile {
 
-class TiledPolyline {
+	public var id:Int;
+	public var properties:Map<String, String>;
 	
-	public var origin:Point;
-	public var points:Array<Point>;
-	
-	public function new(origin:Point, points:Array<Point>) {
-		this.origin = origin;
-		this.points = points;
+	public function new(id:Int, properties:Map<String, String>) {
+		this.id = id;
+		this.properties = properties;
 	}
 	
 }

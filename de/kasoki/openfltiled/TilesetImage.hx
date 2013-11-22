@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,10 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-/** The orientation of a map. Orthogonal or Isometric. */
-enum TiledMapOrientation {
-		Orthogonal;
-		Isometric;
+class TilesetImage {
+
+	/** The filepath where this image is */
+	public var source:String;
+
+	/** The filename */
+	public var fileName:String;
+
+	/** The width of this image */
+	public var width:Int;
+
+	/** The height of this image */
+	public var height:Int;
+	
+	public function new(source:String, width:Int, height:Int) {
+		this.source = source;
+		// get fileName from path
+		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
+		this.width = width;
+		this.height = height;
+	}
+	
 }

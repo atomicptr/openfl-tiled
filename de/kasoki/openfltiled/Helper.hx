@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,37 +19,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
-import nme.display.BitmapData;
+import openfl.Assets;
+import flash.display.BitmapData;
 
-class Tile {
+class Helper {
 
-	public var gid(default, null):Int;
-	public var parent(default, null):Layer;
-	public var bitmapData(getBitmapData, null):BitmapData;
-	public var width(getWidth, null):Int;
-	public var height(getHeight, null):Int;
-
-	private function new(gid:Int, parent:Layer) {
-		this.gid = gid;
-		this.parent = parent;
+	private function new() {
+	}
+	
+	/** This method checks if the given Xml element is really a Xml element! */
+	public static function isValidElement(element:Xml):Bool {
+		return Std.string(element.nodeType) == "element";
 	}
 
-	public static function fromGID(gid:Int, parent:Layer):Tile {
-		return new Tile(gid, parent);
+	/** This methods is wrapper for Assets.getText(string), if 
+		you're using another Asset managment system simply override this method */
+	public static function getText(assetPath:String):String {
+		return Assets.getText(assetPath);
 	}
 
-	public function getBitmapData():BitmapData {
-		return parent.parent.getTilesetByGID(this.gid).getTileBitmapDataByGID(this.gid);
-	}
-
-	private function getWidth():Int {
-		return parent.parent.tileWidth;
-	}
-
-	private function getHeight():Int {
-		return parent.parent.tileHeight;
+	/** This methods is wrapper for Assets.getBitmapData(string), if 
+		you're using another Asset managment system simply override this method */
+	public static function getBitmapData(assetPath:String):BitmapData {
+		return Assets.getBitmapData(assetPath);
 	}
 	
 }

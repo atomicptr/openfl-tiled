@@ -1,16 +1,17 @@
-<project name="nme-tiled" url="http://kasoki.de" license="MIT">
+<project name="openfl-tiled" url="http://kasoki.de" license="MIT">
 	<user name="kasoki" />
 	<tag v="nme" />
+	<tag v="openfl" />
 	<tag v="game" />
 	<tag v="tile" />
 	<tag v="map" />
 	<tag v="tilemap" />
 	<tag v="tiled" />
-	<depends name="nme" />
+	<depends name="openfl" />
 	<description>
-		nme-tiled is a library, which gives NME developers the possibility to use the TILED Map Editor.
+		openfl-tiled is a library, which gives openfl developers the possibility to use the TILED Map Editor.
 	</description>
-	<version name="0.2.0">
-		Made getInnerTexturePositionX/Y private and added getInnerTexturePositionByGID, added getTilesetByGID to TiledMap, Added Tile, made Layer.tiles to a Tile-Array (instead of an Int-Array), added Helper.getText(string) and Helper.getBitmapData(string), should be possible to override them to use another asset manager instead of "nme.Assets"
+	<version name="0.3.0">
+		Add support for openfl
 	</version>
 </project>

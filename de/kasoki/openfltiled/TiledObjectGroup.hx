@@ -1,6 +1,6 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
 // 
-// This file is part of "nme-tiled". <http://github.com/Kasoki/nme-tiled>
+// This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.nmetiled;
+package de.kasoki.openfltiled;
 
 class TiledObjectGroup {
 
@@ -36,14 +36,14 @@ class TiledObjectGroup {
 	public var height:Int;
 
 	/** All properties this ObjectGroup contains */
-	public var properties:Hash<String>;
+	public var properties:Map<String, String>;
 
 	/** All objects which are in this ObjectGroup */
 	public var objects:Array<TiledObject>;
 
 	private var objectCounter:Int;
 	
-	private function new(name:String, color:String, width:Int, height:Int, properties:Hash<String>,
+	private function new(name:String, color:String, width:Int, height:Int, properties:Map<String, String>,
 			objects:Array<TiledObject>) {
 
 		this.name = name;
@@ -62,7 +62,7 @@ class TiledObjectGroup {
 		var color = xml.get("color");
 		var width = Std.parseInt(xml.get("width"));
 		var height = Std.parseInt(xml.get("height"));
-		var properties:Hash<String> = new Hash<String>();
+		var properties:Map<String, String> = new Map<String, String>();
 		var objects:Array<TiledObject> = new Array<TiledObject>();
 		
 		for (child in xml) {
