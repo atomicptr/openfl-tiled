@@ -1,0 +1,24 @@
+{
+	"name": "openfl-tiled",
+	"url": "https://github.com/Kasoki/openfl-tiled",
+	"license": "MIT",
+	"tags": [
+		"game",
+		"openfl",
+		"cross",
+		"tile",
+		"map",
+		"tilemap",
+		"tiled",
+		"flash"
+	],
+	"description": "openfl-tiled is a library, which gives openfl developers the ability to use the TILED map editor.",
+	"version": "0.3.0",
+	"releasenote": "Add support for Haxe 3 and openfl, renamed to openfl-tiled",
+	"contributors": [
+		"kasoki"
+	],
+	"dependencies": {
+		"openfl": ""
+	}
+}
