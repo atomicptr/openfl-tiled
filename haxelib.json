@@ -13,8 +13,8 @@
 		"flash"
 	],
 	"description": "openfl-tiled is a library, which gives openfl developers the ability to use the TILED map editor.",
-	"version": "0.3.0",
-	"releasenote": "Add support for Haxe 3 and openfl, renamed to openfl-tiled",
+	"version": "0.3.1",
+	"releasenote": "Add support for isometric maps, thanks to @Schtee",
 	"contributors": [
 		"kasoki"
 	],
