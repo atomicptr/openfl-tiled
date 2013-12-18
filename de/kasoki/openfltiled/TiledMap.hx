@@ -151,7 +151,13 @@ class TiledMap {
 				if(nextGID != 0) {	
 					var texture:BitmapData = layer.tiles[gidCounter].bitmapData;
 					var rect:Rectangle = new Rectangle(0, 0, this.tileWidth, this.tileHeight);
-					var point:Point = new Point(x * this.tileWidth, y * this.tileHeight);
+					var point:Point;
+					switch (orientation) {
+						case TiledMapOrientation.Orthogonal:
+							point = new Point(x * this.tileWidth, y * this.tileHeight);
+						case TiledMapOrientation.Isometric:
+							point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
+					}
 					
 					bitmapData.copyPixels(texture, rect, point, null, null, true);
 				}
