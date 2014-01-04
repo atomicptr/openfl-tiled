@@ -98,6 +98,7 @@ class TiledMap {
 		this.tilesets = new Array<Tileset>();
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Array<TiledObjectGroup>();
+		this.properties = new Map<String, String>();
 		
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
