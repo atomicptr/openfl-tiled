@@ -60,6 +60,9 @@ class TiledMap {
 
 	/** All objectgroups */
 	public var objectGroups:Array<TiledObjectGroup>;
+
+	/** All map properties */
+	public var properties:Map<String, String>;
 	
 	private function new(xml:String) {
 		parseXML(xml);
@@ -95,6 +98,7 @@ class TiledMap {
 		this.tilesets = new Array<Tileset>();
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Array<TiledObjectGroup>();
+		this.properties = new Map<String, String>();
 		
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
@@ -111,14 +115,22 @@ class TiledMap {
 					
 					this.tilesets.push(tileset);
 				}
+
+				else if (child.nodeName == "properties") {
+					for (property in child) {
+						if (!Helper.isValidElement(property))
+							continue;
+						properties.set(property.get("name"), property.get("value"));
+					}
+				}
 				
-				if (child.nodeName == "layer") {
+				else if (child.nodeName == "layer") {
 					var layer:Layer = Layer.fromGenericXml(child, this);
 					
 					this.layers.push(layer);
 				}
 				
-				if (child.nodeName == "objectgroup") {
+				else if (child.nodeName == "objectgroup") {
 					var objectGroup = TiledObjectGroup.fromGenericXml(child);
 					
 					this.objectGroups.push(objectGroup);
