@@ -1,7 +1,7 @@
 openfl-tiled
 =========
 
-openfl-tiled is a library, which gives openfl developers the possibility to use the [TILED Map Editor](http://www.mapeditor.org/).
+openfl-tiled is a library, which gives openfl developers the ability to use the [TILED Map Editor](http://www.mapeditor.org/).
 
 How to install openfl-tiled?
 --------------------------
@@ -17,13 +17,12 @@ Restrictions
 There are currently some restrictions in usage:
 
 - You can't use the compressed ".tmx" format (Just plain XML works)
-- You'll need to check if the editor puts your assets the same way as an NMML file would do into the ".tmx" or ".tsx" file
-- You can't use isometric maps at the moment.
+- You'll need to check if the editor puts your assets the same way as your project.xml file would do into the ".tmx" or ".tsx" file
 
 Licence
 ----------------
 
-nme-tiled is licenced under the terms of the MIT license, which means you have without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software. [For more information please read this](http://opensource.org/licenses/MIT)
+openfl-tiled is licenced under the terms of the MIT license, which means you have without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software. [For more information please read this](http://opensource.org/licenses/MIT)
 
 Questions?
 -----------------
