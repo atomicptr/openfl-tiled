@@ -22,6 +22,8 @@
 package de.kasoki.openfltiled;
 
 import flash.geom.Rectangle;
+import flash.utils.ByteArray;
+import flash.utils.Endian;
 
 class Layer {
 
@@ -68,12 +70,40 @@ class Layer {
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
 				if (child.nodeName == "data") {
-					for (tile in child) {
-						if (Helper.isValidElement(tile)) {
-							var gid = Std.parseInt(tile.get("gid"));
+					var encoding:String = "";
+					if (child.exists("encoding"))
+					{
+						encoding = child.get("encoding");
+					}
+					//trace(child.get("encoding"));
+					var chunk:String = "";
+					switch(encoding)
+					{
+						case "base64":
+							chunk = child.firstChild().nodeValue;
+							var compressed:Bool = false;
+							if (child.exists("compression"))
+							{
+								switch(child.get("compression"))
+								{
+									case "zlib":
+										compressed = true;
+									default:
+										throw "TmxLayer - data compression type not supported!";
+								}
+							}
+							tileGIDs = base64ToArray(chunk, width, compressed);
 							
-							tileGIDs.push(gid);
-						}
+						case "csv":
+							chunk = child.firstChild().nodeValue;
+							tileGIDs = csvToArray(chunk);
+						default:
+							for (tile in child) {
+								if (Helper.isValidElement(tile)) {
+									var gid = Std.parseInt(tile.get("gid"));									
+									tileGIDs.push(gid);
+								}
+							}
 					}
 				}
 			}
@@ -117,5 +147,96 @@ class Layer {
 		csv = csv.substr(0, csv.length - 1);
 
 		return csv;
+	}
+	
+		private static function csvToArray(input:String):Array<Int>
+	{
+		//var result:Array<Array<Int>> = new Array<Array<Int>>();
+		var result:Array<Int> = new Array<Int>();
+		var rows:Array<String> = input.split("\n");
+		var row:String;
+		for (row in rows)
+		{
+			if (row == "") continue;
+			var resultRow:Array<Int> = new Array<Int>();
+			var entries:Array<String> = row.split(",");
+			var entry:String;
+			for (entry in entries)
+			result.push(Std.parseInt(entry));
+			//	resultRow.push(Std.parseInt(entry)); //convert to int
+			//result.push(resultRow);
+			
+		}
+		return result;
+	}
+	
+	
+	private static function base64ToArray(chunk:String, lineWidth:Int, compressed:Bool):Array<Int>
+	{
+		//var result:Array<Array<Int>> = new Array<Array<Int>>();
+		var result:Array<Int> = new Array<Int>();
+		var data:ByteArray = base64ToByteArray(chunk);
+		if(compressed)
+			#if js
+			throw "No support for compressed maps in html5 target!";
+			#end
+			#if !js
+			data.uncompress();
+			#end
+		data.endian = Endian.LITTLE_ENDIAN; 
+		while(data.position < data.length)
+		{
+			var resultRow:Array<Int> = new Array<Int>();
+			var i:Int;
+			//for (i in 0...lineWidth)
+			//	resultRow.push(data.readInt());
+			//result.push(resultRow);
+			result.push(data.readInt());
+		}
+		return result;
+	}
+	
+	private static inline var BASE64_CHARS:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	
+	private static function base64ToByteArray(data:String):ByteArray  
+	{
+		var output:ByteArray = new ByteArray();
+		//initialize lookup table
+		var lookup:Array<Int> = new Array<Int>();
+		var c:Int;
+		for (c in 0...BASE64_CHARS.length)
+		{
+			lookup[BASE64_CHARS.charCodeAt(c)] = c;
+		}
+		
+		var i:Int = 0;
+		while (i < data.length - 3) 
+		{
+			// Ignore whitespace
+			if (data.charAt(i) == " " || data.charAt(i) == "\n")
+			{
+				i++; continue;
+			}
+			
+			//read 4 bytes and look them up in the table
+			var a0:Int = lookup[data.charCodeAt(i)];
+			var a1:Int = lookup[data.charCodeAt(i + 1)];
+			var a2:Int = lookup[data.charCodeAt(i + 2)];
+			var a3:Int = lookup[data.charCodeAt(i + 3)];
+			
+			// convert to and write 3 bytes
+			if(a1 < 64)
+				output.writeByte((a0 << 2) + ((a1 & 0x30) >> 4));
+			if(a2 < 64)
+				output.writeByte(((a1 & 0x0f) << 4) + ((a2 & 0x3c) >> 2));
+			if(a3 < 64)
+				output.writeByte(((a2 & 0x03) << 6) + a3);
+			
+			i += 4;
+		}
+		
+		// Rewind & return decoded data
+		output.position = 0;
+		return output;
 	}
 }
