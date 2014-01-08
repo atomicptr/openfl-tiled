@@ -71,29 +71,23 @@ class Layer {
 			if(Helper.isValidElement(child)) {
 				if (child.nodeName == "data") {
 					var encoding:String = "";
-					if (child.exists("encoding"))
-					{
+					if (child.exists("encoding")){
 						encoding = child.get("encoding");
-					}
-					//trace(child.get("encoding"));
+					}					
 					var chunk:String = "";
-					switch(encoding)
-					{
+					switch(encoding){
 						case "base64":
 							chunk = child.firstChild().nodeValue;
 							var compressed:Bool = false;
-							if (child.exists("compression"))
-							{
-								switch(child.get("compression"))
-								{
+							if (child.exists("compression")){
+								switch(child.get("compression")){
 									case "zlib":
 										compressed = true;
 									default:
 										throw "TmxLayer - data compression type not supported!";
 								}
 							}
-							tileGIDs = base64ToArray(chunk, width, compressed);
-							
+							tileGIDs = base64ToArray(chunk, width, compressed);							
 						case "csv":
 							chunk = child.firstChild().nodeValue;
 							tileGIDs = csvToArray(chunk);
@@ -149,31 +143,23 @@ class Layer {
 		return csv;
 	}
 	
-		private static function csvToArray(input:String):Array<Int>
-	{
-		//var result:Array<Array<Int>> = new Array<Array<Int>>();
+		private static function csvToArray(input:String):Array<Int>	{	
 		var result:Array<Int> = new Array<Int>();
 		var rows:Array<String> = input.split("\n");
 		var row:String;
-		for (row in rows)
-		{
+		for (row in rows){
 			if (row == "") continue;
 			var resultRow:Array<Int> = new Array<Int>();
 			var entries:Array<String> = row.split(",");
 			var entry:String;
 			for (entry in entries)
-			result.push(Std.parseInt(entry));
-			//	resultRow.push(Std.parseInt(entry)); //convert to int
-			//result.push(resultRow);
-			
+			result.push(Std.parseInt(entry));						
 		}
 		return result;
 	}
 	
 	
-	private static function base64ToArray(chunk:String, lineWidth:Int, compressed:Bool):Array<Int>
-	{
-		//var result:Array<Array<Int>> = new Array<Array<Int>>();
+	private static function base64ToArray(chunk:String, lineWidth:Int, compressed:Bool):Array<Int>{		
 		var result:Array<Int> = new Array<Int>();
 		var data:ByteArray = base64ToByteArray(chunk);
 		if(compressed)
@@ -184,13 +170,7 @@ class Layer {
 			data.uncompress();
 			#end
 		data.endian = Endian.LITTLE_ENDIAN; 
-		while(data.position < data.length)
-		{
-			var resultRow:Array<Int> = new Array<Int>();
-			var i:Int;
-			//for (i in 0...lineWidth)
-			//	resultRow.push(data.readInt());
-			//result.push(resultRow);
+		while(data.position < data.length){
 			result.push(data.readInt());
 		}
 		return result;
@@ -198,23 +178,19 @@ class Layer {
 	
 	private static inline var BASE64_CHARS:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	
-	private static function base64ToByteArray(data:String):ByteArray  
-	{
+	private static function base64ToByteArray(data:String):ByteArray{
 		var output:ByteArray = new ByteArray();
 		//initialize lookup table
 		var lookup:Array<Int> = new Array<Int>();
 		var c:Int;
-		for (c in 0...BASE64_CHARS.length)
-		{
+		for (c in 0...BASE64_CHARS.length){
 			lookup[BASE64_CHARS.charCodeAt(c)] = c;
 		}
 		
 		var i:Int = 0;
-		while (i < data.length - 3) 
-		{
+		while (i < data.length - 3) {
 			// Ignore whitespace
-			if (data.charAt(i) == " " || data.charAt(i) == "\n")
-			{
+			if (data.charAt(i) == " " || data.charAt(i) == "\n"){
 				i++; continue;
 			}
 			
