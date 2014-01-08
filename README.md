@@ -16,13 +16,18 @@ Restrictions
 
 There are currently some restrictions in usage:
 
-- You can't use the compressed ".tmx" format (Just plain XML works)
 - You'll need to check if the editor puts your assets the same way as your project.xml file would do into the ".tmx" or ".tsx" file
 
 Licence
 ----------------
 
 openfl-tiled is licenced under the terms of the MIT license, which means you have without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software. [For more information please read this](http://opensource.org/licenses/MIT)
+
+Contributions
+---------------
+
+* Stephen Taylor @Schtee
+* @lulersoft
 
 Questions?
 -----------------
