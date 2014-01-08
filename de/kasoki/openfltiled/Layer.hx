@@ -19,6 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
+// ======================================================================
+// This file contains code from the HaxeFlixel project
+// Link to HaxeFlixel: <http://haxeflixel.com>
+// Link to Licence: <https://github.com/HaxeFlixel/flixel/blob/dev/LICENSE.md>
 package de.kasoki.openfltiled;
 
 import flash.geom.Rectangle;
