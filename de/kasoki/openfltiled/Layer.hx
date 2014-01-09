@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
 // ======================================================================
-// This file contains code from the HaxeFlixel project
-// Link to HaxeFlixel: <http://haxeflixel.com>
-// Link to Licence: <https://github.com/HaxeFlixel/flixel/blob/dev/LICENSE.md>
+// This file contains code from the HaxePunk project
+// Link to HaxePunk: <http://haxepunk.com>
+// Link to related file: <https://github.com/HaxePunk/tiled/blob/master/com/haxepunk/tmx/TmxLayer.hx>
 package de.kasoki.openfltiled;
 
 import flash.geom.Rectangle;
