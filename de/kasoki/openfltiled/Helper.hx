@@ -26,6 +26,8 @@ import flash.display.BitmapData;
 
 class Helper {
 
+	private static var assetLoader:AssetLoader;
+	
 	private function new() {
 	}
 	
@@ -34,16 +36,29 @@ class Helper {
 		return Std.string(element.nodeType) == "element";
 	}
 
+	/** This method sets a new AssetLoader */
+	public static function setAssetLoader(assetLoader:AssetLoader):Void {
+		Helper.assetLoader = assetLoader;
+	}
+	
 	/** This methods is wrapper for Assets.getText(string), if 
 		you're using another Asset managment system simply override this method */
 	public static function getText(assetPath:String):String {
-		return Assets.getText(assetPath);
+		if (assetLoader == null) {
+			assetLoader = new DefaultAssetLoader();
+		}
+		
+		return assetLoader.getText(assetPath);
 	}
 
 	/** This methods is wrapper for Assets.getBitmapData(string), if 
 		you're using another Asset managment system simply override this method */
 	public static function getBitmapData(assetPath:String):BitmapData {
-		return Assets.getBitmapData(assetPath);
+		if(assetLoader == null) {
+			assetLoader = new DefaultAssetLoader();
+		}
+		
+		return assetLoader.getBitmapData(assetPath);
 	}
 	
 }
