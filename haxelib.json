@@ -13,8 +13,8 @@
 		"flash"
 	],
 	"description": "openfl-tiled is a library, which gives openfl developers the ability to use the TILED map editor.",
-	"version": "0.3.3",
-	"releasenote": "Add support for compressed tmx files",
+	"version": "0.3.4",
+	"releasenote": "fix broken csv import",
 	"contributors": [
 		"kasoki"
 	],
