@@ -147,17 +147,27 @@ class Layer {
 		return csv;
 	}
 	
-		private static function csvToArray(input:String):Array<Int>	{	
+	private static function csvToArray(input:String):Array<Int> {   
 		var result:Array<Int> = new Array<Int>();
-		var rows:Array<String> = input.split("\n");
+		var rows:Array<String> = StringTools.trim(input).split("\n");
 		var row:String;
-		for (row in rows){
-			if (row == "") continue;
+		
+		for (row in rows) {
+			
+			if (row == "") {
+				continue;
+			}
+			
 			var resultRow:Array<Int> = new Array<Int>();
 			var entries:Array<String> = row.split(",");
 			var entry:String;
-			for (entry in entries)
-			result.push(Std.parseInt(entry));						
+			
+			for (entry in entries) {
+				
+				if(entry != "") {
+					result.push(Std.parseInt(entry));
+				}
+			}
 		}
 		return result;
 	}
