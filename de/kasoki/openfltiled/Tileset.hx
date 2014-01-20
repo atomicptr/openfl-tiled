@@ -44,6 +44,9 @@ class Tileset {
 
 	/** The height of one tile */
 	public var tileHeight:Int;
+	
+	/** The spacing between the tiles */
+	public var spacing:Int;
 
 	/** All properties this Tileset contains */
 	public var properties:Map<String, String>;
@@ -54,10 +57,11 @@ class Tileset {
 	/** The image of this tileset */
 	public var image:TilesetImage;
 	
-	private function new(name:String, tileWidth:Int, tileHeight:Int, properties:Map<String, String>, image:TilesetImage) {
+	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int, properties:Map<String, String>, image:TilesetImage) {
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
+		this.spacing = spacing;
 		this.properties = properties;
 		this.image = image;
 	}
@@ -74,6 +78,7 @@ class Tileset {
 		var name:String = xml.get("name");
 		var tileWidth:Int = Std.parseInt(xml.get("tilewidth"));
 		var tileHeight:Int = Std.parseInt(xml.get("tileheight"));
+		var spacing:Int = xml.exists("spacing") ? Std.parseInt(xml.get("spacing")) : 0;
 		var properties:Map<String, String> = new Map<String, String>();
 		var propertyTiles:Map<Int, PropertyTile> = new Map<Int, PropertyTile>();
 		var image:TilesetImage = null;
@@ -118,18 +123,24 @@ class Tileset {
 			}
 		}
 		
-		return new Tileset(name, tileWidth, tileHeight, properties, image);
+		return new Tileset(name, tileWidth, tileHeight, spacing, properties, image);
 	}
 	
 	/** Returns the BitmapData of the given GID */
 	public function getTileBitmapDataByGID(gid:Int):BitmapData {
 		var bitmapData = new BitmapData(this.tileWidth, this.tileHeight, true, 0x000000);
 
+		var texturePositionX:Float = getTexturePositionByGID(gid).x;
+		var texturePositionY:Float = getTexturePositionByGID(gid).y;
+		
 		var texture:BitmapData = Helper.getBitmapData(this.image.source);
-		var rect:Rectangle = new Rectangle(getTexturePositionByGID(gid).x * this.tileWidth,
-			getTexturePositionByGID(gid).y * this.tileHeight, this.tileWidth, this.tileHeight);
+		var rect:Rectangle = new Rectangle((texturePositionX * this.tileWidth) + (texturePositionX * spacing),
+			(texturePositionY * this.tileHeight) + (texturePositionY * spacing), this.tileWidth, this.tileHeight);
+			
+		trace("X: " + rect.x + ", Y: " + rect.y);
+			
 		var point:Point = new Point(0, 0);
-
+		
 		bitmapData.copyPixels(texture, rect, point, null, null, true);
 
 		return bitmapData;
