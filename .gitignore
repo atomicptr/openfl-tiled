@@ -1,5 +1,5 @@
 .build
-bin/
+bin
 *.hxml
 *.hxproj
 *.zip
