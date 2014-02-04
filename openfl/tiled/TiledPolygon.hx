@@ -19,46 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
-import openfl.Assets;
-import flash.display.BitmapData;
+import flash.geom.Point;
 
-class Helper {
-
-	private static var assetLoader:AssetLoader;
+class TiledPolygon {
 	
-	private function new() {
-	}
+	public var origin:Point;
+	public var points:Array<Point>;
 	
-	/** This method checks if the given Xml element is really a Xml element! */
-	public static function isValidElement(element:Xml):Bool {
-		return Std.string(element.nodeType) == "element";
-	}
-
-	/** This method sets a new AssetLoader */
-	public static function setAssetLoader(assetLoader:AssetLoader):Void {
-		Helper.assetLoader = assetLoader;
-	}
-	
-	/** This methods is wrapper for Assets.getText(string), if 
-		you're using another Asset managment system simply override this method */
-	public static function getText(assetPath:String):String {
-		if (assetLoader == null) {
-			assetLoader = new DefaultAssetLoader();
-		}
-		
-		return assetLoader.getText(assetPath);
-	}
-
-	/** This methods is wrapper for Assets.getBitmapData(string), if 
-		you're using another Asset managment system simply override this method */
-	public static function getBitmapData(assetPath:String):BitmapData {
-		if(assetLoader == null) {
-			assetLoader = new DefaultAssetLoader();
-		}
-		
-		return assetLoader.getBitmapData(assetPath);
+	public function new(origin:Point, points:Array<Point>) {
+		this.origin = origin;
+		this.points = points;
 	}
 	
 }

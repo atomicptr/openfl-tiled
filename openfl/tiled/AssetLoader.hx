@@ -1,4 +1,5 @@
-package de.kasoki.openfltiled;
+package openfl.tiled;
+
 import flash.display.BitmapData;
 
 /**

@@ -19,10 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
-/** The orientation of a map. Orthogonal or Isometric. */
-enum TiledMapOrientation {
-		Orthogonal;
-		Isometric;
+import flash.display.BitmapData;
+
+class Tile {
+
+	public var gid(default, null):Int;
+	public var parent(default, null):Layer;
+	public var bitmapData(get_bitmapData, null):BitmapData;
+	public var width(get_width, null):Int;
+	public var height(get_height, null):Int;
+
+	private function new(gid:Int, parent:Layer) {
+		this.gid = gid;
+		this.parent = parent;
+	}
+
+	public static function fromGID(gid:Int, parent:Layer):Tile {
+		return new Tile(gid, parent);
+	}
+
+	public function get_bitmapData():BitmapData {
+		return parent.parent.getTilesetByGID(this.gid).getTileBitmapDataByGID(this.gid);
+	}
+
+	private function get_width():Int {
+		return parent.parent.tileWidth;
+	}
+
+	private function get_height():Int {
+		return parent.parent.tileHeight;
+	}
+	
 }

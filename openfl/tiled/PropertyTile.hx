@@ -19,18 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
-import flash.geom.Point;
+class PropertyTile {
 
-class TiledPolygon {
+	public var id:Int;
+	public var properties:Map<String, String>;
 	
-	public var origin:Point;
-	public var points:Array<Point>;
-	
-	public function new(origin:Point, points:Array<Point>) {
-		this.origin = origin;
-		this.points = points;
+	public function new(id:Int, properties:Map<String, String>) {
+		this.id = id;
+		this.properties = properties;
 	}
 	
 }

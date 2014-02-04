@@ -19,28 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
-class TilesetImage {
-
-	/** The filepath where this image is */
-	public var source:String;
-
-	/** The filename */
-	public var fileName:String;
-
-	/** The width of this image */
-	public var width:Int;
-
-	/** The height of this image */
-	public var height:Int;
-	
-	public function new(source:String, width:Int, height:Int) {
-		this.source = source;
-		// get fileName from path
-		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
-		this.width = width;
-		this.height = height;
-	}
-	
+/** The orientation of a map. Orthogonal or Isometric. */
+enum TiledMapOrientation {
+		Orthogonal;
+		Isometric;
 }

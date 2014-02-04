@@ -19,37 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 // THE SOFTWARE.
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
-import flash.display.BitmapData;
+class TilesetImage {
 
-class Tile {
+	/** The filepath where this image is */
+	public var source:String;
 
-	public var gid(default, null):Int;
-	public var parent(default, null):Layer;
-	public var bitmapData(get_bitmapData, null):BitmapData;
-	public var width(get_width, null):Int;
-	public var height(get_height, null):Int;
+	/** The filename */
+	public var fileName:String;
 
-	private function new(gid:Int, parent:Layer) {
-		this.gid = gid;
-		this.parent = parent;
-	}
+	/** The width of this image */
+	public var width:Int;
 
-	public static function fromGID(gid:Int, parent:Layer):Tile {
-		return new Tile(gid, parent);
-	}
-
-	public function get_bitmapData():BitmapData {
-		return parent.parent.getTilesetByGID(this.gid).getTileBitmapDataByGID(this.gid);
-	}
-
-	private function get_width():Int {
-		return parent.parent.tileWidth;
-	}
-
-	private function get_height():Int {
-		return parent.parent.tileHeight;
+	/** The height of this image */
+	public var height:Int;
+	
+	public function new(source:String, width:Int, height:Int) {
+		this.source = source;
+		// get fileName from path
+		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
+		this.width = width;
+		this.height = height;
 	}
 	
 }

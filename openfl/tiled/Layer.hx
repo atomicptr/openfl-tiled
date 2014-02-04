@@ -23,7 +23,7 @@
 // This file contains code from the HaxePunk project
 // Link to HaxePunk: <http://haxepunk.com>
 // Link to related file: <https://github.com/HaxePunk/tiled/blob/master/com/haxepunk/tmx/TmxLayer.hx>
-package de.kasoki.openfltiled;
+package openfl.tiled;
 
 import flash.geom.Rectangle;
 import flash.utils.ByteArray;
