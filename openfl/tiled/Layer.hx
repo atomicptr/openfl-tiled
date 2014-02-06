@@ -91,14 +91,14 @@ class Layer {
 										throw "TmxLayer - data compression type not supported!";
 								}
 							}
-							tileGIDs = base64ToArray(chunk, width, compressed);							
+							tileGIDs = base64ToArray(chunk, width, compressed);
 						case "csv":
 							chunk = child.firstChild().nodeValue;
 							tileGIDs = csvToArray(chunk);
 						default:
 							for (tile in child) {
 								if (Helper.isValidElement(tile)) {
-									var gid = Std.parseInt(tile.get("gid"));									
+									var gid = Std.parseInt(tile.get("gid"));
 									tileGIDs.push(gid);
 								}
 							}

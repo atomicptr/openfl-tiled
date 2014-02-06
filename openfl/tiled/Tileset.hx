@@ -57,7 +57,8 @@ class Tileset {
 	/** The image of this tileset */
 	public var image:TilesetImage;
 	
-	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int, properties:Map<String, String>, image:TilesetImage) {
+	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
+			properties:Map<String, String>, image:TilesetImage) {
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
@@ -134,8 +135,8 @@ class Tileset {
 		var texturePositionY:Float = getTexturePositionByGID(gid).y;
 		
 		var texture:BitmapData = Helper.getBitmapData(this.image.source);
-		var rect:Rectangle = new Rectangle((texturePositionX * this.tileWidth) + (texturePositionX * spacing),
-			(texturePositionY * this.tileHeight) + (texturePositionY * spacing), this.tileWidth, this.tileHeight);
+		var rect:Rectangle = new Rectangle((texturePositionX * this.tileWidth) + (texturePositionX + spacing),
+			(texturePositionY * this.tileHeight) + (texturePositionY + spacing), this.tileWidth, this.tileHeight);
 			
 		trace("X: " + rect.x + ", Y: " + rect.y);
 			
