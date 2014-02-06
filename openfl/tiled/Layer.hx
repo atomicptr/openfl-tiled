@@ -1,23 +1,23 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
-// 
+//
 // This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
 // and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included
 // in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // ======================================================================
 // This file contains code from the HaxePunk project
@@ -39,45 +39,52 @@ class Layer {
 
 	/** The height of this layer in tiles */
 	public var height:Int;
-	
+
+	/** The opacity of an layer */
+	public var opacity:Float;
+
 	/** All tiles which this Layer contains */
 	public var tiles:Array<Tile>;
 
 	/** The parent TiledMap */
 	public var parent(default, null):TiledMap;
-	
-	private function new(parent:TiledMap, name:String, width:Int, height:Int, tiles:Array<Int>) {
+
+	private function new(parent:TiledMap, name:String, width:Int, height:Int,
+			opacity:Float, tiles:Array<Int>) {
 		this.parent = parent;
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		
+		this.opacity = opacity;
+
 		this.tiles = new Array<Tile>();
 
 		for(gid in tiles) {
 			this.tiles.push(Tile.fromGID(gid, this));
 		}
 	}
-	
+
 	/**
 	 * This method generates a new Layer from the given Xml code
 	 * @param xml The given xml code
-	 * @param 
+	 * @param
 	 * @return A new layer
 	 */
 	public static function fromGenericXml(xml:Xml, parent:TiledMap):Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
 		var height:Int = Std.parseInt(xml.get("height"));
+		var opacity:Float = Std.parseFloat(xml.get("opacity"));
+
 		var tileGIDs:Array<Int> = new Array<Int>();
-		
+
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
 				if (child.nodeName == "data") {
 					var encoding:String = "";
 					if (child.exists("encoding")){
 						encoding = child.get("encoding");
-					}					
+					}
 					var chunk:String = "";
 					switch(encoding){
 						case "base64":
@@ -106,8 +113,8 @@ class Layer {
 				}
 			}
 		}
-		
-		return new Layer(parent, name, width, height, tileGIDs);
+
+		return new Layer(parent, name, width, height, opacity, tileGIDs);
 	}
 
 	/**
@@ -146,24 +153,24 @@ class Layer {
 
 		return csv;
 	}
-	
-	private static function csvToArray(input:String):Array<Int> {   
+
+	private static function csvToArray(input:String):Array<Int> {
 		var result:Array<Int> = new Array<Int>();
 		var rows:Array<String> = StringTools.trim(input).split("\n");
 		var row:String;
-		
+
 		for (row in rows) {
-			
+
 			if (row == "") {
 				continue;
 			}
-			
+
 			var resultRow:Array<Int> = new Array<Int>();
 			var entries:Array<String> = row.split(",");
 			var entry:String;
-			
+
 			for (entry in entries) {
-				
+
 				if(entry != "") {
 					result.push(Std.parseInt(entry));
 				}
@@ -171,49 +178,53 @@ class Layer {
 		}
 		return result;
 	}
-	
-	
-	private static function base64ToArray(chunk:String, lineWidth:Int, compressed:Bool):Array<Int>{		
+
+
+	private static function base64ToArray(chunk:String, lineWidth:Int, compressed:Bool):Array<Int>{
 		var result:Array<Int> = new Array<Int>();
 		var data:ByteArray = base64ToByteArray(chunk);
+
 		if(compressed)
 			#if js
-			throw "No support for compressed maps in html5 target!";
+				throw "No support for compressed maps in html5 target!";
 			#end
 			#if !js
-			data.uncompress();
+				data.uncompress();
 			#end
-		data.endian = Endian.LITTLE_ENDIAN; 
+		data.endian = Endian.LITTLE_ENDIAN;
+
 		while(data.position < data.length){
 			result.push(data.readInt());
 		}
 		return result;
 	}
-	
+
 	private static inline var BASE64_CHARS:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-	
+
 	private static function base64ToByteArray(data:String):ByteArray{
 		var output:ByteArray = new ByteArray();
+
 		//initialize lookup table
 		var lookup:Array<Int> = new Array<Int>();
 		var c:Int;
 		for (c in 0...BASE64_CHARS.length){
 			lookup[BASE64_CHARS.charCodeAt(c)] = c;
 		}
-		
+
 		var i:Int = 0;
+
 		while (i < data.length - 3) {
 			// Ignore whitespace
 			if (data.charAt(i) == " " || data.charAt(i) == "\n"){
 				i++; continue;
 			}
-			
+
 			//read 4 bytes and look them up in the table
 			var a0:Int = lookup[data.charCodeAt(i)];
 			var a1:Int = lookup[data.charCodeAt(i + 1)];
 			var a2:Int = lookup[data.charCodeAt(i + 2)];
 			var a3:Int = lookup[data.charCodeAt(i + 3)];
-			
+
 			// convert to and write 3 bytes
 			if(a1 < 64)
 				output.writeByte((a0 << 2) + ((a1 & 0x30) >> 4));
@@ -221,10 +232,10 @@ class Layer {
 				output.writeByte(((a1 & 0x0f) << 4) + ((a2 & 0x3c) >> 2));
 			if(a3 < 64)
 				output.writeByte(((a2 & 0x03) << 6) + a3);
-			
+
 			i += 4;
 		}
-		
+
 		// Rewind & return decoded data
 		output.position = 0;
 		return output;
