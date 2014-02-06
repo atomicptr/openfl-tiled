@@ -9,10 +9,18 @@ import openfl.Assets;
 import openfl.display.FPS;
 
 class Main {
+
+	private static var mapBitmap:Bitmap;
+
 	public static function main():Void {
 		var map = TiledMap.fromAssets("isometric_grass_and_water.tmx");
 		
-		Lib.current.stage.addChild(new Bitmap(map.createBitmapData()));
+		mapBitmap = new Bitmap(map.createBitmapData());
+
+		mapBitmap.x -= 400;
+		mapBitmap.y -= 150;
+
+		Lib.current.stage.addChild(mapBitmap);
 		Lib.current.stage.addChild(new FPS());
 	}
 }
