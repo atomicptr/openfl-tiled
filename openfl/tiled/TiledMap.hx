@@ -87,7 +87,7 @@ class TiledMap extends Sprite {
 			this.tilesheets.set(tileset.firstGID, new Tilesheet(tilesetBitmapData));
 		}
 
-		this.addEventListener(Event.ENTER_FRAME, onAddedToStage);
+		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
 
 	private function onAddedToStage(e:Event) {
@@ -120,13 +120,23 @@ class TiledMap extends Sprite {
 
 						var tileId:Int = -1;
 
+						var foundSomething:Bool = false;
+
 						for(r in this.tileRects) {
 							if(rectEquals(r, rect)) {
 								tileId = Lambda.indexOf(this.tileRects, r);
+
+								foundSomething = true;
+
+								break;
 							}
 						}
 
-						if(tileId > 0) {
+						if(!foundSomething) {
+							tileRects.push(rect);
+						}
+
+						if(tileId < 0) {
 							tileId = this.tilesheets.get(tileset.firstGID).addTileRect(rect);
 						}
 
@@ -148,8 +158,6 @@ class TiledMap extends Sprite {
 				tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
 			}
 		}
-
-
 	}
 
 	/**
