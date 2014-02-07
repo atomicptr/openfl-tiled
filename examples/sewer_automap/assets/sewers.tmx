@@ -5,7 +5,7 @@
   <image source="rules_sewers.png" width="72" height="48"/>
  </tileset>
  <tileset firstgid="7" name="sewer_tileset" tilewidth="24" tileheight="24">
-  <image source="../sewer_tileset.png" trans="ff00ff" width="192" height="217"/>
+  <image source="sewer_tileset.png" trans="ff00ff" width="192" height="217"/>
  </tileset>
  <layer name="set" width="31" height="31">
   <data encoding="base64" compression="zlib">

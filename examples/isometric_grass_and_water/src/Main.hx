@@ -14,13 +14,11 @@ class Main {
 
 	public static function main():Void {
 		var map = TiledMap.fromAssets("isometric_grass_and_water.tmx");
-		
-		mapBitmap = new Bitmap(map.createBitmapData());
 
-		mapBitmap.x -= 400;
-		mapBitmap.y -= 150;
+		map.x += 500;
+		map.y -= 200;
 
-		Lib.current.stage.addChild(mapBitmap);
+		Lib.current.stage.addChild(map);
 		Lib.current.stage.addChild(new FPS());
 	}
 }

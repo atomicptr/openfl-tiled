@@ -12,7 +12,7 @@ class Main {
 	public static function main():Void {
 		var map = TiledMap.fromAssets("perspective_walls.tmx");
 		
-		Lib.current.stage.addChild(new Bitmap(map.createBitmapData()));
+		Lib.current.stage.addChild(map);
 		Lib.current.stage.addChild(new FPS());
 	}
 }

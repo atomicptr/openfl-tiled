@@ -11,8 +11,8 @@ import openfl.display.FPS;
 class Main {
 	public static function main():Void {
 		var map = TiledMap.fromAssets("sewers.tmx");
-		
-		Lib.current.stage.addChild(new Bitmap(map.createBitmapData()));
+
+		Lib.current.stage.addChild(map);
 		Lib.current.stage.addChild(new FPS());
 	}
 }
