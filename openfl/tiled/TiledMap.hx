@@ -1,41 +1,45 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
-// 
+//
 // This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
 // and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included
 // in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 package openfl.tiled;
 
 import flash.geom.Rectangle;
 import flash.geom.Point;
+import flash.display.Sprite;
 import flash.display.BitmapData;
+import flash.events.Event;
+
+import openfl.display.Tilesheet;
 
 /**
  * This class represents a TILED map
  * @author Christopher Kaster
  */
-class TiledMap {
+class TiledMap extends Sprite {
 
 	/** The map width in tiles */
-	public var width:Int;
+	public var widthInTiles:Int;
 
 	/** The map height in tiles */
-	public var height:Int;
+	public var heightInTiles:Int;
 
 	/** The map width in pixels */
 	public var totalWidth(get_totalWidth, null):Int;
@@ -63,12 +67,92 @@ class TiledMap {
 
 	/** All map properties */
 	public var properties:Map<String, String>;
-	
+
+	private var tilesheets:Map<Int, Tilesheet>;
+
+	private var tileRects:Array<Rectangle>;
+
 	private function new(xml:String) {
+		super();
+
+		this.tilesheets = new Map<Int, Tilesheet>();
+		this.tileRects = new Array<Rectangle>();
+
 		parseXML(xml);
+
+		// create tilesheets
+		for(tileset in this.tilesets) {
+			var tilesetBitmapData:BitmapData = Helper.getBitmapData(tileset.image.source);
+
+			this.tilesheets.set(tileset.firstGID, new Tilesheet(tilesetBitmapData));
+		}
+
+		this.addEventListener(Event.ENTER_FRAME, onAddedToStage);
 	}
 
-	/** 
+	private function onAddedToStage(e:Event) {
+		this.graphics.clear();
+
+		for(layer in this.layers) {
+
+			var drawList:Array<Float> = new Array<Float>();
+			var gidCounter:Int = 0;
+
+			for(y in 0...this.heightInTiles) {
+				for(x in 0...this.widthInTiles) {
+					var nextGID = layer.tiles[gidCounter].gid;
+
+					if(nextGID != 0) {
+						var point:Point = new Point();
+
+						switch (orientation) {
+							case TiledMapOrientation.Orthogonal:
+								point = new Point(x * this.tileWidth, y * this.tileHeight);
+							case TiledMapOrientation.Isometric:
+								point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
+						}
+
+						var tileset:Tileset = getTilesetByGID(nextGID);
+
+						var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
+
+						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
+
+						var tileId:Int = -1;
+
+						for(r in this.tileRects) {
+							if(rectEquals(r, rect)) {
+								tileId = Lambda.indexOf(this.tileRects, r);
+							}
+						}
+
+						if(tileId > 0) {
+							tileId = this.tilesheets.get(tileset.firstGID).addTileRect(rect);
+						}
+
+						// add coordinates to draw list
+						drawList.push(point.x); // x coord
+						drawList.push(point.y); // y coord
+						drawList.push(tileId); // tile id
+						drawList.push(layer.opacity); // alpha channel
+					}
+
+					gidCounter++;
+				}
+			}
+
+			// draw layer
+			for(tileset in this.tilesets) {
+				var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
+
+				tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
+			}
+		}
+
+
+	}
+
+	/**
 	 * Creates a new TiledMap from an Assets
 	 * @param path The path to your asset
 	 * @return A TiledMap object
@@ -85,12 +169,12 @@ class TiledMap {
 	public static function fromGenericXml(xml:String):TiledMap {
 		return new TiledMap(xml);
 	}
-	
+
 	private function parseXML(xml:String) {
 		var xml = Xml.parse(xml).firstElement();
-		
-		this.width = Std.parseInt(xml.get("width"));
-		this.height = Std.parseInt(xml.get("height"));
+
+		this.widthInTiles = Std.parseInt(xml.get("width"));
+		this.heightInTiles = Std.parseInt(xml.get("height"));
 		this.orientation = xml.get("orientation") == "orthogonal" ?
 			TiledMapOrientation.Orthogonal : TiledMapOrientation.Isometric;
 		this.tileWidth = Std.parseInt(xml.get("tilewidth"));
@@ -99,12 +183,12 @@ class TiledMap {
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Array<TiledObjectGroup>();
 		this.properties = new Map<String, String>();
-		
+
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
 				if (child.nodeName == "tileset") {
 					var tileset:Tileset = null;
-					
+
 					if (child.get("source") != null) {
 						tileset = Tileset.fromGenericXml(Helper.getText(child.get("source")));
 					} else {
@@ -112,7 +196,7 @@ class TiledMap {
 					}
 
 					tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
-					
+
 					this.tilesets.push(tileset);
 				}
 
@@ -123,130 +207,20 @@ class TiledMap {
 						properties.set(property.get("name"), property.get("value"));
 					}
 				}
-				
+
 				else if (child.nodeName == "layer") {
 					var layer:Layer = Layer.fromGenericXml(child, this);
-					
+
 					this.layers.push(layer);
 				}
-				
+
 				else if (child.nodeName == "objectgroup") {
 					var objectGroup = TiledObjectGroup.fromGenericXml(child);
-					
+
 					this.objectGroups.push(objectGroup);
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Creates a BitmapData from a specific Layer
-	 * @param layer The layer which the BitmapData will contain
-	 * @return A BitmapData object
-	 */
-	public function createBitmapDataFromLayer(layer:Layer):BitmapData {
-		var tilesetBitmapDataByFirstGID:Map<Int, BitmapData> = new Map<Int, BitmapData>();
-		
-		for(t in this.tilesets) {
-			tilesetBitmapDataByFirstGID.set(t.firstGID, Helper.getBitmapData(t.image.source));
-		}
-		
-		var bitmapData = new BitmapData(this.width * this.tileWidth,
-			this.height * this.tileHeight, true, 0x000000);
-
-		var gidCounter:Int = 0;
-
-		for(y in 0...this.height) {
-			for(x in 0...this.width) {
-				var nextGID = layer.tiles[gidCounter].gid;
-
-				if(nextGID != 0) {	
-					var texture:BitmapData = layer.tiles[gidCounter].bitmapData;
-					var rect:Rectangle = new Rectangle(0, 0, this.tileWidth, this.tileHeight);
-					var point:Point;
-					switch (orientation) {
-						case TiledMapOrientation.Orthogonal:
-							point = new Point(x * this.tileWidth, y * this.tileHeight);
-						case TiledMapOrientation.Isometric:
-							point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
-					}
-					
-					bitmapData.copyPixels(texture, rect, point, null, null, true);
-				}
-
-				gidCounter++;
-			}
-		}
-
-		return bitmapData;
-	}
-
-	/**
-	 * Creates a BitmapData from a specific Layer ID
-	 * @param layerID
-	 * @return A BitmapData object
-	 */
-	public function createBitmapDataFromLayerID(layerID:Int):BitmapData {
-		return this.createBitmapDataFromLayer(this.layers[layerID]);
-	}
-
-	/**
-	 * Creates a BitmapData from a specific set of Layers
-	 * @param layers An array filled with layers
-	 * @return A BitmapData object
-	 */
-	public function createBitmapDataFromArray(layers:Array<Layer>):BitmapData {
-		var bitmapData = new BitmapData(this.width * this.tileWidth,
-			this.height * this.tileHeight, true, 0x000000);
-
-		for(layer in layers) {
-			var layerBitmapData:BitmapData = this.createBitmapDataFromLayer(layer);
-
-			bitmapData.copyPixels(layerBitmapData, new Rectangle(0, 0, layerBitmapData.width, layerBitmapData.height),
-				new Point(0, 0), null, null, true);
-		}
-
-		return bitmapData;
-	}
-
-	/**
-	 * Creates a BitmapData from a specific set of Layer IDs
-	 * @param layerIDs An array filled with IDs
-	 * @return A BitmapData object
-	 */
-	public function createBitmapDataFromIntArray(layerIDs:Array<Int>):BitmapData {
-		var layers = new Array<Layer>();
-
-		for(layerID in layerIDs) {
-			layers.push(this.layers[layerID]);
-		}
-
-		return this.createBitmapDataFromArray(layers);
-	}
-
-	/**
-	 * Creates a BitmapData from a range of Layers (example: from layer 2 to layer 5)
-	 * @param fromLayerID the first layer
-	 * @param toLayerID the last layer
-	 * @return A BitmapData object
-	 */
-	public function createBitmapDataFromRange(fromLayerID:Int, toLayerID:Int) {
-		var range:Array<Int> = new Array<Int>();
-
-		// toLayerID + 1 because layerID should also take the value of toLayerID
-		for(layerID in fromLayerID...(toLayerID + 1)) {
-			range.push(layerID);
-		}
-
-		return this.createBitmapDataFromIntArray(range);
-	}
-
-	/**
-	 * Creates a BitmapData from all layers
-	 * @return A BitmapData object
-	 */
-	public function createBitmapData():BitmapData {
-		return this.createBitmapDataFromRange(0, this.layers.length - 1);
 	}
 
 	/**
@@ -270,15 +244,15 @@ class TiledMap {
 	 * @return Map width in pixels
 	 */
 	private function get_totalWidth():Int {
-		return this.width * this.tileWidth;	
+		return this.widthInTiles * this.tileWidth;
 	}
-	
+
 	/**
 	 * Returns the total Height of the map
 	 * @return Map height in pixels
 	 */
 	private function get_totalHeight():Int {
-		return this.height * this.tileHeight;
+		return this.heightInTiles * this.tileHeight;
 	}
 
 	/**
@@ -326,5 +300,8 @@ class TiledMap {
 
 		return null;
 	}
-	
+
+	private function rectEquals(r1:Rectangle, r2:Rectangle):Bool {
+		return r1.x == r2.x && r1.y == r2.y && r1.width == r2.width && r1.height == r2.height;
+	}
 }

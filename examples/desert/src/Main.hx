@@ -11,14 +11,15 @@ import openfl.display.FPS;
 
 class Main {
 
-	private static var mapBitmap:Bitmap;
+	private static var map:TiledMap;
 
 	public static function main():Void {
-		var map = TiledMap.fromAssets("desert.tmx");
+		map = TiledMap.fromAssets("desert.tmx");
 
-		mapBitmap = new Bitmap(map.createBitmapData());
+		map.x = 0;
+		map.y = 0;
 
-		Lib.current.stage.addChild(mapBitmap);
+		Lib.current.stage.addChild(map);
 		Lib.current.stage.addChild(new FPS());
 
 		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
@@ -26,11 +27,11 @@ class Main {
 
 	private static function onKeyDown(e:KeyboardEvent):Void {
 		if(e.keyCode == Keyboard.RIGHT) {
-			mapBitmap.x -= 5;
+			map.x -= 5;
 		}
 
 		if(e.keyCode == Keyboard.DOWN) {
-			mapBitmap.y -= 5;
+			map.y -= 5;
 		}
 	}
 }

@@ -29,6 +29,8 @@ import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
 
+import openfl.display.Tilesheet;
+
 class Layer {
 
 	/** The name of this layer */
@@ -74,7 +76,8 @@ class Layer {
 		var name:String = xml.get("name");
 		var width:Int = Std.parseInt(xml.get("width"));
 		var height:Int = Std.parseInt(xml.get("height"));
-		var opacity:Float = Std.parseFloat(xml.get("opacity"));
+		var opacity:Float = Std.parseFloat(xml.get("opacity") != null ?
+			xml.get("opacity") : "1.0");
 
 		var tileGIDs:Array<Int> = new Array<Int>();
 

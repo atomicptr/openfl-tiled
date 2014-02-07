@@ -25,6 +25,8 @@ import flash.geom.Point;
 import flash.display.BitmapData;
 import flash.geom.Rectangle;
 
+import openfl.display.Tilesheet;
+
 class Tileset {
 
 	/** The first GID this tileset has */
@@ -141,9 +143,7 @@ class Tileset {
 	}
 
 	/** Returns the BitmapData of the given GID */
-	public function getTileBitmapDataByGID(gid:Int):BitmapData {
-		var bitmapData = new BitmapData(this.tileWidth, this.tileHeight, true, 0x000000);
-
+	public function getTileRectByGID(gid:Int):Rectangle {
 		var texturePositionX:Float = getTexturePositionByGID(gid).x;
 		var texturePositionY:Float = getTexturePositionByGID(gid).y;
 
@@ -155,19 +155,13 @@ class Tileset {
 			spacingY = texturePositionY + spacing;
 		}
 
-		var texture:BitmapData = Helper.getBitmapData(this.image.source);
-
 		var rect:Rectangle = new Rectangle(
 			(texturePositionX * this.tileWidth) + spacingX + offset.x,
 			(texturePositionY * this.tileHeight) + spacingY + offset.y,
 			this.tileWidth,
 			this.tileHeight);
 
-		var point:Point = new Point(0, 0);
-
-		bitmapData.copyPixels(texture, rect, point, null, null, true);
-
-		return bitmapData;
+		return rect;
 	}
 
 	/** Returns a Point which specifies the position of the gid in this tileset (Not in pixels!) */
