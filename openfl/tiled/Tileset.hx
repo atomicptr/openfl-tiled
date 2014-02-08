@@ -56,6 +56,9 @@ class Tileset {
 	/** All tiles with special properties */
 	public var propertyTiles:Map<Int, PropertyTile>;
 
+	/** All terrain types */
+	public var terrainTypes(default, null):Array<TerrainType>;
+
 	/** The image of this tileset */
 	public var image:TilesetImage;
 
@@ -63,12 +66,13 @@ class Tileset {
 	public var offset:Point;
 
 	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
-			properties:Map<String, String>, image:TilesetImage, offset:Point) {
+			properties:Map<String, String>, terrainTypes:Array<TerrainType>, image:TilesetImage, offset:Point) {
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.spacing = spacing;
 		this.properties = properties;
+		this.terrainTypes = terrainTypes;
 		this.image = image;
 		this.offset = offset;
 	}
@@ -88,6 +92,7 @@ class Tileset {
 		var spacing:Int = xml.exists("spacing") ? Std.parseInt(xml.get("spacing")) : 0;
 		var properties:Map<String, String> = new Map<String, String>();
 		var propertyTiles:Map<Int, PropertyTile> = new Map<Int, PropertyTile>();
+		var terrainTypes:Array<TerrainType> = new Array<TerrainType>();
 		var image:TilesetImage = null;
 
 		var tileOffsetX:Int = 0;
@@ -115,11 +120,23 @@ class Tileset {
 					image = new TilesetImage(child.get("source"), width, height);
 				}
 
+				if (child.nodeName == "terraintypes") {
+					for (element in child) {
+
+						if(Helper.isValidElement(element)) {
+							if(element.nodeName == "terrain") {
+								terrainTypes.push(new TerrainType(element.get("name"), Std.parseInt(element.get("tile"))));
+							}
+						}
+					}
+				}
+
 				if (child.nodeName == "tile") {
 					var id:Int = Std.parseInt(child.get("id"));
 					var properties:Map<String, String> = new Map<String, String>();
 
 					for (element in child) {
+
 						if(Helper.isValidElement(element)) {
 							if (element.nodeName == "properties") {
 								for (property in element) {
@@ -138,7 +155,7 @@ class Tileset {
 			}
 		}
 
-		return new Tileset(name, tileWidth, tileHeight, spacing, properties, image,
+		return new Tileset(name, tileWidth, tileHeight, spacing, properties, terrainTypes, image,
 			new Point(tileOffsetX, tileOffsetY));
 	}
 
