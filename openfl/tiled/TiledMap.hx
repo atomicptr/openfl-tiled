@@ -24,6 +24,7 @@ package openfl.tiled;
 import flash.geom.Rectangle;
 import flash.geom.Point;
 import flash.display.Sprite;
+import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.events.Event;
 
@@ -87,7 +88,11 @@ class TiledMap extends Sprite {
 			this.tilesheets.set(tileset.firstGID, new Tilesheet(tilesetBitmapData));
 		}
 
+		#if flash
+		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStageFlash);
+		#else
 		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		#end
 	}
 
 	private function onAddedToStage(e:Event) {
@@ -158,6 +163,47 @@ class TiledMap extends Sprite {
 				tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
 			}
 		}
+	}
+
+	private function onAddedToStageFlash(e:Event) {
+		var bitmapData:BitmapData = new BitmapData(this.totalWidth, this.totalHeight, true);
+
+		for(layer in this.layers) {
+			var gidCounter:Int = 0;
+
+			for(y in 0...this.heightInTiles) {
+				for(x in 0...this.widthInTiles) {
+					var nextGID = layer.tiles[gidCounter].gid;
+
+					if(nextGID != 0) {
+						var point:Point = new Point();
+
+						switch (orientation) {
+							case TiledMapOrientation.Orthogonal:
+								point = new Point(x * this.tileWidth, y * this.tileHeight);
+							case TiledMapOrientation.Isometric:
+								point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
+						}
+
+						var tileset:Tileset = getTilesetByGID(nextGID);
+
+						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
+
+						// TODO: optimize this, this line is VERY bad
+						var texture:BitmapData = Helper.getBitmapData(tileset.image.source);
+
+						// copy pixels
+						bitmapData.copyPixels(texture, rect, point, null, null, true);
+					}
+
+					gidCounter++;
+				}
+			}
+		}
+
+		var bitmap:Bitmap = new Bitmap(bitmapData);
+
+		this.addChild(bitmap);
 	}
 
 	/**
