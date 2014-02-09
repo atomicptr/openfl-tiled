@@ -6,7 +6,7 @@
 	<app main="Main" file="openfl-tiled-example" path="bin" />
 	
 	<window background="#FFB6C1" fps="60" />
-	<window width="800" height="480" unless="mobile" />
+	<windwidth="800" height="480" ow unless="mobile" />
 	
 	<source path="src" />
 	<source path="../.." /> <!-- should be the openfl-tiled base directory -->
