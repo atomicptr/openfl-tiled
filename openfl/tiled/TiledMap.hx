@@ -83,9 +83,7 @@ class TiledMap extends Sprite {
 
 		// create tilesheets
 		for(tileset in this.tilesets) {
-			var tilesetBitmapData:BitmapData = Helper.getBitmapData(tileset.image.source);
-
-			this.tilesheets.set(tileset.firstGID, new Tilesheet(tilesetBitmapData));
+			this.tilesheets.set(tileset.firstGID, new Tilesheet(tileset.image.texture));
 		}
 
 		#if flash
@@ -95,6 +93,7 @@ class TiledMap extends Sprite {
 		#end
 	}
 
+	// onAddedToStage for non-flash targets
 	private function onAddedToStage(e:Event) {
 		this.graphics.clear();
 
@@ -189,11 +188,8 @@ class TiledMap extends Sprite {
 
 						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
 
-						// TODO: optimize this, this line is VERY bad
-						var texture:BitmapData = Helper.getBitmapData(tileset.image.source);
-
 						// copy pixels
-						bitmapData.copyPixels(texture, rect, point, null, null, true);
+						bitmapData.copyPixels(tileset.image.texture, rect, point, null, null, true);
 					}
 
 					gidCounter++;
