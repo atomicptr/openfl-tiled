@@ -37,10 +37,10 @@ import openfl.display.Tilesheet;
 class TiledMap extends Sprite {
 
 	/** The map width in tiles */
-	public var widthInTiles:Int;
+	public var widthInTiles(default, null):Int;
 
 	/** The map height in tiles */
-	public var heightInTiles:Int;
+	public var heightInTiles(default, null):Int;
 
 	/** The map width in pixels */
 	public var totalWidth(get_totalWidth, null):Int;
@@ -49,25 +49,25 @@ class TiledMap extends Sprite {
 	public var totalHeight(get_totalHeight, null):Int;
 
 	/** TILED orientation: Orthogonal or Isometric */
-	public var orientation:TiledMapOrientation;
+	public var orientation(default, null):TiledMapOrientation;
 
 	/** The tile width */
-	public var tileWidth:Int;
+	public var tileWidth(default, null):Int;
 
 	/** The tile height */
-	public var tileHeight:Int;
+	public var tileHeight(default, null):Int;
 
 	/** All tilesets the map is using */
-	public var tilesets:Array<Tileset>;
+	public var tilesets(default, null):Array<Tileset>;
 
 	/** Contains all layers from this map */
-	public var layers:Array<Layer>;
+	public var layers(default, null):Array<Layer>;
 
 	/** All objectgroups */
-	public var objectGroups:Array<TiledObjectGroup>;
+	public var objectGroups(default, null):Array<TiledObjectGroup>;
 
 	/** All map properties */
-	public var properties:Map<String, String>;
+	public var properties(default, null):Map<String, String>;
 
 	private var tilesheets:Map<Int, Tilesheet>;
 

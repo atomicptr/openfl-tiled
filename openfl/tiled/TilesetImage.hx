@@ -26,19 +26,19 @@ import flash.display.BitmapData;
 class TilesetImage {
 
 	/** The filepath where this image is */
-	public var source:String;
+	public var source(default, null):String;
 
 	/** The filename */
-	public var fileName:String;
+	public var fileName(default, null):String;
 
 	/** The width of this image */
-	public var width:Int;
+	public var width(default, null):Int;
 
 	/** The height of this image */
-	public var height:Int;
+	public var height(default, null):Int;
 
 	/** The image as BitmapData */
-	public var texture:BitmapData;
+	public var texture(default, null):BitmapData;
 
 	public function new(source:String, width:Int, height:Int) {
 		this.source = source;

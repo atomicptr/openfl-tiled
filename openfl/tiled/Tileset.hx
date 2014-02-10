@@ -30,10 +30,10 @@ import openfl.display.Tilesheet;
 class Tileset {
 
 	/** The first GID this tileset has */
-	public var firstGID:Int;
+	public var firstGID(default, null):Int;
 
 	/** The name of this tileset */
-	public var name:String;
+	public var name(default, null):String;
 
 	/** The width of the tileset image */
 	public var width(get_width, null):Int;
@@ -42,28 +42,28 @@ class Tileset {
 	public var height(get_height, null):Int;
 
 	/** The width of one tile */
-	public var tileWidth:Int;
+	public var tileWidth(default, null):Int;
 
 	/** The height of one tile */
-	public var tileHeight:Int;
+	public var tileHeight(default, null):Int;
 
 	/** The spacing between the tiles */
-	public var spacing:Int;
+	public var spacing(default, null):Int;
 
 	/** All properties this Tileset contains */
-	public var properties:Map<String, String>;
+	public var properties(default, null):Map<String, String>;
 
 	/** All tiles with special properties */
-	public var propertyTiles:Map<Int, PropertyTile>;
+	public var propertyTiles(default, null):Map<Int, PropertyTile>;
 
 	/** All terrain types */
 	public var terrainTypes(default, null):Array<TerrainType>;
 
 	/** The image of this tileset */
-	public var image:TilesetImage;
+	public var image(default, null):TilesetImage;
 
 	/** The tile offset */
-	public var offset:Point;
+	public var offset(default, null):Point;
 
 	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
 			properties:Map<String, String>, terrainTypes:Array<TerrainType>, image:TilesetImage, offset:Point) {

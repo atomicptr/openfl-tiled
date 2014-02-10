@@ -34,19 +34,19 @@ import openfl.display.Tilesheet;
 class Layer {
 
 	/** The name of this layer */
-	public var name:String;
+	public var name(default, null):String;
 
 	/** The width of this layer in tiles */
-	public var width:Int;
+	public var width(default, null):Int;
 
 	/** The height of this layer in tiles */
-	public var height:Int;
+	public var height(default, null):Int;
 
 	/** The opacity of an layer */
-	public var opacity:Float;
+	public var opacity(default, null):Float;
 
 	/** All tiles which this Layer contains */
-	public var tiles:Array<Tile>;
+	public var tiles(default, null):Array<Tile>;
 
 	/** The parent TiledMap */
 	public var parent(default, null):TiledMap;

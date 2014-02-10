@@ -1,23 +1,23 @@
 // Copyright (C) 2013 Christopher "Kasoki" Kaster
-// 
+//
 // This file is part of "openfl-tiled". <http://github.com/Kasoki/openfl-tiled>
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
 // and/or sell copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included
 // in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 // OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 package openfl.tiled;
 
@@ -26,25 +26,25 @@ import flash.geom.Point;
 class TiledObject {
 
 	/** A identification number, which represents a part of the tileset. */
-	public var gid:Int;
+	public var gid(default, null):Int;
 
 	/** The name of this object */
-	public var name:String;
+	public var name(default, null):String;
 
 	/** The type of this object */
-	public var type:String;
+	public var type(default, null):String;
 
 	/** The x coordinate of this object (in pixels!) */
-	public var x:Int;
+	public var x(default, null):Int;
 
 	/** The y coordinate of this object (in pixels!) */
-	public var y:Int;
+	public var y(default, null):Int;
 
 	/** The width of this object in pixels */
-	public var width:Int;
+	public var width(default, null):Int;
 
 	/** The width of this object in pixels */
-	public var height:Int;
+	public var height(default, null):Int;
 
 	/** Checks if this object has a polygons */
 	public var hasPolygon(get_hasPolygon, null):Bool;
@@ -53,14 +53,14 @@ class TiledObject {
 	public var hasPolyline(get_hasPolyline, null):Bool;
 
 	/** The polygon of this object. Default: null */
-	public var polygon:TiledPolygon;
+	public var polygon(default, null):TiledPolygon;
 
 	/** The polyline of this object. Default:null */
-	public var polyline:TiledPolyline;
+	public var polyline(default, null):TiledPolyline;
 
 	/** Contains all properties from this object */
-	public var properties:Map<String, String>;
-	
+	public var properties(default, null):Map<String, String>;
+
 	private function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int,
 			polygon:TiledPolygon, polyline:TiledPolyline, properties:Map<String, String>) {
 
@@ -75,7 +75,7 @@ class TiledObject {
 		this.polyline = polyline;
 		this.properties = properties;
 	}
-	
+
 	/** Creates a new TiledObject-instance from the given Xml code. */
 	public static function fromGenericXml(xml:Xml):TiledObject {
 		var gid:Int = xml.get("gid") != null ? Std.parseInt(xml.get("gid")) : 0;
@@ -88,7 +88,7 @@ class TiledObject {
 		var polygon:TiledPolygon = null;
 		var polyline:TiledPolyline = null;
 		var properties:Map<String, String> = new Map<String, String>();
-		
+
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
 				if (child.nodeName == "properties") {
@@ -98,20 +98,20 @@ class TiledObject {
 						}
 					}
 				}
-				
+
 				if (child.nodeName == "polygon" || child.nodeName == "polyline") {
 					var origin:Point = new Point(x, y);
 					var points:Array<Point> = new Array<Point>();
-					
+
 					var pointsAsString:String = child.get("points");
-					
+
 					var pointsAsStringArray:Array<String> = pointsAsString.split(" ");
-					
+
 					for(p in pointsAsStringArray) {
 						var coords:Array<String> = p.split(",");
 						points.push(new Point(Std.parseInt(coords[0]), Std.parseInt(coords[1])));
 					}
-					
+
 					if(child.nodeName == "polygon") {
 						polygon = new TiledPolygon(origin, points);
 					} else if(child.nodeName == "polyline") {
@@ -120,16 +120,16 @@ class TiledObject {
 				}
 			}
 		}
-		
+
 		return new TiledObject(gid, name, type, x, y, width, height, polygon, polyline, properties);
 	}
-	
+
 	private function get_hasPolygon():Bool {
 		return this.polygon != null;
 	}
-	
+
 	private function get_hasPolyline():Bool {
 		return this.polyline != null;
 	}
-	
+
 }
