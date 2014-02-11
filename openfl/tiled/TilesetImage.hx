@@ -22,6 +22,8 @@
 package openfl.tiled;
 
 import flash.display.BitmapData;
+import flash.geom.Point;
+import flash.geom.Rectangle;
 
 class TilesetImage {
 
@@ -40,15 +42,40 @@ class TilesetImage {
 	/** The image as BitmapData */
 	public var texture(default, null):BitmapData;
 
-	public function new(source:String, width:Int, height:Int) {
+	public function new(source:String, width:Int, height:Int, trans:String) {
 		this.source = source;
 		// get fileName from path
 		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
 		this.width = width;
 		this.height = height;
 
+		#if !flash
+		var useTransparentColor = false;
+		var threshold:Int = -1;
+		var transparent:Int = 0x00000000;
+
+		if(trans != null) {
+			useTransparentColor = true;
+
+			// insert hex prefix and 255 alpha
+			trans = "0xff" + trans;
+
+			threshold = Std.parseInt(trans);
+		}
+		#end
+
 		// load image
 		this.texture = Helper.getBitmapData(this.source);
+
+		#if !flash
+		if(useTransparentColor) {
+			var rect = new Rectangle(0, 0, this.texture.width, this.texture.height);
+			var point = new Point(0, 0);
+
+			this.texture.threshold(this.texture, rect, point, "==",
+				threshold, transparent, 0xFFFFFFFF, true);
+		}
+		#end
 	}
 
 }

@@ -117,7 +117,7 @@ class Tileset {
 					var width = Std.parseInt(child.get("width"));
 					var height = Std.parseInt(child.get("height"));
 
-					image = new TilesetImage(child.get("source"), width, height);
+					image = new TilesetImage(child.get("source"), width, height, child.get("trans"));
 				}
 
 				if (child.nodeName == "terraintypes") {
