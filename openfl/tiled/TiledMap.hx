@@ -201,6 +201,10 @@ class TiledMap extends Sprite {
 
 						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
 
+						if(orientation == TiledMapOrientation.Isometric) {
+							point.x += this.totalWidth/2;
+						}
+
 						// copy pixels
 						bitmapData.copyPixels(tileset.image.texture, rect, point, null, null, true);
 					}
@@ -211,6 +215,10 @@ class TiledMap extends Sprite {
 		}
 
 		var bitmap:Bitmap = new Bitmap(bitmapData);
+
+		if(orientation == TiledMapOrientation.Isometric) {
+			bitmap.x -= this.totalWidth/2;
+		}
 
 		this.addChild(bitmap);
 	}
