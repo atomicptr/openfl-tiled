@@ -105,56 +105,58 @@ class TiledMap extends Sprite {
 			var drawList:Array<Float> = new Array<Float>();
 			var gidCounter:Int = 0;
 
-			for(y in 0...this.heightInTiles) {
-				for(x in 0...this.widthInTiles) {
-					var nextGID = layer.tiles[gidCounter].gid;
+			if(layer.visible) {
+				for(y in 0...this.heightInTiles) {
+					for(x in 0...this.widthInTiles) {
+						var nextGID = layer.tiles[gidCounter].gid;
 
-					if(nextGID != 0) {
-						var point:Point = new Point();
+						if(nextGID != 0) {
+							var point:Point = new Point();
 
-						switch (orientation) {
-							case TiledMapOrientation.Orthogonal:
-								point = new Point(x * this.tileWidth, y * this.tileHeight);
-							case TiledMapOrientation.Isometric:
-								point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
-						}
-
-						var tileset:Tileset = getTilesetByGID(nextGID);
-
-						var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
-
-						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
-
-						var tileId:Int = -1;
-
-						var foundSomething:Bool = false;
-
-						for(r in this.tileRects) {
-							if(rectEquals(r, rect)) {
-								tileId = Lambda.indexOf(this.tileRects, r);
-
-								foundSomething = true;
-
-								break;
+							switch (orientation) {
+								case TiledMapOrientation.Orthogonal:
+									point = new Point(x * this.tileWidth, y * this.tileHeight);
+								case TiledMapOrientation.Isometric:
+									point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
 							}
+
+							var tileset:Tileset = getTilesetByGID(nextGID);
+
+							var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
+
+							var rect:Rectangle = tileset.getTileRectByGID(nextGID);
+
+							var tileId:Int = -1;
+
+							var foundSomething:Bool = false;
+
+							for(r in this.tileRects) {
+								if(rectEquals(r, rect)) {
+									tileId = Lambda.indexOf(this.tileRects, r);
+
+									foundSomething = true;
+
+									break;
+								}
+							}
+
+							if(!foundSomething) {
+								tileRects.push(rect);
+							}
+
+							if(tileId < 0) {
+								tileId = this.tilesheets.get(tileset.firstGID).addTileRect(rect);
+							}
+
+							// add coordinates to draw list
+							drawList.push(point.x); // x coord
+							drawList.push(point.y); // y coord
+							drawList.push(tileId); // tile id
+							drawList.push(layer.opacity); // alpha channel
 						}
 
-						if(!foundSomething) {
-							tileRects.push(rect);
-						}
-
-						if(tileId < 0) {
-							tileId = this.tilesheets.get(tileset.firstGID).addTileRect(rect);
-						}
-
-						// add coordinates to draw list
-						drawList.push(point.x); // x coord
-						drawList.push(point.y); // y coord
-						drawList.push(tileId); // tile id
-						drawList.push(layer.opacity); // alpha channel
+						gidCounter++;
 					}
-
-					gidCounter++;
 				}
 			}
 
@@ -183,33 +185,35 @@ class TiledMap extends Sprite {
 		for(layer in this.layers) {
 			var gidCounter:Int = 0;
 
-			for(y in 0...this.heightInTiles) {
-				for(x in 0...this.widthInTiles) {
-					var nextGID = layer.tiles[gidCounter].gid;
+			if(layer.visible) {
+				for(y in 0...this.heightInTiles) {
+					for(x in 0...this.widthInTiles) {
+						var nextGID = layer.tiles[gidCounter].gid;
 
-					if(nextGID != 0) {
-						var point:Point = new Point();
+						if(nextGID != 0) {
+							var point:Point = new Point();
 
-						switch (orientation) {
-							case TiledMapOrientation.Orthogonal:
-								point = new Point(x * this.tileWidth, y * this.tileHeight);
-							case TiledMapOrientation.Isometric:
-								point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
+							switch (orientation) {
+								case TiledMapOrientation.Orthogonal:
+									point = new Point(x * this.tileWidth, y * this.tileHeight);
+								case TiledMapOrientation.Isometric:
+									point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
+							}
+
+							var tileset:Tileset = getTilesetByGID(nextGID);
+
+							var rect:Rectangle = tileset.getTileRectByGID(nextGID);
+
+							if(orientation == TiledMapOrientation.Isometric) {
+								point.x += this.totalWidth/2;
+							}
+
+							// copy pixels
+							bitmapData.copyPixels(tileset.image.texture, rect, point, null, null, true);
 						}
 
-						var tileset:Tileset = getTilesetByGID(nextGID);
-
-						var rect:Rectangle = tileset.getTileRectByGID(nextGID);
-
-						if(orientation == TiledMapOrientation.Isometric) {
-							point.x += this.totalWidth/2;
-						}
-
-						// copy pixels
-						bitmapData.copyPixels(tileset.image.texture, rect, point, null, null, true);
+						gidCounter++;
 					}
-
-					gidCounter++;
 				}
 			}
 		}

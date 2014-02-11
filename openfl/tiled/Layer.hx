@@ -45,6 +45,9 @@ class Layer {
 	/** The opacity of an layer */
 	public var opacity(default, null):Float;
 
+	/** Is the layer visible? */
+	public var visible(default, null):Bool;
+
 	/** All tiles which this Layer contains */
 	public var tiles(default, null):Array<Tile>;
 
@@ -52,12 +55,13 @@ class Layer {
 	public var parent(default, null):TiledMap;
 
 	private function new(parent:TiledMap, name:String, width:Int, height:Int,
-			opacity:Float, tiles:Array<Int>) {
+			opacity:Float, visible:Bool, tiles:Array<Int>) {
 		this.parent = parent;
 		this.name = name;
 		this.width = width;
 		this.height = height;
 		this.opacity = opacity;
+		this.visible = visible;
 
 		this.tiles = new Array<Tile>();
 
@@ -78,6 +82,9 @@ class Layer {
 		var height:Int = Std.parseInt(xml.get("height"));
 		var opacity:Float = Std.parseFloat(xml.get("opacity") != null ?
 			xml.get("opacity") : "1.0");
+		var visible:Bool = xml.get("visible") == null ?
+			true : Std.parseInt(xml.get("visible")) == 1 ?
+				true : false;
 
 		var tileGIDs:Array<Int> = new Array<Int>();
 
@@ -117,7 +124,7 @@ class Layer {
 			}
 		}
 
-		return new Layer(parent, name, width, height, opacity, tileGIDs);
+		return new Layer(parent, name, width, height, opacity, visible, tileGIDs);
 	}
 
 	/**
