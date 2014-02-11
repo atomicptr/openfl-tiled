@@ -114,10 +114,7 @@ class Tileset {
 				}
 
 				if (child.nodeName == "image") {
-					var width = Std.parseInt(child.get("width"));
-					var height = Std.parseInt(child.get("height"));
-
-					image = new TilesetImage(child.get("source"), width, height, child.get("trans"));
+					image = new TilesetImage(child.get("source"), child.get("trans"));
 				}
 
 				if (child.nodeName == "terraintypes") {
@@ -189,12 +186,12 @@ class Tileset {
 	}
 
 	/** Returns the inner x-position of a texture with given tileNumber */
-	private function getInnerTexturePositionX(tileNumber):Int {
+	private function getInnerTexturePositionX(tileNumber:Int):Int {
 		return (tileNumber % Std.int(this.width / this.tileWidth));
 	}
 
 	/** Returns the inner y-position of a texture with given tileNumber */
-	private function getInnerTexturePositionY(tileNumber):Int {
+	private function getInnerTexturePositionY(tileNumber:Int):Int {
 		return Std.int(tileNumber / Std.int(this.width / this.tileWidth));
 	}
 

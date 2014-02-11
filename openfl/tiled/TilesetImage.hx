@@ -34,20 +34,18 @@ class TilesetImage {
 	public var fileName(default, null):String;
 
 	/** The width of this image */
-	public var width(default, null):Int;
+	public var width(get_width, null):Int;
 
 	/** The height of this image */
-	public var height(default, null):Int;
+	public var height(get_height, null):Int;
 
 	/** The image as BitmapData */
 	public var texture(default, null):BitmapData;
 
-	public function new(source:String, width:Int, height:Int, trans:String) {
+	public function new(source:String, trans:String) {
 		this.source = source;
 		// get fileName from path
 		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
-		this.width = width;
-		this.height = height;
 
 		#if !flash
 		var useTransparentColor = false;
@@ -76,6 +74,14 @@ class TilesetImage {
 				threshold, transparent, 0xFFFFFFFF, true);
 		}
 		#end
+	}
+
+	private function get_width():Int {
+		return this.texture.width;
+	}
+
+	private function get_height():Int {
+		return this.texture.height;
 	}
 
 }
