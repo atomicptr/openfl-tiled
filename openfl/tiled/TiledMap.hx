@@ -57,6 +57,9 @@ class TiledMap extends Sprite {
 	/** The tile height */
 	public var tileHeight(default, null):Int;
 
+	/** The background color of the map */
+	public var backgroundColor(default, null):Int;
+
 	/** All tilesets the map is using */
 	public var tilesets(default, null):Array<Tileset>;
 
@@ -70,8 +73,8 @@ class TiledMap extends Sprite {
 	public var properties(default, null):Map<String, String>;
 
 	private var tilesheets:Map<Int, Tilesheet>;
-
 	private var tileRects:Array<Rectangle>;
+	private var backgroundColorSet:Bool = false;
 
 	private function new(xml:String) {
 		super();
@@ -155,6 +158,10 @@ class TiledMap extends Sprite {
 				}
 			}
 
+			if(backgroundColorSet) {
+				this.fillBackground();
+			}
+
 			// draw layer
 			for(tileset in this.tilesets) {
 				var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
@@ -165,7 +172,13 @@ class TiledMap extends Sprite {
 	}
 
 	private function onAddedToStageFlash(e:Event) {
-		var bitmapData:BitmapData = new BitmapData(this.totalWidth, this.totalHeight, true);
+		var bitmapData:BitmapData;
+
+		if(backgroundColorSet) {
+			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, this.backgroundColor);
+		} else {
+			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true);
+		}
 
 		for(layer in this.layers) {
 			var gidCounter:Int = 0;
@@ -202,6 +215,18 @@ class TiledMap extends Sprite {
 		this.addChild(bitmap);
 	}
 
+	private function fillBackground():Void {
+		this.graphics.beginFill(this.backgroundColor);
+
+		if(orientation == TiledMapOrientation.Orthogonal) {
+			this.graphics.drawRect(0, 0, this.totalWidth, this.totalHeight);
+		} else {
+			this.graphics.drawRect(-this.totalWidth/2, 0, this.totalWidth, this.totalHeight);
+		}
+
+		this.graphics.endFill();
+	}
+
 	/**
 	 * Creates a new TiledMap from an Assets
 	 * @param path The path to your asset
@@ -233,6 +258,19 @@ class TiledMap extends Sprite {
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Array<TiledObjectGroup>();
 		this.properties = new Map<String, String>();
+
+		// get background color
+		var backgroundColor:String = xml.get("backgroundcolor");
+
+		// if the element isn't set choose white
+		if(backgroundColor != null) {
+			this.backgroundColorSet = true;
+
+			// replace # with 0xff to match ARGB
+			backgroundColor = StringTools.replace(backgroundColor, "#", "0xff");
+
+			this.backgroundColor = Std.parseInt(backgroundColor);
+		}
 
 		for (child in xml) {
 			if(Helper.isValidElement(child)) {
