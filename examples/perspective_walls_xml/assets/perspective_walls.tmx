@@ -3,6 +3,7 @@
  <tileset firstgid="1" source="perspective_walls.tsx"/>
  <layer name="Walls" width="32" height="32">
   <data>
+   <tile gid="5"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -68,6 +69,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="13"/>
+   <tile gid="13"/>
+   <tile gid="13"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -97,7 +101,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="13"/>
    <tile gid="0"/>
+   <tile gid="13"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -107,6 +113,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="5"/>
+   <tile gid="9"/>
+   <tile gid="6"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -124,14 +133,21 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="13"/>
+   <tile gid="13"/>
+   <tile gid="13"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="13"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="12"/>
+   <tile gid="3"/>
+   <tile gid="10"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -162,6 +178,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="11"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -179,30 +196,13 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="12"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
+   <tile gid="10"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
