@@ -174,12 +174,14 @@ class TiledMap extends Sprite {
 	}
 
 	private function onAddedToStageFlash(e:Event) {
+		this.graphics.clear();
+
 		var bitmapData:BitmapData;
 
 		if(backgroundColorSet) {
 			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, this.backgroundColor);
 		} else {
-			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true);
+			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, 0x00000000);
 		}
 
 		for(layer in this.layers) {
