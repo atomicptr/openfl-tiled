@@ -105,7 +105,7 @@ class Layer {
 									case "zlib":
 										compressed = true;
 									default:
-										throw "TmxLayer - data compression type not supported!";
+										throw "TiledMap: data compression type not supported!";
 								}
 							}
 							tileGIDs = base64ToArray(chunk, width, compressed);
