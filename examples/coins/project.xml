@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="openfl-tiled-examples" package="openfl.tiled.examples" version="1.0.0" company="Christopher Kaster" />
+
+	<!-- output -->
+	<app main="Main" file="openfl-tiled-example" path="bin" />
+
+	<window background="#FFB6C1" fps="60" />
+	<window width="0" height="0" if="html5" />
+
+	<source path="src" />
+	<source path="../.." /> <!-- should be the openfl-tiled base directory -->
+
+	<haxelib name="openfl" />
+	<!-- <haxelib name="openfl-tiled" /> -->
+
+	<!-- assets -->
+	<icon path="assets/openfl.svg" />
+
+	<!-- TODO: remove the 'rename=""' part -->
+	<assets path="assets" rename="" />
+
+</project>

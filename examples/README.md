@@ -1,4 +1,14 @@
-Most asset-files (tilesets, maps, etc.) are taken from the offical [tiled repostory](https://github.com/bjorn/tiled)
+## Assets from the offical [tiled repostory](https://github.com/bjorn/tiled):
+
+* desert
+* isometric_grass_and_water
+* perspective_walls
+* sewers
+
+## Assets from [HaxeFlixel tiled example](https://github.com/HaxeFlixel/flixel-demos/tree/dev/Editors/TiledEditor):
+
+* coins
+
 
 **Tilesets:**
 
