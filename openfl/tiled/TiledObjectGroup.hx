@@ -76,7 +76,7 @@ class TiledObjectGroup {
 				}
 
 				if (child.nodeName == "object") {
-					objects.push(TiledObject.fromGenericXml(child));
+					objects.push(TiledObject.fromGenericXml(child, this));
 				}
 			}
 		}

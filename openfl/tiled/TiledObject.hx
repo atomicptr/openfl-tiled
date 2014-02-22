@@ -25,6 +25,9 @@ import flash.geom.Point;
 
 class TiledObject {
 
+	/** The objectgroup this object belongs to */
+	public var parent(default, null):TiledObjectGroup;
+
 	/** A identification number, which represents a part of the tileset. */
 	public var gid(default, null):Int;
 
@@ -61,9 +64,10 @@ class TiledObject {
 	/** Contains all properties from this object */
 	public var properties(default, null):Map<String, String>;
 
-	private function new(gid:Int, name:String, type:String, x:Int, y:Int, width:Int, height:Int,
-			polygon:TiledPolygon, polyline:TiledPolyline, properties:Map<String, String>) {
-
+	private function new(parent:TiledObjectGroup, gid:Int, name:String, type:String, x:Int, y:Int,
+			width:Int, height:Int, polygon:TiledPolygon, polyline:TiledPolyline,
+			properties:Map<String, String>) {
+		this.parent = parent;
 		this.gid = gid;
 		this.name = name;
 		this.type = type;
@@ -77,7 +81,7 @@ class TiledObject {
 	}
 
 	/** Creates a new TiledObject-instance from the given Xml code. */
-	public static function fromGenericXml(xml:Xml):TiledObject {
+	public static function fromGenericXml(xml:Xml, parent:TiledObjectGroup):TiledObject {
 		var gid:Int = xml.get("gid") != null ? Std.parseInt(xml.get("gid")) : 0;
 		var name:String = xml.get("name");
 		var type:String = xml.get("type");
@@ -121,7 +125,8 @@ class TiledObject {
 			}
 		}
 
-		return new TiledObject(gid, name, type, x, y, width, height, polygon, polyline, properties);
+		return new TiledObject(parent, gid, name, type, x, y, width,
+			height, polygon, polyline, properties);
 	}
 
 	private function get_hasPolygon():Bool {
