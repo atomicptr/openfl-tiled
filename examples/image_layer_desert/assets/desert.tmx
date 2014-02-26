@@ -12,4 +12,9 @@
    <property name="fezzes_are" value="cool"/>
   </properties>
  </imagelayer>
+ <layer name="overlay" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwUENAAAIAKFrYv+Wvo3gBtQ1AQAAAAAA/LYePQAg
+  </data>
+ </layer>
 </map>
