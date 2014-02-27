@@ -25,9 +25,14 @@ import flash.geom.Point;
 import flash.display.BitmapData;
 import flash.geom.Rectangle;
 
+import haxe.io.Path;
+
 import openfl.display.Tilesheet;
 
 class Tileset {
+
+	/** The TiledMap object this tileset belongs to */
+	public var tiledMap(default, null):TiledMap;
 
 	/** The first GID this tileset has */
 	public var firstGID(default, null):Int;
@@ -65,8 +70,9 @@ class Tileset {
 	/** The tile offset */
 	public var offset(default, null):Point;
 
-	private function new(name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
+	private function new(tiledMap:TiledMap, name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
 			properties:Map<String, String>, terrainTypes:Array<TerrainType>, image:TilesetImage, offset:Point) {
+		this.tiledMap = tiledMap;
 		this.name = name;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
@@ -83,7 +89,7 @@ class Tileset {
 	}
 
 	/** Generates a new Tileset from the given Xml code */
-	public static function fromGenericXml(content:String):Tileset {
+	public static function fromGenericXml(tiledMap:TiledMap, content:String):Tileset {
 		var xml = Xml.parse(content).firstElement();
 
 		var name:String = xml.get("name");
@@ -114,7 +120,8 @@ class Tileset {
 				}
 
 				if (child.nodeName == "image") {
-					image = new TilesetImage(child.get("source"), child.get("trans"));
+					var prefix = Path.directory(tiledMap.path) + "/";
+					image = new TilesetImage(child.get("source"), child.get("trans"), prefix);
 				}
 
 				if (child.nodeName == "terraintypes") {
@@ -152,8 +159,8 @@ class Tileset {
 			}
 		}
 
-		return new Tileset(name, tileWidth, tileHeight, spacing, properties, terrainTypes, image,
-			new Point(tileOffsetX, tileOffsetY));
+		return new Tileset(tiledMap, name, tileWidth, tileHeight, spacing, properties, terrainTypes,
+			image, new Point(tileOffsetX, tileOffsetY));
 	}
 
 	/** Returns the BitmapData of the given GID */

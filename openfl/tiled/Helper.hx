@@ -42,25 +42,33 @@ class Helper {
 
 	/** This methods is wrapper for Assets.getText(string), if
 		you're using another Asset managment system simply override this method */
-	public static function getText(assetPath:String):String {
+	public static function getText(assetPath:String, ?prefix:String):String {
 		if (assetLoader == null) {
 			assetLoader = new DefaultAssetLoader();
 		}
 
-		return assetLoader.getText(assetPath);
+		return assetLoader.getText(Helper.joinPath(prefix, assetPath));
 	}
 
 	/** This methods is wrapper for Assets.getBitmapData(string), if
 		you're using another Asset managment system simply override this method */
-	public static function getBitmapData(assetPath:String):BitmapData {
+	public static function getBitmapData(assetPath:String, ?prefix:String):BitmapData {
 		if(assetLoader == null) {
 			assetLoader = new DefaultAssetLoader();
 		}
 
-		return assetLoader.getBitmapData(assetPath);
+		return assetLoader.getBitmapData(Helper.joinPath(prefix, assetPath));
 	}
 
 	public static function joinPath(path1:String, path2:String):String {
+		if(path1 == null) {
+			path1 = "";
+		}
+
+		if(path2 == null) {
+			path2 = "";
+		}
+
 		return normalizePath(path1 + path2);
 	}
 

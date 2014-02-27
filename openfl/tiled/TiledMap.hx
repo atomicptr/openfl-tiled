@@ -28,6 +28,8 @@ import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.events.Event;
 
+import haxe.io.Path;
+
 import openfl.display.Tilesheet;
 
 /**
@@ -35,6 +37,9 @@ import openfl.display.Tilesheet;
  * @author Christopher Kaster
  */
 class TiledMap extends Sprite {
+
+	/** The path of the map file */
+	public var path(default, null):String;
 
 	/** The map width in tiles */
 	public var widthInTiles(default, null):Int;
@@ -79,11 +84,15 @@ class TiledMap extends Sprite {
 	private var tileRects:Array<Rectangle>;
 	private var backgroundColorSet:Bool = false;
 
-	private function new(xml:String) {
+	private function new(path:String) {
 		super();
+
+		this.path = path;
 
 		this.tilesheets = new Map<Int, Tilesheet>();
 		this.tileRects = new Array<Rectangle>();
+
+		var xml = Helper.getText(path);
 
 		parseXML(xml);
 
@@ -271,16 +280,7 @@ class TiledMap extends Sprite {
 	 * @return A TiledMap object
 	 */
 	public static function fromAssets(path:String):TiledMap {
-		return new TiledMap(Helper.getText(path));
-	}
-
-	/**
-	 * Creates a new TiledMap from a Xml String
-	 * @param xml
-	 * @return A TiledMap object
-	 */
-	public static function fromGenericXml(xml:String):TiledMap {
-		return new TiledMap(xml);
+		return new TiledMap(path);
 	}
 
 	private function parseXML(xml:String) {
@@ -317,9 +317,10 @@ class TiledMap extends Sprite {
 					var tileset:Tileset = null;
 
 					if (child.get("source") != null) {
-						tileset = Tileset.fromGenericXml(Helper.getText(child.get("source")));
+						var prefix = Path.directory(this.path) + "/";
+						tileset = Tileset.fromGenericXml(this, Helper.getText(child.get("source"), prefix));
 					} else {
-						tileset = Tileset.fromGenericXml(child.toString());
+						tileset = Tileset.fromGenericXml(this, child.toString());
 					}
 
 					tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
@@ -340,7 +341,7 @@ class TiledMap extends Sprite {
 
 					this.objectGroups.push(objectGroup);
 				} else if (child.nodeName == "imagelayer") {
-					var imageLayer = ImageLayer.fromGenericXml(child);
+					var imageLayer = ImageLayer.fromGenericXml(this, child);
 
 					this.imageLayers.push(imageLayer);
 				}

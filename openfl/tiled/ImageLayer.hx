@@ -21,8 +21,11 @@
 // THE SOFTWARE.
 package openfl.tiled;
 
+import haxe.io.Path;
+
 class ImageLayer {
 
+	public var tiledMap(default, null):TiledMap;
 	public var name(default, null):String;
 	public var opacity(default, null):Float;
 	public var visible(default, null):Bool;
@@ -30,7 +33,9 @@ class ImageLayer {
 	public var properties(default, null):Map<String, String>;
 	public var image(default, null):TilesetImage;
 
-	private function new(name:String, opacity:Float, visible:Bool, properties:Map<String, String>, image:TilesetImage) {
+	private function new(tiledMap:TiledMap, name:String, opacity:Float, visible:Bool, properties:Map<String, String>,
+			image:TilesetImage) {
+		this.tiledMap = tiledMap;
 		this.name = name;
 		this.opacity = opacity;
 		this.visible = visible;
@@ -38,7 +43,7 @@ class ImageLayer {
 		this.image = image;
 	}
 
-	public static function fromGenericXml(xml:Xml):ImageLayer {
+	public static function fromGenericXml(tiledMap:TiledMap, xml:Xml):ImageLayer {
 		var name:String = xml.get("name");
 		var opacity:Float = xml.exists("opacity") ? Std.parseFloat(xml.get("opacity")) : 1.0;
 		var visible:Bool = xml.exists("visible") ? Std.parseInt("visible") == 1 : false;
@@ -58,10 +63,11 @@ class ImageLayer {
 			}
 
 			if (child.nodeName == "image") {
-				image = new TilesetImage(child.get("source"), child.get("trans"));
+				var prefix = Path.directory(tiledMap.path) + "/";
+				image = new TilesetImage(child.get("source"), child.get("trans"), prefix);
 			}
 		}
 
-		return new ImageLayer(name, opacity, visible, properties, image);
+		return new ImageLayer(tiledMap, name, opacity, visible, properties, image);
 	}
 }

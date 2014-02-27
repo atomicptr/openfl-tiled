@@ -14,7 +14,7 @@ class Main {
 	private static var map:TiledMap;
 
 	public static function main():Void {
-		map = TiledMap.fromAssets("desert.tmx");
+		map = TiledMap.fromAssets("assets/map/desert.tmx");
 
 		map.x = 0;
 		map.y = 0;

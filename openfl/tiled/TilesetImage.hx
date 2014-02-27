@@ -42,7 +42,7 @@ class TilesetImage {
 	/** The image as BitmapData */
 	public var texture(default, null):BitmapData;
 
-	public function new(source:String, trans:String) {
+	public function new(source:String, trans:String, ?mapPrefix:String) {
 		this.source = source;
 		// get fileName from path
 		this.fileName = source.substr(source.lastIndexOf("/") + 1, source.length);
@@ -63,7 +63,7 @@ class TilesetImage {
 		#end
 
 		// load image
-		this.texture = Helper.getBitmapData(this.source);
+		this.texture = Helper.getBitmapData(this.source, mapPrefix);
 
 		#if !flash
 		if(useTransparentColor) {

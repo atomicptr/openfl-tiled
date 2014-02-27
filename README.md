@@ -17,7 +17,7 @@ Restrictions
 
 There are currently some restrictions in usage:
 
-- You'll need to check if the editor puts your assets the same way as your project.xml file would do into the ".tmx" or ".tsx" file
+- No support for staggered tilemaps
 
 Licence
 ----------------
