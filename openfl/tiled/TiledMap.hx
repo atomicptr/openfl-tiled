@@ -69,6 +69,9 @@ class TiledMap extends Sprite {
 	/** All objectgroups */
 	public var objectGroups(default, null):Array<TiledObjectGroup>;
 
+	/** All image layers **/
+	public var imageLayers(default, null):Array<ImageLayer>;
+
 	/** All map properties */
 	public var properties(default, null):Map<String, String>;
 
@@ -171,6 +174,21 @@ class TiledMap extends Sprite {
 				tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
 			}
 		}
+
+		for(imageLayer in this.imageLayers) {
+			var tilesheet:Tilesheet = new Tilesheet(imageLayer.image.texture);
+
+			var id = tilesheet.addTileRect(new Rectangle(0, 0, imageLayer.image.width, imageLayer.image.height));
+
+			var drawList:Array<Float> = new Array<Float>();
+
+			drawList.push(0);
+			drawList.push(0);
+			drawList.push(id);
+			drawList.push(imageLayer.opacity);
+
+			tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
+		}
 	}
 
 	private function onAddedToStageFlash(e:Event) {
@@ -218,6 +236,12 @@ class TiledMap extends Sprite {
 					}
 				}
 			}
+		}
+
+		for(imageLayer in this.imageLayers) {
+			var rect = new Rectangle(0, 0, imageLayer.image.width, imageLayer.image.height);
+
+			bitmapData.copyPixels(imageLayer.image.texture, rect, new Point(0, 0), null, null, true);
 		}
 
 		var bitmap:Bitmap = new Bitmap(bitmapData);
@@ -271,6 +295,7 @@ class TiledMap extends Sprite {
 		this.tilesets = new Array<Tileset>();
 		this.layers = new Array<Layer>();
 		this.objectGroups = new Array<TiledObjectGroup>();
+		this.imageLayers = new Array<ImageLayer>();
 		this.properties = new Map<String, String>();
 
 		// get background color
@@ -300,26 +325,24 @@ class TiledMap extends Sprite {
 					tileset.setFirstGID(Std.parseInt(child.get("firstgid")));
 
 					this.tilesets.push(tileset);
-				}
-
-				else if (child.nodeName == "properties") {
+				} else if (child.nodeName == "properties") {
 					for (property in child) {
 						if (!Helper.isValidElement(property))
 							continue;
 						properties.set(property.get("name"), property.get("value"));
 					}
-				}
-
-				else if (child.nodeName == "layer") {
+				} else if (child.nodeName == "layer") {
 					var layer:Layer = Layer.fromGenericXml(child, this);
 
 					this.layers.push(layer);
-				}
-
-				else if (child.nodeName == "objectgroup") {
+				} else if (child.nodeName == "objectgroup") {
 					var objectGroup = TiledObjectGroup.fromGenericXml(child);
 
 					this.objectGroups.push(objectGroup);
+				} else if (child.nodeName == "imagelayer") {
+					var imageLayer = ImageLayer.fromGenericXml(child);
+
+					this.imageLayers.push(imageLayer);
 				}
 			}
 		}

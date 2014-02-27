@@ -44,14 +44,19 @@ class TiledObjectGroup {
 	private var objectCounter:Int;
 
 	private function new(name:String, color:String, width:Int, height:Int, properties:Map<String, String>,
-			objects:Array<TiledObject>) {
+			xmlObjects:Array<Xml>) {
 
 		this.name = name;
 		this.color = color;
 		this.width = width;
 		this.height = height;
 		this.properties = properties;
-		this.objects = objects;
+
+		this.objects = new Array<TiledObject>();
+
+		for(xml in xmlObjects) {
+			this.objects.push(TiledObject.fromGenericXml(xml, this));
+		}
 
 		this.objectCounter = 0;
 	}
@@ -63,7 +68,7 @@ class TiledObjectGroup {
 		var width = Std.parseInt(xml.get("width"));
 		var height = Std.parseInt(xml.get("height"));
 		var properties:Map<String, String> = new Map<String, String>();
-		var objects:Array<TiledObject> = new Array<TiledObject>();
+		var objects:Array<Xml> = new Array<Xml>();
 
 		for (child in xml) {
 			if (Helper.isValidElement(child)) {
@@ -76,7 +81,7 @@ class TiledObjectGroup {
 				}
 
 				if (child.nodeName == "object") {
-					objects.push(TiledObject.fromGenericXml(child, this));
+					objects.push(xml);
 				}
 			}
 		}
