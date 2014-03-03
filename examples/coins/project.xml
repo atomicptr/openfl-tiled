@@ -17,7 +17,6 @@
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 
-	<!-- TODO: remove the 'rename=""' part -->
-	<assets path="assets" rename="" />
+	<assets path="assets" />
 
 </project>

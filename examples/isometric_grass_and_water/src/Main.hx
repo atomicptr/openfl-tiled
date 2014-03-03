@@ -13,7 +13,7 @@ class Main {
 	private static var mapBitmap:Bitmap;
 
 	public static function main():Void {
-		var map = TiledMap.fromAssets("isometric_grass_and_water.tmx");
+		var map = TiledMap.fromAssets("assets/isometric_grass_and_water.tmx");
 
 		map.x += 500;
 		map.y -= 200;
