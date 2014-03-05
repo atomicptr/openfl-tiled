@@ -63,7 +63,7 @@ class TiledMap extends Sprite {
 	public var tileHeight(default, null):Int;
 
 	/** The background color of the map */
-	public var backgroundColor(default, null):Int;
+	public var backgroundColor(default, null):UInt;
 
 	/** All tilesets the map is using */
 	public var tilesets(default, null):Array<Tileset>;
@@ -205,11 +205,7 @@ class TiledMap extends Sprite {
 
 		var bitmapData:BitmapData;
 
-		if(backgroundColorSet) {
-			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, this.backgroundColor);
-		} else {
-			bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, 0x00000000);
-		}
+		bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, this.backgroundColor);
 
 		for(layer in this.layers) {
 			var gidCounter:Int = 0;
@@ -309,6 +305,8 @@ class TiledMap extends Sprite {
 			backgroundColor = StringTools.replace(backgroundColor, "#", "0xff");
 
 			this.backgroundColor = Std.parseInt(backgroundColor);
+		} else {
+			this.backgroundColor = 0x00000000;
 		}
 
 		for (child in xml) {
