@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 package openfl.tiled;
 
+import haxe.io.Path;
+
 import flash.display.BitmapData;
 
 class Helper {
@@ -69,45 +71,6 @@ class Helper {
 			path2 = "";
 		}
 
-		return normalizePath(path1 + path2);
+		return Path.normalize(path1 + path2);
 	}
-
-	public static function normalizePath(path:String):String {
-		var BLANK = '';
-		var SLASH = '/';
-		var DOT = '.';
-		var DOTS = DOT + DOT;
-
-		if(path == null || path == SLASH) {
-			return SLASH;
-		}
-
-		var prependSlash = (path.charAt(0) == SLASH ||
-			path.charAt(0) == DOT);
-		var target = [];
-		var src;
-		var parts;
-		var token;
-
-		src = path.split(SLASH);
-
-		for(i in 0...src.length) {
-			token = src[i];
-
-			if(token == DOTS) {
-				target.pop();
-			} else if(token != BLANK && token != DOT) {
-				target.push(token);
-			}
-		}
-
-		var regex = ~/[\/]{2,}/g;
-
-		var tmp = target.join(SLASH);
-
-		var result = regex.replace(tmp, SLASH);
-
-		return (prependSlash ? SLASH : BLANK) + result;
-	}
-
 }
