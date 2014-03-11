@@ -81,7 +81,7 @@ class TiledObjectGroup {
 				}
 
 				if (child.nodeName == "object") {
-					objects.push(xml);
+					objects.push(child);
 				}
 			}
 		}
