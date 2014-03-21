@@ -90,7 +90,7 @@ class TiledMap extends Sprite {
 
 	public var backgroundColorSet(default, null):Bool = false;
 
-	private var renderer:Renderer;
+	public var renderer(default, null):Renderer;
 
 	private function new(path:String, renderer:Renderer, ?render:Bool = true) {
 		super();
