@@ -27,11 +27,7 @@ class TilesheetRenderer implements Renderer {
 	}
 
 	public function drawLayer(on:Dynamic, layer:Layer):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
-		}
-
-		var sprite:Sprite = cast on;
+		var sprite:Sprite = new Sprite();
 
 		var drawList:Array<Float> = new Array<Float>();
 		var gidCounter:Int = 0;
@@ -101,14 +97,12 @@ class TilesheetRenderer implements Renderer {
 
 			tilesheet.drawTiles(sprite.graphics, drawList, true, Tilesheet.TILE_ALPHA);
 		}
+
+		on.addChild(sprite);
 	}
 
 	public function drawImageLayer(on:Dynamic, imageLayer:ImageLayer):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
-		}
-
-		var sprite:Sprite = cast on;
+		var sprite = new Sprite();
 
 		var tilesheet:Tilesheet = new Tilesheet(imageLayer.image.texture);
 
@@ -122,16 +116,14 @@ class TilesheetRenderer implements Renderer {
 		drawList.push(imageLayer.opacity);
 
 		tilesheet.drawTiles(sprite.graphics, drawList, true, Tilesheet.TILE_ALPHA);
+
+		on.addChild(sprite);
 	}
 
 	public function clear(on:Dynamic):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
+		while(on.numChildren > 0){
+			on.removeChildAt(0);
 		}
-
-		var sprite:Sprite = cast on;
-
-		sprite.graphics.clear();
 	}
 
 	private function fillBackground(sprite:Sprite):Void {

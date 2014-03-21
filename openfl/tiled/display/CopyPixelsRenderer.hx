@@ -13,7 +13,6 @@ class CopyPixelsRenderer implements Renderer {
 	private var map:TiledMap;
 
 	public function new() {
-
 	}
 
 	public function setTiledMap(map:TiledMap):Void {
@@ -25,12 +24,6 @@ class CopyPixelsRenderer implements Renderer {
 	}
 
 	public function drawLayer(on:Dynamic, layer:Layer):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
-		}
-
-		var sprite:Sprite = cast on;
-
 		var bitmapData = new BitmapData(map.totalWidth, map.totalHeight, true, map.backgroundColor);
 		var gidCounter:Int = 0;
 
@@ -72,32 +65,18 @@ class CopyPixelsRenderer implements Renderer {
 			bitmap.x -= map.totalWidth/2;
 		}
 
-		sprite.addChild(bitmap);
+		on.addChild(bitmap);
 	}
 
 	public function drawImageLayer(on:Dynamic, imageLayer:ImageLayer):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
-		}
-
-		var sprite:Sprite = cast on;
-
 		var bitmap = new Bitmap(imageLayer.image.texture);
 
-		sprite.addChild(bitmap);
+		on.addChild(bitmap);
 	}
 
 	public function clear(on:Dynamic):Void {
-		if(!Std.is(on, Sprite)) {
-			return;
-		}
-
-		var sprite:Sprite = cast on;
-
-		sprite.graphics.clear();
-
-		while(sprite.numChildren > 0){
-			sprite.removeChildAt(0);
+		while(on.numChildren > 0){
+			on.removeChildAt(0);
 		}
 	}
 }
