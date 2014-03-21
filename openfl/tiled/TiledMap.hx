@@ -144,8 +144,9 @@ class TiledMap extends Sprite {
 	 * @param renderer Add your own renderer implementation here
 	 * @return A TiledMap object
 	 */
-	public static function fromAssetsWithAlternativeRenderer(path:String, renderer:Renderer):TiledMap {
-		return new TiledMap(path, renderer, true);
+	public static function fromAssetsWithAlternativeRenderer(path:String, renderer:Renderer,
+			?render:Bool = true):TiledMap {
+		return new TiledMap(path, renderer, render);
 	}
 
 	private function parseXML(xml:String) {
