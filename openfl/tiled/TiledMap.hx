@@ -32,6 +32,14 @@ import haxe.io.Path;
 
 import openfl.display.Tilesheet;
 
+import openfl.tiled.display.Renderer;
+
+#if !flash
+import openfl.tiled.display.TilesheetRenderer;
+#else
+import openfl.tiled.display.CopyPixelsRenderer;
+#end
+
 /**
  * This class represents a TILED map
  * @author Christopher Kaster
@@ -80,203 +88,68 @@ class TiledMap extends Sprite {
 	/** All map properties */
 	public var properties(default, null):Map<String, String>;
 
-	private var tilesheets:Map<Int, Tilesheet>;
-	private var tileRects:Array<Rectangle>;
-	private var backgroundColorSet:Bool = false;
+	public var backgroundColorSet(default, null):Bool = false;
 
-	private function new(path:String) {
+	private var renderer:Renderer;
+
+	private function new(path:String, renderer:Renderer, ?render:Bool = true) {
 		super();
 
 		this.path = path;
-
-		this.tilesheets = new Map<Int, Tilesheet>();
-		this.tileRects = new Array<Rectangle>();
 
 		var xml = Helper.getText(path);
 
 		parseXML(xml);
 
-		// create tilesheets
+		this.renderer = renderer;
+
+		renderer.setTiledMap(this);
+
 		for(tileset in this.tilesets) {
-			this.tilesheets.set(tileset.firstGID, new Tilesheet(tileset.image.texture));
+			renderer.addTileset(tileset);
 		}
 
-		#if flash
-		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStageFlash);
-		#else
-		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		#end
+		if(render) {
+			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
 	}
 
-	// onAddedToStage for non-flash targets
 	private function onAddedToStage(e:Event) {
-		this.graphics.clear();
+		renderer.clear(this);
 
 		for(layer in this.layers) {
-
-			var drawList:Array<Float> = new Array<Float>();
-			var gidCounter:Int = 0;
-
-			if(layer.visible) {
-				for(y in 0...this.heightInTiles) {
-					for(x in 0...this.widthInTiles) {
-						var nextGID = layer.tiles[gidCounter].gid;
-
-						if(nextGID != 0) {
-							var point:Point = new Point();
-
-							switch (orientation) {
-								case TiledMapOrientation.Orthogonal:
-									point = new Point(x * this.tileWidth, y * this.tileHeight);
-								case TiledMapOrientation.Isometric:
-									point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
-							}
-
-							var tileset:Tileset = getTilesetByGID(nextGID);
-
-							var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
-
-							var rect:Rectangle = tileset.getTileRectByGID(nextGID);
-
-							var tileId:Int = -1;
-
-							var foundSomething:Bool = false;
-
-							for(r in this.tileRects) {
-								if(rectEquals(r, rect)) {
-									tileId = Lambda.indexOf(this.tileRects, r);
-
-									foundSomething = true;
-
-									break;
-								}
-							}
-
-							if(!foundSomething) {
-								tileRects.push(rect);
-							}
-
-							if(tileId < 0) {
-								tileId = this.tilesheets.get(tileset.firstGID).addTileRect(rect);
-							}
-
-							// add coordinates to draw list
-							drawList.push(point.x); // x coord
-							drawList.push(point.y); // y coord
-							drawList.push(tileId); // tile id
-							drawList.push(layer.opacity); // alpha channel
-						}
-
-						gidCounter++;
-					}
-				}
-			}
-
-			if(backgroundColorSet) {
-				this.fillBackground();
-			}
-
-			// draw layer
-			for(tileset in this.tilesets) {
-				var tilesheet:Tilesheet = this.tilesheets.get(tileset.firstGID);
-
-				tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
-			}
+			renderer.drawLayer(this, layer);
 		}
 
 		for(imageLayer in this.imageLayers) {
-			var tilesheet:Tilesheet = new Tilesheet(imageLayer.image.texture);
-
-			var id = tilesheet.addTileRect(new Rectangle(0, 0, imageLayer.image.width, imageLayer.image.height));
-
-			var drawList:Array<Float> = new Array<Float>();
-
-			drawList.push(0);
-			drawList.push(0);
-			drawList.push(id);
-			drawList.push(imageLayer.opacity);
-
-			tilesheet.drawTiles(this.graphics, drawList, true, Tilesheet.TILE_ALPHA);
+			renderer.drawImageLayer(this, imageLayer);
 		}
-	}
-
-	private function onAddedToStageFlash(e:Event) {
-		this.graphics.clear();
-
-		var bitmapData:BitmapData;
-
-		bitmapData = new BitmapData(this.totalWidth, this.totalHeight, true, this.backgroundColor);
-
-		for(layer in this.layers) {
-			var gidCounter:Int = 0;
-
-			if(layer.visible) {
-				for(y in 0...this.heightInTiles) {
-					for(x in 0...this.widthInTiles) {
-						var nextGID = layer.tiles[gidCounter].gid;
-
-						if(nextGID != 0) {
-							var point:Point = new Point();
-
-							switch (orientation) {
-								case TiledMapOrientation.Orthogonal:
-									point = new Point(x * this.tileWidth, y * this.tileHeight);
-								case TiledMapOrientation.Isometric:
-									point = new Point((this.width + x - y - 1) * this.tileWidth * 0.5, (y + x) * this.tileHeight * 0.5);
-							}
-
-							var tileset:Tileset = getTilesetByGID(nextGID);
-
-							var rect:Rectangle = tileset.getTileRectByGID(nextGID);
-
-							if(orientation == TiledMapOrientation.Isometric) {
-								point.x += this.totalWidth/2;
-							}
-
-							// copy pixels
-							bitmapData.copyPixels(tileset.image.texture, rect, point, null, null, true);
-						}
-
-						gidCounter++;
-					}
-				}
-			}
-		}
-
-		for(imageLayer in this.imageLayers) {
-			var rect = new Rectangle(0, 0, imageLayer.image.width, imageLayer.image.height);
-
-			bitmapData.copyPixels(imageLayer.image.texture, rect, new Point(0, 0), null, null, true);
-		}
-
-		var bitmap:Bitmap = new Bitmap(bitmapData);
-
-		if(orientation == TiledMapOrientation.Isometric) {
-			bitmap.x -= this.totalWidth/2;
-		}
-
-		this.addChild(bitmap);
-	}
-
-	private function fillBackground():Void {
-		this.graphics.beginFill(this.backgroundColor);
-
-		if(orientation == TiledMapOrientation.Orthogonal) {
-			this.graphics.drawRect(0, 0, this.totalWidth, this.totalHeight);
-		} else {
-			this.graphics.drawRect(-this.totalWidth/2, 0, this.totalWidth, this.totalHeight);
-		}
-
-		this.graphics.endFill();
 	}
 
 	/**
-	 * Creates a new TiledMap from an Assets
+	 * Creates a new TiledMap from Assets
 	 * @param path The path to your asset
+	 * @param render Should openfl-tiled render the map?
 	 * @return A TiledMap object
 	 */
-	public static function fromAssets(path:String):TiledMap {
-		return new TiledMap(path);
+	public static function fromAssets(path:String, ?render:Bool = true):TiledMap {
+		#if !flash
+		var renderer = new TilesheetRenderer();
+		#else
+		var renderer = new CopyPixelsRenderer();
+		#end
+
+		return new TiledMap(path, renderer, render);
+	}
+
+	/**
+	 * Creates a new TiledMap from Assets with an alternative Renderer
+	 * @param path The path to your asset
+	 * @param renderer Add your own renderer implementation here
+	 * @return A TiledMap object
+	 */
+	public static function fromAssetsWithAlternativeRenderer(path:String, renderer:Renderer):TiledMap {
+		return new TiledMap(path, renderer, true);
 	}
 
 	private function parseXML(xml:String) {
@@ -423,9 +296,5 @@ class TiledMap extends Sprite {
 		}
 
 		return null;
-	}
-
-	private function rectEquals(r1:Rectangle, r2:Rectangle):Bool {
-		return r1.x == r2.x && r1.y == r2.y && r1.width == r2.width && r1.height == r2.height;
 	}
 }
