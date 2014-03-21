@@ -20,10 +20,10 @@ class TilesheetRenderer implements Renderer {
 
 	public function setTiledMap(map:TiledMap):Void {
 		this.map = map;
-	}
 
-	public function addTileset(tileset:Tileset):Void {
-		this.tilesheets.set(tileset.firstGID, new Tilesheet(tileset.image.texture));
+		for(tileset in map.tilesets) {
+			this.tilesheets.set(tileset.firstGID, new Tilesheet(tileset.image.texture));
+		}
 	}
 
 	public function drawLayer(on:Dynamic, layer:Layer):Void {

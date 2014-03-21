@@ -105,10 +105,6 @@ class TiledMap extends Sprite {
 
 		renderer.setTiledMap(this);
 
-		for(tileset in this.tilesets) {
-			renderer.addTileset(tileset);
-		}
-
 		if(render) {
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}

@@ -19,10 +19,6 @@ class CopyPixelsRenderer implements Renderer {
 		this.map = map;
 	}
 
-	public function addTileset(tileset:Tileset):Void {
-		// don't need this method in this renderer :)
-	}
-
 	public function drawLayer(on:Dynamic, layer:Layer):Void {
 		var bitmapData = new BitmapData(map.totalWidth, map.totalHeight, true, map.backgroundColor);
 		var gidCounter:Int = 0;
