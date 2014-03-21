@@ -95,5 +95,9 @@ class CopyPixelsRenderer implements Renderer {
 		var sprite:Sprite = cast on;
 
 		sprite.graphics.clear();
+
+		while(sprite.numChildren > 0){
+			sprite.removeChildAt(0);
+		}
 	}
 }
