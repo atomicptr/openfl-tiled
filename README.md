@@ -16,7 +16,7 @@ How to install the development version?
 
 To install the current development version you just need to run this in your terminal:
 
-	haxelib git openfl-tiled git@github.com:kasoki/openfl-tiled.git dev
+	haxelib git openfl-tiled https://github.com/kasoki/openfl-tiled dev
 	
 
 
