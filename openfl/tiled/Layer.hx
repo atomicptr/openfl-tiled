@@ -222,10 +222,12 @@ class Layer {
 		}
 
 		var i:Int = 0;
-
+		var char:String = null;
+		
 		while (i < data.length - 3) {
+			char = data.charAt(i);
 			// Ignore whitespace
-			if (data.charAt(i) == " " || data.charAt(i) == "\n"){
+			if (char == " " || char == "\n" || char =='\r'){
 				i++; continue;
 			}
 
