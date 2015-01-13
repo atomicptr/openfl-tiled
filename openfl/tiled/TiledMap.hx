@@ -286,7 +286,7 @@ class TiledMap extends Sprite {
 	  * @return An TiledObject, null if there is no such object.
 	  */
 	public function getObjectByName(name:String, inObjectGroup:TiledObjectGroup):TiledObject {
-		for(object in inObjectGroup) {
+		for(object in inObjectGroup.objects) {
 			if(object.name == name) {
 				return object;
 			}
