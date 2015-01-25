@@ -71,7 +71,8 @@ class Tileset {
 	public var offset(default, null):Point;
 
 	private function new(tiledMap:TiledMap, name:String, tileWidth:Int, tileHeight:Int, spacing:Int,
-			properties:Map<String, String>, terrainTypes:Array<TerrainType>, image:TilesetImage, offset:Point) {
+			properties:Map<String, String>, terrainTypes:Array<TerrainType>, image:TilesetImage, offset:Point,
+			propertyTiles:Map<Int, PropertyTile>) {
 		this.tiledMap = tiledMap;
 		this.name = name;
 		this.tileWidth = tileWidth;
@@ -81,6 +82,7 @@ class Tileset {
 		this.terrainTypes = terrainTypes;
 		this.image = image;
 		this.offset = offset;
+		this.propertyTiles = propertyTiles;
 	}
 
 	/** Sets the first GID. */
@@ -160,7 +162,7 @@ class Tileset {
 		}
 
 		return new Tileset(tiledMap, name, tileWidth, tileHeight, spacing, properties, terrainTypes,
-			image, new Point(tileOffsetX, tileOffsetY));
+			image, new Point(tileOffsetX, tileOffsetY), propertyTiles);
 	}
 
 	/** Returns the BitmapData of the given GID */
