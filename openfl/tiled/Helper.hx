@@ -34,7 +34,7 @@ class Helper {
 
 	/** This method checks if the given Xml element is really a Xml element! */
 	public static function isValidElement(element:Xml):Bool {
-		return Std.string(element.nodeType) == "element";
+		return element.nodeType == Xml.Element;
 	}
 
 	/** This method sets a new AssetLoader */
