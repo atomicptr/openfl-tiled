@@ -14,8 +14,8 @@
 		"tilesheet"
 	],
 	"description": "openfl-tiled is a library, which gives openfl developers the ability to use the TILED map editor.",
-	"version": "0.4.2",
-	"releasenote": "fix the path problem, add support for image layers and remove some redundant examples",
+	"version": "0.4.3",
+	"releasenote": "haxe 3.2.0 compatibility",
 	"contributors": [
 		"kasoki"
 	],
